@@ -13,12 +13,12 @@
             --text-muted: #a3aed1;
         }
 
-* { 
+        * { 
             margin: 0; 
             padding: 0; 
             box-sizing: border-box; 
             -webkit-tap-highlight-color: transparent; /* Menghilangkan kedip biru di HP */
-            outline: none; /* Menghilangkan garis biru di PC */
+            outline: none; /* Menghilangkan garis tepi biru di PC */
         }
 
         body {
@@ -47,6 +47,7 @@
             border-bottom: 1px solid #f3f4f6;
         }
         .navbar .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px;}
+        
         /* Tombol QRIS */
         .btn-qris {
             background: var(--primary); color: white; padding: 8px 16px; 
@@ -57,7 +58,7 @@
 
         .welcome-text {
             text-align: center;
-            margin: 30px 0;
+            margin: 30px 0 20px;
         }
         .welcome-text h1 {
             font-size: 1.8rem;
@@ -69,6 +70,23 @@
             color: #6b7280;
             font-size: 0.95rem;
             font-weight: 600;
+        }
+
+        /* FILTER KATEGORI */
+        .filter-container {
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;
+            margin-bottom: 25px; justify-content: center;
+        }
+        .filter-container::-webkit-scrollbar { display: none; }
+        .filter-btn {
+            background: white; border: 1px solid #e5e7eb; padding: 8px 18px;
+            border-radius: 20px; font-size: 0.85rem; font-weight: 700;
+            color: #6b7280; cursor: pointer; white-space: nowrap; transition: 0.3s;
+        }
+        .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-btn.active {
+            background: var(--primary); color: white; border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2);
         }
 
         /* GRID RESPONSIVE */
@@ -83,6 +101,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.2s;
         }
         .card:hover { border-color: #ddd; transform: translateY(-3px); }
+        .card:active { transform: scale(0.96); } /* Efek sentuh membal */
 
         /* ICON BOX */
         .icon-box {
@@ -105,34 +124,18 @@
         }
         .badge.hot { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca;}
 
-/* MODAL DENGAN ANIMASI SMOOTH */
+        /* MODAL DENGAN ANIMASI SMOOTH */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(8px); /* Efek blur ditingkatkan agar lebih premium */
+            background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(8px);
             justify-content: center; align-items: center; z-index: 1000;
-            animation: fadeInModal 0.3s ease-out forwards; /* Efek latar memudar */
+            animation: fadeInModal 0.3s ease-out forwards;
         }
-        
         .modal-content {
             background: white; padding: 25px; border-radius: 28px; width: 90%; max-width: 420px;
             max-height: 85vh; overflow-y: auto; position: relative;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15); /* Bayangan lebih dalam */
-            animation: popUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; /* Efek membal/mengembang elegan */
-        }
-
-        /* KEYFRAMES ANIMASI (Wajib ditambahkan) */
-        @keyframes fadeInModal {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes popUpModal {
-            from { opacity: 0; transform: scale(0.9) translateY(30px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        
-        /* Tambahan: Efek saat kartu produk disentuh/diklik agar lebih responsif */
-        .card:active {
-            transform: scale(0.96);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            animation: popUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .modal-header { text-align: center; margin-bottom: 20px; }
         .modal-header h2 { font-size: 1.2rem; font-weight: 800; }
@@ -147,6 +150,11 @@
         /* FOOTER */
         .footer { text-align: center; margin-top: 50px; padding: 20px; color: #9ca3af; font-size: 0.85rem; font-weight: 600; }
         ::-webkit-scrollbar { width: 0px; }
+
+        /* KEYFRAMES ANIMASI */
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes popUpModal { from { opacity: 0; transform: scale(0.9) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes fadeInCard { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body>
@@ -156,7 +164,6 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         DigishopID
     </div>
-    <!-- Tombol untuk memunculkan Modal QRIS -->
     <button class="btn-qris" onclick="bukaQris()">QRIS / Bayar</button>
 </div>
 
@@ -166,10 +173,20 @@
         <p>Pilih layanan digital premium kebutuhan Anda di bawah ini</p>
     </div>
 
+    <!-- FITUR FILTER -->
+    <div class="filter-container">
+        <button class="filter-btn active" id="btn-Semua" onclick="filterProduk('Semua')">Semua</button>
+        <button class="filter-btn" id="btn-MOVIE" onclick="filterProduk('MOVIE')">Movie</button>
+        <button class="filter-btn" id="btn-DESAIN" onclick="filterProduk('DESAIN')">Desain</button>
+        <button class="filter-btn" id="btn-MUSIK" onclick="filterProduk('MUSIK')">Musik</button>
+        <button class="filter-btn" id="btn-APPS" onclick="filterProduk('APPS')">Aplikasi</button>
+        <button class="filter-btn" id="btn-SMART" onclick="filterProduk('SMART')">AI Tools</button>
+    </div>
+
     <div class="grid" id="katalog"></div>
     
     <div class="footer">
-        © 2026 DigishopID. All rights reserved.
+        &copy; 2026 DigishopID. All rights reserved.
     </div>
 </div>
 
@@ -190,10 +207,8 @@
         <button class="close-btn" onclick="tutupQris()">X</button>
         <h2 style="margin-bottom: 15px; font-weight: 800; font-size: 1.2rem;">Pembayaran QRIS</h2>
         
-        <!-- Gambar QRIS ditambahkan ID agar bisa diunduh oleh script -->
         <img id="gambarQrisLokal" src="qris.jpg" alt="QRIS DigishopID" style="width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
         
-        <!-- Tombol Download Baru -->
         <button onclick="downloadQrisPastiBisa()" class="btn-wa" style="background: #10b981; border: none; cursor: pointer; width: 100%; font-family: inherit; margin-bottom: 15px;">
             ⬇️ Simpan Gambar QRIS
         </button>
@@ -425,23 +440,37 @@
 
     const katalog = document.getElementById('katalog');
 
-    produk.forEach((p, index) => {
-        let badgeHtml = p.badge ? `<div class="badge ${p.badgeClass}">${p.badge}</div>` : '';
-        katalog.innerHTML += `
-            <div class="card" onclick="bukaModal(${index})">
-                <div class="icon-box">
-                    ${badgeHtml}
-                    <img src="${p.icon}" alt="${p.nama}">
+    // FUNGSI RENDER KATALOG
+    function renderKatalog(kategori) {
+        katalog.innerHTML = ''; 
+        const dataTampil = kategori === 'Semua' ? produk : produk.filter(p => p.kategori === kategori);
+        
+        dataTampil.forEach((p) => {
+            let badgeHtml = p.badge ? `<div class="badge ${p.badgeClass}">${p.badge}</div>` : '';
+            katalog.innerHTML += `
+                <div class="card" onclick="bukaModal('${p.id}')" style="animation: fadeInCard 0.3s ease-out forwards;">
+                    <div class="icon-box">
+                        ${badgeHtml}
+                        <img src="${p.icon}" alt="${p.nama}">
+                    </div>
+                    <div class="kategori">${p.kategori}</div>
+                    <h3>${p.nama}</h3>
+                    <div class="subtitle">${p.subtitle}</div>
                 </div>
-                <div class="kategori">${p.kategori}</div>
-                <h3>${p.nama}</h3>
-                <div class="subtitle">${p.subtitle}</div>
-            </div>
-        `;
-    });
+            `;
+        });
+    }
 
-    function bukaModal(index) {
-        const p = produk[index];
+    // FUNGSI FILTER PRODUK
+    function filterProduk(kategori) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + kategori).classList.add('active');
+        renderKatalog(kategori);
+    }
+
+    // FUNGSI MODAL VARIAN
+    function bukaModal(idProduk) {
+        const p = produk.find(item => item.id === idProduk);
         document.getElementById('judulProduk').innerText = p.nama;
         
         const list = document.getElementById('listVarian');
@@ -458,48 +487,36 @@
         
         document.getElementById('modal').style.display = 'flex';
     }
-
     function tutupModal() { document.getElementById('modal').style.display = 'none'; }
     
-// Fungsi untuk membuka dan menutup Modal QRIS
+    // FUNGSI MODAL QRIS
     function bukaQris() { document.getElementById('modalQris').style.display = 'flex'; }
     function tutupQris() { document.getElementById('modalQris').style.display = 'none'; }
 
-    // Fungsi Unduh Paksa Menggunakan Canvas (Anti Gagal)
+    // FUNGSI UNDUH QRIS DENGAN CANVAS
     function downloadQrisPastiBisa() {
         const img = document.getElementById('gambarQrisLokal');
-        
-        // Memastikan gambar sudah termuat sebelum bisa diunduh
-        if(!img.complete) {
-            alert('Gambar QRIS sedang dimuat, harap tunggu sebentar.');
-            return;
-        }
+        if(!img.complete) { alert('Gambar QRIS sedang dimuat, harap tunggu.'); return; }
 
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
-        
-        // Atur ukuran canvas sesuai ukuran asli gambar
         canvas.width = img.naturalWidth || img.width;
         canvas.height = img.naturalHeight || img.height;
-        
-        // Gambar ulang gambar QRIS ke dalam canvas
         context.drawImage(img, 0, 0);
 
-        // Ubah canvas menjadi file URL (.png) dan paksa unduh
         canvas.toBlob(function(blob) {
             const link = document.createElement('a');
-            link.download = 'QRIS-DigishopID.png'; // Nama file saat disimpan
+            link.download = 'QRIS-DigishopID.png'; 
             link.href = URL.createObjectURL(blob);
-            
-            // Simulasikan klik pada link yang disembunyikan
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
-            // Membersihkan URL agar tidak memakan memori browser
             URL.revokeObjectURL(link.href);
         }, 'image/png');
     }
+
+    // Eksekusi awal saat web dimuat
+    renderKatalog('Semua');
 </script>
 </body>
 </html>

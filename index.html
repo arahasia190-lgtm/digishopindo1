@@ -24,7 +24,6 @@
             padding-bottom: 50px;
         }
 
-        /* Container sekarang lebih lebar untuk mendukung layar PC */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -42,8 +41,14 @@
             border-bottom: 1px solid #f3f4f6;
         }
         .navbar .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px;}
+        /* Tombol QRIS */
+        .btn-qris {
+            background: var(--primary); color: white; padding: 8px 16px; 
+            border-radius: 10px; border: none; font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
+        }
+        .btn-qris:hover { transform: scale(1.02); opacity: 0.9; }
 
-        /* TEKS SELAMAT DATANG */
         .welcome-text {
             text-align: center;
             margin: 30px 0;
@@ -60,59 +65,29 @@
             font-weight: 600;
         }
 
-        /* GRID RESPONSIVE (Otomatis menyesuaikan layar) */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Default HP: 2 Kolom */
-            gap: 15px;
-        }
-
-        /* Jika layar Tablet */
-        @media (min-width: 768px) {
-            .grid { grid-template-columns: repeat(4, 1fr); }
-        }
-
-        /* Jika layar PC / Laptop */
-        @media (min-width: 1024px) {
-            .grid { grid-template-columns: repeat(6, 1fr); }
-        }
+        /* GRID RESPONSIVE */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        @media (min-width: 768px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1024px) { .grid { grid-template-columns: repeat(6, 1fr); } }
 
         /* KARTU PRODUK */
         .card {
-            background: white;
-            border: 1px solid #f3f4f6;
-            border-radius: 20px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            transition: 0.2s;
+            background: white; border: 1px solid #f3f4f6; border-radius: 20px;
+            padding: 15px; text-align: center; cursor: pointer; position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.2s;
         }
         .card:hover { border-color: #ddd; transform: translateY(-3px); }
 
         /* ICON BOX */
         .icon-box {
-            background: #ffffff;
-            border: 1px solid #f3f4f6;
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
-            position: relative;
+            background: #ffffff; border: 1px solid #f3f4f6; border-radius: 16px;
+            padding: 15px; margin-bottom: 12px; display: flex; justify-content: center;
+            align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.01); position: relative;
         }
-        .icon-box img {
-            width: 55px; height: 55px; border-radius: 12px; object-fit: cover;
-        }
+        .icon-box img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
 
         /* TYPOGRAPHY */
-        .card .kategori {
-            color: var(--primary); font-size: 0.6rem; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
-        }
+        .card .kategori { color: var(--primary); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
         .card h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 4px; }
         .card .subtitle { font-size: 0.65rem; color: #9ca3af; font-weight: 500; }
 
@@ -145,10 +120,7 @@
         .btn-wa { display: block; background: var(--primary); color: white; text-align: center; padding: 10px; border-radius: 10px; text-decoration: none; font-size: 0.85rem; font-weight: 700; }
         
         /* FOOTER */
-        .footer {
-            text-align: center; margin-top: 50px; padding: 20px;
-            color: #9ca3af; font-size: 0.85rem; font-weight: 600;
-        }
+        .footer { text-align: center; margin-top: 50px; padding: 20px; color: #9ca3af; font-size: 0.85rem; font-weight: 600; }
         ::-webkit-scrollbar { width: 0px; }
     </style>
 </head>
@@ -159,10 +131,11 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
         DigishopID
     </div>
-    </div>
+    <!-- Tombol untuk memunculkan Modal QRIS -->
+    <button class="btn-qris" onclick="bukaQris()">QRIS / Bayar</button>
+</div>
 
 <div class="container">
-    
     <div class="welcome-text">
         <h1>Selamat Datang di DigishopID</h1>
         <p>Pilih layanan digital premium kebutuhan Anda di bawah ini</p>
@@ -175,6 +148,7 @@
     </div>
 </div>
 
+<!-- Modal Katalog Varian -->
 <div id="modal" class="modal" onclick="tutupModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="close-btn" onclick="tutupModal()">X</button>
@@ -182,6 +156,29 @@
             <h2 id="judulProduk">Nama Produk</h2>
         </div>
         <div id="listVarian"></div>
+    </div>
+</div>
+
+<!-- Modal Khusus QRIS -->
+<div id="modalQris" class="modal" onclick="tutupQris()">
+    <div class="modal-content" style="text-align: center;" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="tutupQris()">X</button>
+        <h2 style="margin-bottom: 15px; font-weight: 800; font-size: 1.2rem;">Pembayaran QRIS</h2>
+        
+        <!-- Gambar QRIS ditambahkan ID agar bisa diunduh oleh script -->
+        <img id="gambarQrisLokal" src="qris.jpg" alt="QRIS DigishopID" style="width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        
+        <!-- Tombol Download Baru -->
+        <button onclick="downloadQrisPastiBisa()" class="btn-wa" style="background: #10b981; border: none; cursor: pointer; width: 100%; font-family: inherit; margin-bottom: 15px;">
+            ⬇️ Simpan Gambar QRIS
+        </button>
+        
+        <p style="font-size: 0.8rem; color: #6b7280; font-weight: 600; line-height: 1.5;">
+            1. Klik tombol hijau di atas.<br>
+            2. Gambar otomatis tersimpan di Galeri.<br>
+            3. Bayar lewat aplikasi DANA/OVO/M-Banking.<br>
+            4. Kirim bukti transfer ke WhatsApp admin.
+        </p>
     </div>
 </div>
 
@@ -438,6 +435,46 @@
     }
 
     function tutupModal() { document.getElementById('modal').style.display = 'none'; }
+    
+// Fungsi untuk membuka dan menutup Modal QRIS
+    function bukaQris() { document.getElementById('modalQris').style.display = 'flex'; }
+    function tutupQris() { document.getElementById('modalQris').style.display = 'none'; }
+
+    // Fungsi Unduh Paksa Menggunakan Canvas (Anti Gagal)
+    function downloadQrisPastiBisa() {
+        const img = document.getElementById('gambarQrisLokal');
+        
+        // Memastikan gambar sudah termuat sebelum bisa diunduh
+        if(!img.complete) {
+            alert('Gambar QRIS sedang dimuat, harap tunggu sebentar.');
+            return;
+        }
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        
+        // Atur ukuran canvas sesuai ukuran asli gambar
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        
+        // Gambar ulang gambar QRIS ke dalam canvas
+        context.drawImage(img, 0, 0);
+
+        // Ubah canvas menjadi file URL (.png) dan paksa unduh
+        canvas.toBlob(function(blob) {
+            const link = document.createElement('a');
+            link.download = 'QRIS-DigishopID.png'; // Nama file saat disimpan
+            link.href = URL.createObjectURL(blob);
+            
+            // Simulasikan klik pada link yang disembunyikan
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Membersihkan URL agar tidak memakan memori browser
+            URL.revokeObjectURL(link.href);
+        }, 'image/png');
+    }
 </script>
 </body>
 </html>

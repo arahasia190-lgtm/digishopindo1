@@ -53,8 +53,14 @@
             position: sticky;
             top: 0;
             z-index: 500;
+            transition: padding 0.25s ease, box-shadow 0.25s ease;
         }
-        .navbar .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px;}
+        .navbar.scrolled {
+            padding: 9px 20px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+        .navbar .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; transition: font-size 0.25s ease; }
+        .navbar.scrolled .logo { font-size: 1.15rem; }
         
         /* Tombol QRIS */
         .btn-qris {
@@ -80,6 +86,19 @@
             z-index: 999;
             transition: 0.2s;
             text-decoration: none;
+        }
+        .btn-wa-float::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: #25D366;
+            animation: waPulse 2.4s ease-out infinite;
+            z-index: -1;
+        }
+        @keyframes waPulse {
+            0% { transform: scale(1); opacity: 0.55; }
+            100% { transform: scale(1.9); opacity: 0; }
         }
         .btn-wa-float:hover { transform: scale(1.08); }
         .btn-wa-float svg { width: 30px; height: 30px; }
@@ -146,7 +165,7 @@
         /* FILTER KATEGORI */
         .filter-container {
             display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;
-            margin-bottom: 25px; justify-content: flex-start;
+            margin-bottom: 25px; justify-content: flex-start; position: relative;
         }
         @media (min-width: 768px) {
             .filter-container { justify-content: center; }
@@ -155,12 +174,20 @@
         .filter-btn {
             background: white; border: 1px solid #e5e7eb; padding: 8px 18px;
             border-radius: 20px; font-size: 0.85rem; font-weight: 700;
-            color: #6b7280; cursor: pointer; white-space: nowrap; transition: 0.3s;
+            color: #6b7280; cursor: pointer; white-space: nowrap;
+            transition: color 0.3s, border-color 0.3s, background 0.3s, transform 0.15s, box-shadow 0.3s;
         }
         .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-btn:active { transform: scale(0.94); }
         .filter-btn.active {
             background: var(--primary); color: white; border-color: var(--primary);
             box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2);
+            animation: filterPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes filterPop {
+            0% { transform: scale(0.9); }
+            60% { transform: scale(1.06); }
+            100% { transform: scale(1); }
         }
 
         /* SEARCH BAR */
@@ -179,14 +206,12 @@
             font-size: 0.9rem;
             font-weight: 600;
             color: #1f2937;
-            transition: 0.2s;
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
         }
-        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(124,58,237,0.12); transform: scale(1.015); }
         .search-box input::placeholder { color: #a3aed1; font-weight: 500; }
-        .search-box svg {
-            position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
-            width: 18px; height: 18px; color: #a3aed1; pointer-events: none;
-        }
+        .search-box svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #a3aed1; pointer-events: none; transition: color 0.25s; }
+        .search-box input:focus ~ svg { color: var(--primary); }
 
         /* GRID RESPONSIVE */
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
@@ -197,10 +222,29 @@
         .card {
             background: white; border: 1px solid #f3f4f6; border-radius: 20px;
             padding: 15px; text-align: center; cursor: pointer; position: relative;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02); transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, border-color 0.2s;
+            overflow: hidden; /* wadah buat efek ripple */
+            will-change: transform;
         }
-        .card:hover { border-color: #ddd; transform: translateY(-3px); }
-        .card:active { transform: scale(0.96); } /* Efek sentuh membal */
+        .card:hover { border-color: #ddd; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
+        .card:active { transform: scale(0.92) !important; transition-duration: 0.1s; } /* Efek tekan tegas */
+        .card.pressed { animation: cardPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes cardPop {
+            0% { transform: scale(0.92); }
+            60% { transform: scale(1.035); }
+            100% { transform: scale(1); }
+        }
+
+        /* RIPPLE EFFECT SAAT KLIK */
+        .ripple {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            background: rgba(124, 58, 237, 0.25);
+            transform: scale(0); animation: rippleAnim 0.6s ease-out forwards;
+        }
+        @keyframes rippleAnim {
+            to { transform: scale(1); opacity: 0; }
+        }
 
         /* SKELETON LOADING */
         .skeleton-card {
@@ -245,7 +289,14 @@
             font-size: 0.55rem; font-weight: 800; padding: 4px 8px; border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .badge.hot { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca;}
+        .badge.hot {
+            background: #fee2e2; color: #ef4444; border: 1px solid #fecaca;
+            animation: hotGlow 1.8s ease-in-out infinite;
+        }
+        @keyframes hotGlow {
+            0%, 100% { box-shadow: 0 2px 4px rgba(239,68,68,0.15); transform: scale(1); }
+            50% { box-shadow: 0 2px 12px rgba(239,68,68,0.55); transform: scale(1.08); }
+        }
 
         /* MODAL DENGAN ANIMASI SMOOTH */
         .modal {
@@ -258,13 +309,17 @@
             background: white; padding: 25px; border-radius: 28px; width: 90%; max-width: 420px;
             max-height: 85vh; overflow-y: auto; position: relative;
             box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-            animation: popUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: popUpModal 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
         .modal-header { text-align: center; margin-bottom: 20px; }
-        .modal-header h2 { font-size: 1.2rem; font-weight: 800; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: #f3f4f6; border: none; padding: 5px 10px; border-radius: 8px; font-weight: bold; color: #ef4444; cursor: pointer;}
+        .modal-header h2 { font-size: 1.2rem; font-weight: 800; animation: fadeSlideUp 0.4s ease-out 0.1s both; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: #f3f4f6; border: none; padding: 5px 10px; border-radius: 8px; font-weight: bold; color: #ef4444; cursor: pointer; transition: transform 0.15s; }
+        .close-btn:active { transform: scale(0.85) rotate(90deg); }
         
-        .varian-item { border: 1px solid #e5e7eb; padding: 15px; border-radius: 16px; margin-bottom: 12px; }
+        .varian-item {
+            border: 1px solid #e5e7eb; padding: 15px; border-radius: 16px; margin-bottom: 12px;
+            animation: fadeSlideUp 0.4s ease-out both;
+        }
         .varian-header { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 5px; font-size: 0.95rem;}
         .varian-harga { color: var(--primary); }
         .varian-desk { font-size: 0.75rem; color: #6b7280; margin-bottom: 12px; }
@@ -289,8 +344,26 @@
 
         /* KEYFRAMES ANIMASI */
         @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes popUpModal { from { opacity: 0; transform: scale(0.9) translateY(30px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        .modal.closing { animation: fadeOutModal 0.25s ease-in forwards; }
+        .modal.closing .modal-content { animation: popDownModal 0.25s ease-in forwards; }
+        @keyframes fadeOutModal { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes popDownModal { from { opacity: 1; transform: scale(1) translateY(0); } to { opacity: 0; transform: scale(0.9) translateY(20px); } }
+        @keyframes popUpModal {
+            0% { opacity: 0; transform: scale(0.75) translateY(40px); }
+            60% { opacity: 1; transform: scale(1.03) translateY(-4px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         @keyframes fadeInCard { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes iconPop {
+            0% { transform: scale(0.5) rotate(-8deg); opacity: 0; }
+            70% { transform: scale(1.1) rotate(3deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        .icon-pop-modal { display: inline-block; animation: iconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both; }
     </style>
 </head>
 <body>
@@ -311,8 +384,8 @@
 
     <!-- SEARCH BAR -->
     <div class="search-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         <input type="text" id="searchInput" placeholder="Cari produk (Netflix, CapCut, dll)..." oninput="cariProduk(this.value)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
     </div>
 
     <!-- FITUR FILTER -->
@@ -350,6 +423,7 @@
     <div class="modal-content" onclick="event.stopPropagation()">
         <button class="close-btn" onclick="tutupModal()">X</button>
         <div class="modal-header">
+            <img id="iconModal" src="" alt="" class="icon-pop-modal" style="width:56px; height:56px; border-radius:14px; object-fit:cover; margin-bottom:10px; box-shadow:0 6px 14px rgba(0,0,0,0.12);">
             <h2 id="judulProduk">Nama Produk</h2>
         </div>
         <div id="listVarian"></div>
@@ -645,10 +719,11 @@
                 return;
             }
 
-            katalog.innerHTML = dataTampil.map((p) => {
+            katalog.innerHTML = dataTampil.map((p, i) => {
                 const badgeHtml = p.badge ? `<div class="badge ${p.badgeClass}">${p.badge}</div>` : '';
+                const delay = Math.min(i * 0.04, 0.4);
                 return `
-                    <div class="card" onclick="bukaModal('${p.id}')" style="animation: fadeInCard 0.3s ease-out forwards;">
+                    <div class="card" onclick="handleCardClick(event, '${p.id}')" style="opacity:0; animation: fadeInCard 0.35s ease-out ${delay}s forwards;">
                         <div class="icon-box">
                             ${badgeHtml}
                             <img src="${p.icon}" alt="${p.nama}">
@@ -678,14 +753,46 @@
         timerCari = setTimeout(renderKatalog, 200);
     }
 
+    // FUNGSI EFEK RIPPLE + POP SAAT CARD DIKLIK
+    function handleCardClick(e, idProduk) {
+        const card = e.currentTarget;
+
+        // Buat ripple dari titik klik
+        const rect = card.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        const size = Math.max(rect.width, rect.height) * 1.4;
+        ripple.className = 'ripple';
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        card.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+
+        // Trigger animasi pop (bounce) di card
+        card.classList.remove('pressed');
+        void card.offsetWidth; // reflow biar animasi bisa diulang
+        card.classList.add('pressed');
+
+        // Buka modal sedikit delay biar animasi klik kelihatan dulu
+        setTimeout(() => bukaModal(idProduk), 90);
+    }
+
     // FUNGSI MODAL VARIAN
     function bukaModal(idProduk) {
         const p = produk.find(item => item.id === idProduk);
         document.getElementById('judulProduk').innerText = p.nama;
-        
+
+        const iconEl = document.getElementById('iconModal');
+        iconEl.src = p.icon;
+        iconEl.alt = p.nama;
+        // Restart animasi icon setiap kali modal dibuka
+        iconEl.style.animation = 'none';
+        void iconEl.offsetWidth; // trigger reflow
+        iconEl.style.animation = '';
+
         const list = document.getElementById('listVarian');
-        list.innerHTML = p.varian.map(v => `
-            <div class="varian-item">
+        list.innerHTML = p.varian.map((v, i) => `
+            <div class="varian-item" style="animation-delay: ${0.15 + i * 0.08}s">
                 <div class="varian-header">
                     <span>${v.nama}</span>
                     <span class="varian-harga">Rp ${v.harga}</span>
@@ -697,11 +804,25 @@
         
         document.getElementById('modal').style.display = 'flex';
     }
-    function tutupModal() { document.getElementById('modal').style.display = 'none'; }
+    function tutupModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.add('closing');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+        }, 250);
+    }
     
     // FUNGSI MODAL QRIS
     function bukaQris() { document.getElementById('modalQris').style.display = 'flex'; }
-    function tutupQris() { document.getElementById('modalQris').style.display = 'none'; }
+    function tutupQris() {
+        const modal = document.getElementById('modalQris');
+        modal.classList.add('closing');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+        }, 250);
+    }
 
     // FUNGSI TOAST NOTIFICATION (pengganti alert())
     function tampilToast(pesan, tipe = 'info') {
@@ -741,9 +862,13 @@
 
     // FUNGSI BACK TO TOP (muncul setelah scroll 300px)
     const btnTop = document.getElementById('btnTop');
+    const navbarEl = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) btnTop.classList.add('show');
         else btnTop.classList.remove('show');
+
+        if (window.scrollY > 40) navbarEl.classList.add('scrolled');
+        else navbarEl.classList.remove('scrolled');
     });
 
     // Eksekusi awal saat web dimuat

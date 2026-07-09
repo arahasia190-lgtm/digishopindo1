@@ -388,6 +388,18 @@
             100% { transform: scale(1) rotate(0); opacity: 1; }
         }
         .icon-pop-modal { display: inline-block; animation: iconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both; }
+
+        /* HORMATI SETTING "REDUCE MOTION" DI SISTEM/BROWSER USER */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001s !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001s !important;
+                scroll-behavior: auto !important;
+            }
+            .btn-wa-float::before { display: none; } /* matikan ring pulse yang infinite */
+            .badge.hot { animation: none; box-shadow: 0 2px 4px rgba(239,68,68,0.15); }
+        }
     </style>
 </head>
 <body>
@@ -491,6 +503,16 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
+    // ICON CADANGAN kalau link gambar produk gagal dimuat (data URI, jadi gak mungkin ikut gagal)
+    const ICON_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='4'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-5-5L5 21'/%3E%3C/svg%3E";
+    function gantiIconFallback(imgEl) {
+        imgEl.onerror = null; // cegah loop tak berhenti kalau fallback-nya ikut error
+        imgEl.src = ICON_FALLBACK;
+        imgEl.style.padding = '10px';
+        imgEl.style.background = '#f8f7ff';
+        imgEl.classList.remove('img-loading');
+    }
+
     const produk = [
         {
             id: 'am', nama: 'Alight Motion', kategori: 'DESAIN', subtitle: 'Editing App',
@@ -750,7 +772,7 @@
                     <div class="card" onclick="handleCardClick(event, '${p.id}')" style="opacity:0; animation: fadeInCard 0.35s ease-out ${delay}s forwards;">
                         <div class="icon-box">
                             ${badgeHtml}
-                            <img src="${p.icon}" alt="${p.nama}" class="img-loading" loading="lazy" onload="this.classList.remove('img-loading')" onerror="this.classList.remove('img-loading')">
+                            <img src="${p.icon}" alt="${p.nama}" class="img-loading" loading="lazy" onload="this.classList.remove('img-loading')" onerror="gantiIconFallback(this)">
                         </div>
                         <div class="kategori">${p.kategori}</div>
                         <h3>${p.nama}</h3>
@@ -826,7 +848,7 @@
         iconEl.classList.add('img-loading');
         iconEl.src = p.icon;
         iconEl.onload = () => iconEl.classList.remove('img-loading');
-        iconEl.onerror = () => iconEl.classList.remove('img-loading');
+        iconEl.onerror = () => gantiIconFallback(iconEl);
         iconEl.alt = p.nama;
         // Restart animasi icon setiap kali modal dibuka
         iconEl.style.animation = 'none';

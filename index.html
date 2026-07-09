@@ -9,7 +9,27 @@
     <meta property="og:title" content="DigishopID - Premium Store">
     <meta property="og:description" content="Pilih layanan digital premium kebutuhan Anda: Movie, Desain, Musik, Aplikasi, dan AI Tools.">
     <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="netflix murah, spotify premium murah, capcut pro, canva pro, akun premium murah, digishopid, toko digital">
+    <meta name="theme-color" content="#7c3aed">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <!-- STRUCTURED DATA (JSON-LD) BIAR GOOGLE PAHAM INI TOKO ONLINE -->
+    <!-- GANTI "url" di bawah dengan domain asli kamu setelah web ini di-hosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "DigishopID",
+        "description": "Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, dan lainnya dengan harga terjangkau.",
+        "priceRange": "Rp8.000 - Rp50.000",
+        "sameAs": [
+            "https://www.instagram.com/digitalmarket_reall",
+            "https://www.tiktok.com/@digishopid6"
+        ]
+    }
+    </script>
     
     <style>
         :root {
@@ -163,14 +183,44 @@
         }
 
         /* FILTER KATEGORI */
+        .filter-row {
+            display: flex; gap: 12px; align-items: center; margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
         .filter-container {
             display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;
-            margin-bottom: 25px; justify-content: flex-start; position: relative;
+            justify-content: flex-start; position: relative; flex: 1;
         }
         @media (min-width: 768px) {
-            .filter-container { justify-content: center; }
+            .filter-row { justify-content: center; }
+            .filter-container { flex: none; justify-content: center; }
         }
         .filter-container::-webkit-scrollbar { display: none; }
+
+        /* DROPDOWN URUTKAN HARGA */
+        .sort-box select {
+            background: white; border: 1px solid #e5e7eb; padding: 8px 14px;
+            border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: #6b7280;
+            cursor: pointer; font-family: inherit; transition: 0.2s;
+        }
+        .sort-box select:hover { border-color: var(--primary); color: var(--primary); }
+
+        /* RIWAYAT / BARU DILIHAT */
+        .section-label { font-size: 0.85rem; font-weight: 800; color: #6b7280; margin-bottom: 10px; }
+        .riwayat-container {
+            display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 10px;
+        }
+        .riwayat-container::-webkit-scrollbar { display: none; }
+        .riwayat-item {
+            flex: 0 0 auto; width: 80px; text-align: center; cursor: pointer; background: none; border: none;
+            font-family: inherit;
+        }
+        .riwayat-item img {
+            width: 55px; height: 55px; border-radius: 12px; object-fit: cover; margin-bottom: 6px;
+            border: 1px solid #f3f4f6; transition: transform 0.15s;
+        }
+        .riwayat-item:hover img { transform: scale(1.05); }
+        .riwayat-item span { font-size: 0.65rem; font-weight: 700; color: #6b7280; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .filter-btn {
             background: white; border: 1px solid #e5e7eb; padding: 8px 18px;
             border-radius: 20px; font-size: 0.85rem; font-weight: 700;
@@ -229,6 +279,11 @@
         }
         .card:hover { border-color: #ddd; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
         .card:active { transform: scale(0.92) !important; transition-duration: 0.1s; } /* Efek tekan tegas */
+        .card:focus-visible { outline: 2px solid var(--primary) !important; outline-offset: 3px; }
+        .badge-terjual {
+            margin-top: 6px; font-size: 0.62rem; font-weight: 800; color: #b45309;
+            background: #fef3c7; border-radius: 8px; padding: 3px 8px; display: inline-block;
+        }
         .card.pressed { animation: cardPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
         @keyframes cardPop {
             0% { transform: scale(0.92); }
@@ -348,7 +403,56 @@
             85% { opacity: 1; }
             100% { opacity: 0; }
         }
+        .btn-share {
+            width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px;
+            background: none; border: 1px dashed #d1d5db; color: #6b7280; font-family: inherit;
+            font-size: 0.8rem; font-weight: 700; padding: 10px; border-radius: 10px; cursor: pointer;
+            transition: 0.2s; margin-top: 4px;
+        }
+        .btn-share:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-share:active { transform: scale(0.96); }
         
+        /* TESTIMONI */
+        .testimoni-section { margin-top: 50px; }
+        .testimoni-empty {
+            text-align: center; background: white; border: 1px dashed #e5e7eb; border-radius: 20px;
+            padding: 30px 20px; color: #9ca3af; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px;
+        }
+        .testimoni-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+        @media (min-width: 768px) { .testimoni-grid { grid-template-columns: repeat(3, 1fr); } }
+        .testimoni-card {
+            background: white; border: 1px solid #f3f4f6; border-radius: 16px; padding: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .testimoni-card .bintang { color: #f59e0b; font-size: 0.85rem; margin-bottom: 6px; }
+        .testimoni-card .isi { font-size: 0.82rem; color: #4b5563; font-weight: 600; margin-bottom: 8px; line-height: 1.5; }
+        .testimoni-card .nama { font-size: 0.75rem; color: #9ca3af; font-weight: 700; }
+        .btn-telegram {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: #229ED9; color: white; text-decoration: none; font-weight: 700;
+            font-size: 0.85rem; padding: 12px; border-radius: 14px; max-width: 380px; margin: 0 auto;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+        .btn-telegram:hover { opacity: 0.92; transform: translateY(-2px); }
+        .btn-telegram:active { transform: scale(0.97); }
+
+        /* FAQ ACCORDION */
+        .faq-section { margin-top: 40px; }
+        .faq-list { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .faq-item { background: white; border: 1px solid #f3f4f6; border-radius: 14px; overflow: hidden; }
+        .faq-question {
+            width: 100%; background: none; border: none; text-align: left; padding: 14px 16px;
+            font-family: inherit; font-size: 0.88rem; font-weight: 700; color: #1f2937; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; gap: 10px;
+        }
+        .faq-question svg { flex-shrink: 0; width: 18px; height: 18px; color: var(--primary); transition: transform 0.25s; }
+        .faq-item.open .faq-question svg { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+            font-size: 0.82rem; color: #6b7280; font-weight: 600; line-height: 1.6; padding: 0 16px;
+        }
+        .faq-item.open .faq-answer { max-height: 220px; padding: 0 16px 16px; }
+
         /* FOOTER */
         .footer {
             margin-top: 50px; padding: 30px 20px 20px; text-align: center;
@@ -389,6 +493,17 @@
         }
         .icon-pop-modal { display: inline-block; animation: iconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both; }
 
+        /* AKSESIBILITAS: kembalikan fokus visual buat pengguna keyboard (global outline:none di atas menghapusnya) */
+        button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+            outline: 2px solid var(--primary) !important; outline-offset: 2px;
+        }
+
+        /* AKSESIBILITAS: sembunyikan visual tapi tetap terbaca screen reader */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
+
         /* HORMATI SETTING "REDUCE MOTION" DI SISTEM/BROWSER USER */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -420,22 +535,55 @@
 
     <!-- SEARCH BAR -->
     <div class="search-box">
+        <label for="searchInput" class="sr-only">Cari produk</label>
         <input type="text" id="searchInput" placeholder="Cari produk (Netflix, CapCut, dll)..." oninput="cariProduk(this.value)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
     </div>
 
-    <!-- FITUR FILTER -->
-    <div class="filter-container">
-        <button class="filter-btn active" id="btn-Semua" onclick="filterProduk('Semua')">Semua</button>
-        <button class="filter-btn" id="btn-MOVIE" onclick="filterProduk('MOVIE')">Movie</button>
-        <button class="filter-btn" id="btn-DESAIN" onclick="filterProduk('DESAIN')">Desain</button>
-        <button class="filter-btn" id="btn-MUSIK" onclick="filterProduk('MUSIK')">Musik</button>
-        <button class="filter-btn" id="btn-APPS" onclick="filterProduk('APPS')">Aplikasi</button>
-        <button class="filter-btn" id="btn-SMART" onclick="filterProduk('SMART')">AI Tools</button>
+    <!-- FITUR FILTER + URUTKAN HARGA -->
+    <div class="filter-row">
+        <div class="filter-container">
+            <button class="filter-btn active" id="btn-Semua" onclick="filterProduk('Semua')">Semua</button>
+            <button class="filter-btn" id="btn-MOVIE" onclick="filterProduk('MOVIE')">Movie</button>
+            <button class="filter-btn" id="btn-DESAIN" onclick="filterProduk('DESAIN')">Desain</button>
+            <button class="filter-btn" id="btn-MUSIK" onclick="filterProduk('MUSIK')">Musik</button>
+            <button class="filter-btn" id="btn-APPS" onclick="filterProduk('APPS')">Aplikasi</button>
+            <button class="filter-btn" id="btn-SMART" onclick="filterProduk('SMART')">AI Tools</button>
+        </div>
+        <div class="sort-box">
+            <label for="sortSelect" class="sr-only">Urutkan produk</label>
+            <select id="sortSelect" onchange="urutkanProduk(this.value)">
+                <option value="default">Urutkan</option>
+                <option value="termurah">Harga: Termurah</option>
+                <option value="termahal">Harga: Termahal</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- BARU DILIHAT -->
+    <div id="baruDilihatWrap" style="display:none;">
+        <div class="section-label">Baru Dilihat</div>
+        <div class="riwayat-container" id="riwayatContainer"></div>
     </div>
 
     <div class="grid" id="katalog"></div>
-    
+
+    <!-- TESTIMONI -->
+    <div class="testimoni-section">
+        <div class="section-label" style="text-align:center; margin-bottom:14px;">Testimoni Pembeli</div>
+        <div id="testimoniIsi"></div>
+        <a href="https://t.me/fdfORqSER45lMmZl" target="_blank" rel="noopener" class="btn-telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm4.76 6.79-1.61 7.59c-.12.54-.44.67-.89.42l-2.46-1.81-1.19 1.14c-.13.13-.24.24-.5.24l.18-2.52 4.58-4.14c.2-.18-.04-.28-.31-.1l-5.66 3.56-2.44-.76c-.53-.17-.54-.53.11-.78l9.54-3.68c.44-.16.83.11.65.84Z"/></svg>
+            Lihat Semua Testimoni Asli di Telegram
+        </a>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+        <div class="section-label" style="text-align:center; margin-bottom:14px;">Pertanyaan yang Sering Ditanyakan</div>
+        <div class="faq-list" id="faqList"></div>
+    </div>
+
     <div class="footer">
         <div class="footer-brand">DigishopID</div>
         <div class="footer-desc">Toko layanan digital premium terpercaya. Proses cepat, harga bersahabat, garansi jelas.</div>
@@ -455,9 +603,9 @@
 </div>
 
 <!-- Modal Katalog Varian -->
-<div id="modal" class="modal" onclick="tutupModal()">
+<div id="modal" class="modal" onclick="tutupModal()" role="dialog" aria-modal="true" aria-labelledby="judulProduk">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <button class="close-btn" onclick="tutupModal()">X</button>
+        <button class="close-btn" onclick="tutupModal()" aria-label="Tutup detail produk">X</button>
         <div class="modal-header">
             <img id="iconModal" src="" alt="" class="icon-pop-modal" style="width:56px; height:56px; border-radius:14px; object-fit:cover; margin-bottom:10px; box-shadow:0 6px 14px rgba(0,0,0,0.12);">
             <h2 id="judulProduk">Nama Produk</h2>
@@ -467,9 +615,9 @@
 </div>
 
 <!-- Modal Khusus QRIS -->
-<div id="modalQris" class="modal" onclick="tutupQris()">
+<div id="modalQris" class="modal" onclick="tutupQris()" role="dialog" aria-modal="true" aria-label="Pembayaran QRIS">
     <div class="modal-content" style="text-align: center;" onclick="event.stopPropagation()">
-        <button class="close-btn" onclick="tutupQris()">X</button>
+        <button class="close-btn" onclick="tutupQris()" aria-label="Tutup pembayaran QRIS">X</button>
         <h2 style="margin-bottom: 15px; font-weight: 800; font-size: 1.2rem;">Pembayaran QRIS</h2>
         
         <img id="gambarQrisLokal" src="qris.jpg" alt="QRIS DigishopID" style="width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
@@ -500,7 +648,7 @@
 </button>
 
 <!-- TOAST CONTAINER -->
-<div class="toast-container" id="toastContainer"></div>
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
 <script>
     // ICON CADANGAN kalau link gambar produk gagal dimuat (data URI, jadi gak mungkin ikut gagal)
@@ -512,6 +660,22 @@
         imgEl.style.background = '#f8f7ff';
         imgEl.classList.remove('img-loading');
     }
+
+    // DATA FAQ - silakan tambah/edit sesuai kebutuhan toko
+    const faqData = [
+        { q: 'Berapa lama proses setelah order?', a: 'Untuk produk instant, akun langsung dikirim otomatis/manual dalam hitungan menit. Untuk produk custom/sharing, mohon standby maksimal 5-15 menit setelah pembayaran dikonfirmasi.' },
+        { q: 'Bagaimana kalau akun error atau kena limit?', a: 'Semua produk sudah termasuk garansi sesuai keterangan di setiap varian (garansi kendala backfree/masa aktif). Tinggal hubungi admin via WhatsApp dengan bukti order, nanti langsung dibantu.' },
+        { q: 'Metode pembayaran apa saja yang diterima?', a: 'Saat ini menerima pembayaran via QRIS (DANA, OVO, GoPay, ShopeePay, m-banking, dll). Klik tombol "QRIS / Bayar" di pojok kanan atas untuk detailnya.' },
+        { q: 'Apakah akun ini aman dan legal?', a: 'Akun yang dijual berupa akun sharing/private resmi yang diambil dari partner resmi seller. Selama digunakan sesuai ketentuan (tidak ganti password/email), akun akan tetap aman.' },
+        { q: 'Bisa refund kalau berubah pikiran?', a: 'Karena sifatnya produk digital yang langsung terpakai, refund hanya berlaku untuk kendala di pihak kami (misal akun tidak bisa diakses), bukan karena perubahan keputusan pembeli.' }
+    ];
+
+    // TESTIMONI ASLI - tambahkan testimoni asli pembeli kamu di sini ya, contoh formatnya:
+    // { bintang: 5, isi: 'Prosesnya cepat banget, recommended!', nama: 'Budi - Jakarta' }
+    // Kalau array ini kosong, yang tampil cuma tombol menuju channel Telegram testimoni kamu.
+    const testimoniData = [
+        // ISI SENDIRI DENGAN TESTIMONI ASLI DARI PEMBELI KAMU
+    ];
 
     const produk = [
         {
@@ -731,6 +895,11 @@
     const katalog = document.getElementById('katalog');
     let kategoriAktif = 'Semua';
     let kataKunci = '';
+    let urutanAktif = 'default';
+
+    // FUNGSI BANTU: ubah "15.000" jadi angka 15000, ambil harga termurah dari varian produk
+    function parseHarga(str) { return parseInt(str.replace(/\./g, ''), 10) || 0; }
+    function hargaTermurah(p) { return Math.min(...p.varian.map(v => parseHarga(v.harga))); }
 
     // FUNGSI SKELETON LOADING
     function tampilSkeleton() {
@@ -755,6 +924,12 @@
                 dataTampil = dataTampil.filter(p => p.nama.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q));
             }
 
+            if (urutanAktif === 'termurah') {
+                dataTampil = [...dataTampil].sort((a, b) => hargaTermurah(a) - hargaTermurah(b));
+            } else if (urutanAktif === 'termahal') {
+                dataTampil = [...dataTampil].sort((a, b) => hargaTermurah(b) - hargaTermurah(a));
+            }
+
             if (dataTampil.length === 0) {
                 katalog.innerHTML = `
                     <div class="empty-state">
@@ -767,16 +942,21 @@
 
             katalog.innerHTML = dataTampil.map((p, i) => {
                 const badgeHtml = p.badge ? `<div class="badge ${p.badgeClass}">${p.badge}</div>` : '';
+                const terjualHtml = p.terjual ? `<div class="badge-terjual">🔥 Terjual ${p.terjual}+</div>` : '';
                 const delay = Math.min(i * 0.04, 0.4);
                 return `
-                    <div class="card" onclick="handleCardClick(event, '${p.id}')" style="opacity:0; animation: fadeInCard 0.35s ease-out ${delay}s forwards;">
+                    <div class="card" onclick="handleCardClick(event, '${p.id}')"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); handleCardClick(event, '${p.id}');}"
+                         role="button" tabindex="0" aria-label="Lihat detail produk ${p.nama}, ${p.subtitle}"
+                         style="opacity:0; animation: fadeInCard 0.35s ease-out ${delay}s forwards;">
                         <div class="icon-box">
                             ${badgeHtml}
-                            <img src="${p.icon}" alt="${p.nama}" class="img-loading" loading="lazy" onload="this.classList.remove('img-loading')" onerror="gantiIconFallback(this)">
+                            <img src="${p.icon}" alt="Logo ${p.nama}" class="img-loading" loading="lazy" onload="this.classList.remove('img-loading')" onerror="gantiIconFallback(this)">
                         </div>
                         <div class="kategori">${p.kategori}</div>
                         <h3>${p.nama}</h3>
                         <div class="subtitle">${p.subtitle}</div>
+                        ${terjualHtml}
                     </div>
                 `;
             }).join('');
@@ -788,6 +968,55 @@
         kategoriAktif = kategori;
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-' + kategori).classList.add('active');
+        renderKatalog();
+    }
+
+    // FUNGSI BAGIKAN PRODUK (pakai Web Share API kalau didukung, fallback copy teks)
+    function bagikanProduk(idProduk) {
+        const p = produk.find(item => item.id === idProduk);
+        const teks = `${p.nama} (${p.subtitle}) - Cek harganya di DigishopID!`;
+        const url = window.location.href;
+
+        if (navigator.share) {
+            navigator.share({ title: p.nama, text: teks, url: url }).catch(() => {});
+        } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(`${teks}\n${url}`)
+                .then(() => tampilToast('Link produk disalin ke clipboard!', 'success'))
+                .catch(() => tampilToast('Gagal menyalin link.', 'error'));
+        } else {
+            tampilToast('Fitur share tidak didukung browser ini.', 'error');
+        }
+    }
+
+    // FUNGSI RIWAYAT "BARU DILIHAT" (disimpan di memori selama sesi/kunjungan berjalan)
+    let riwayatDilihat = [];
+    function catatRiwayat(idProduk) {
+        riwayatDilihat = riwayatDilihat.filter(id => id !== idProduk);
+        riwayatDilihat.unshift(idProduk);
+        riwayatDilihat = riwayatDilihat.slice(0, 8);
+        renderRiwayat();
+    }
+    function renderRiwayat() {
+        const wrap = document.getElementById('baruDilihatWrap');
+        const container = document.getElementById('riwayatContainer');
+        if (riwayatDilihat.length === 0) { wrap.style.display = 'none'; return; }
+
+        wrap.style.display = 'block';
+        container.innerHTML = riwayatDilihat.map(id => {
+            const p = produk.find(item => item.id === id);
+            if (!p) return '';
+            return `
+                <button class="riwayat-item" onclick="bukaModal('${p.id}')" aria-label="Buka lagi ${p.nama}">
+                    <img src="${p.icon}" alt="Logo ${p.nama}" loading="lazy" onerror="gantiIconFallback(this)">
+                    <span>${p.nama}</span>
+                </button>
+            `;
+        }).join('');
+    }
+
+    // FUNGSI URUTKAN HARGA (dropdown select)
+    function urutkanProduk(value) {
+        urutanAktif = value;
         renderKatalog();
     }
 
@@ -803,14 +1032,16 @@
     function handleCardClick(e, idProduk) {
         const card = e.currentTarget;
 
-        // Buat ripple dari titik klik
+        // Buat ripple dari titik klik (kalau dari keyboard, ripple muncul di tengah card)
         const rect = card.getBoundingClientRect();
         const ripple = document.createElement('span');
         const size = Math.max(rect.width, rect.height) * 1.4;
+        const clickX = (typeof e.clientX === 'number' && e.clientX !== 0) ? e.clientX : rect.left + rect.width / 2;
+        const clickY = (typeof e.clientY === 'number' && e.clientY !== 0) ? e.clientY : rect.top + rect.height / 2;
         ripple.className = 'ripple';
         ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+        ripple.style.left = (clickX - rect.left - size / 2) + 'px';
+        ripple.style.top = (clickY - rect.top - size / 2) + 'px';
         card.appendChild(ripple);
         setTimeout(() => ripple.remove(), 600);
 
@@ -865,10 +1096,16 @@
                 <div class="varian-desk">${v.desk}</div>
                 <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID,%20saya%20mau%20order%20${encodeURIComponent(p.nama + ' - ' + v.nama)}" class="btn-wa">Beli Sekarang</a>
             </div>
-        `).join('');
+        `).join('') + `
+            <button class="btn-share" onclick="bagikanProduk('${p.id}')" aria-label="Bagikan produk ${p.nama}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Bagikan Produk Ini
+            </button>
+        `;
         
         document.getElementById('modal').style.display = 'flex';
         lockScroll();
+        catatRiwayat(p.id);
     }
     function tutupModal() {
         const modal = document.getElementById('modal');
@@ -997,8 +1234,49 @@
     aktifkanSwipeClose(document.querySelector('#modal .modal-content'), tutupModal);
     aktifkanSwipeClose(document.querySelector('#modalQris .modal-content'), tutupQris);
 
+    // FUNGSI RENDER TESTIMONI
+    function renderTestimoni() {
+        const wadah = document.getElementById('testimoniIsi');
+        if (testimoniData.length === 0) {
+            wadah.innerHTML = `
+                <div class="testimoni-empty">
+                    Testimoni asli dari pembeli kami bisa dilihat langsung di channel Telegram resmi ⬇️
+                </div>
+            `;
+            return;
+        }
+        wadah.innerHTML = `<div class="testimoni-grid">` + testimoniData.map(t => `
+            <div class="testimoni-card">
+                <div class="bintang">${'★'.repeat(t.bintang)}${'☆'.repeat(5 - t.bintang)}</div>
+                <div class="isi">"${t.isi}"</div>
+                <div class="nama">${t.nama}</div>
+            </div>
+        `).join('') + `</div>`;
+    }
+
+    // FUNGSI RENDER FAQ (accordion)
+    function renderFaq() {
+        const wadah = document.getElementById('faqList');
+        wadah.innerHTML = faqData.map((f, i) => `
+            <div class="faq-item" id="faq-${i}">
+                <button class="faq-question" onclick="toggleFaq(${i})" aria-expanded="false">
+                    <span>${f.q}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="faq-answer">${f.a}</div>
+            </div>
+        `).join('');
+    }
+    function toggleFaq(i) {
+        const item = document.getElementById('faq-' + i);
+        const buka = item.classList.toggle('open');
+        item.querySelector('.faq-question').setAttribute('aria-expanded', buka ? 'true' : 'false');
+    }
+
     // Eksekusi awal saat web dimuat
     renderKatalog();
+    renderTestimoni();
+    renderFaq();
 </script>
 </body>
 </html>

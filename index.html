@@ -276,7 +276,14 @@
             padding: 15px; margin-bottom: 12px; display: flex; justify-content: center;
             align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.01); position: relative;
         }
-        .icon-box img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; }
+        .icon-box img {
+            width: 55px; height: 55px; border-radius: 12px; object-fit: cover;
+            filter: blur(0); opacity: 1; transition: filter 0.4s ease-out, opacity 0.4s ease-out;
+            background: #f3f4f6;
+        }
+        .icon-box img.img-loading { filter: blur(10px); opacity: 0.5; }
+        #iconModal { filter: blur(0); opacity: 1; transition: filter 0.4s ease-out, opacity 0.4s ease-out; }
+        #iconModal.img-loading { filter: blur(10px); opacity: 0.5; }
 
         /* TYPOGRAPHY */
         .card .kategori { color: var(--primary); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
@@ -323,7 +330,24 @@
         .varian-header { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 5px; font-size: 0.95rem;}
         .varian-harga { color: var(--primary); }
         .varian-desk { font-size: 0.75rem; color: #6b7280; margin-bottom: 12px; }
-        .btn-wa { display: block; background: var(--primary); color: white; text-align: center; padding: 10px; border-radius: 10px; text-decoration: none; font-size: 0.85rem; font-weight: 700; }
+        .btn-wa {
+            display: block; background: var(--primary); color: white; text-align: center;
+            padding: 10px; border-radius: 10px; text-decoration: none; font-size: 0.85rem; font-weight: 700;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+            position: relative; overflow: hidden;
+        }
+        .btn-wa:active { transform: scale(0.95); box-shadow: 0 2px 8px rgba(124,58,237,0.35); }
+        .btn-wa.tapped::after {
+            content: '✓ Membuka WhatsApp...';
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            background: var(--primary); animation: tapConfirm 0.9s ease forwards;
+        }
+        @keyframes tapConfirm {
+            0% { opacity: 0; transform: translateY(6px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; }
+            100% { opacity: 0; }
+        }
         
         /* FOOTER */
         .footer {
@@ -726,7 +750,7 @@
                     <div class="card" onclick="handleCardClick(event, '${p.id}')" style="opacity:0; animation: fadeInCard 0.35s ease-out ${delay}s forwards;">
                         <div class="icon-box">
                             ${badgeHtml}
-                            <img src="${p.icon}" alt="${p.nama}">
+                            <img src="${p.icon}" alt="${p.nama}" class="img-loading" loading="lazy" onload="this.classList.remove('img-loading')" onerror="this.classList.remove('img-loading')">
                         </div>
                         <div class="kategori">${p.kategori}</div>
                         <h3>${p.nama}</h3>
@@ -777,13 +801,32 @@
         setTimeout(() => bukaModal(idProduk), 90);
     }
 
+    // FUNGSI KUNCI SCROLL BODY SAAT MODAL TERBUKA
+    // (pakai teknik position:fixed, bukan cuma overflow:hidden, biar aman di iOS Safari)
+    let scrollYTersimpan = 0;
+    function lockScroll() {
+        scrollYTersimpan = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollYTersimpan}px`;
+        document.body.style.width = '100%';
+    }
+    function unlockScroll() {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollYTersimpan);
+    }
+
     // FUNGSI MODAL VARIAN
     function bukaModal(idProduk) {
         const p = produk.find(item => item.id === idProduk);
         document.getElementById('judulProduk').innerText = p.nama;
 
         const iconEl = document.getElementById('iconModal');
+        iconEl.classList.add('img-loading');
         iconEl.src = p.icon;
+        iconEl.onload = () => iconEl.classList.remove('img-loading');
+        iconEl.onerror = () => iconEl.classList.remove('img-loading');
         iconEl.alt = p.nama;
         // Restart animasi icon setiap kali modal dibuka
         iconEl.style.animation = 'none';
@@ -803,10 +846,12 @@
         `).join('');
         
         document.getElementById('modal').style.display = 'flex';
+        lockScroll();
     }
     function tutupModal() {
         const modal = document.getElementById('modal');
         modal.classList.add('closing');
+        unlockScroll();
         setTimeout(() => {
             modal.style.display = 'none';
             modal.classList.remove('closing');
@@ -814,10 +859,14 @@
     }
     
     // FUNGSI MODAL QRIS
-    function bukaQris() { document.getElementById('modalQris').style.display = 'flex'; }
+    function bukaQris() {
+        document.getElementById('modalQris').style.display = 'flex';
+        lockScroll();
+    }
     function tutupQris() {
         const modal = document.getElementById('modalQris');
         modal.classList.add('closing');
+        unlockScroll();
         setTimeout(() => {
             modal.style.display = 'none';
             modal.classList.remove('closing');
@@ -870,6 +919,61 @@
         if (window.scrollY > 40) navbarEl.classList.add('scrolled');
         else navbarEl.classList.remove('scrolled');
     });
+
+    // FUNGSI TUTUP MODAL PAKAI TOMBOL ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        const modal = document.getElementById('modal');
+        const modalQris = document.getElementById('modalQris');
+        if (modal.style.display === 'flex') tutupModal();
+        else if (modalQris.style.display === 'flex') tutupQris();
+    });
+
+    // FUNGSI TAP FEEDBACK DI TOMBOL "BELI SEKARANG" (event delegation krn tombolnya dibuat dinamis)
+    document.addEventListener('click', (e) => {
+        const tombol = e.target.closest('.btn-wa');
+        if (!tombol) return;
+        tombol.classList.remove('tapped');
+        void tombol.offsetWidth; // reflow biar animasi bisa diulang
+        tombol.classList.add('tapped');
+    });
+
+    // FUNGSI SWIPE-DOWN UNTUK NUTUP MODAL (khusus layar sentuh/HP)
+    function aktifkanSwipeClose(modalContentEl, fungsiTutup) {
+        let startY = 0, currentY = 0, geser = false;
+
+        modalContentEl.addEventListener('touchstart', (e) => {
+            // Cuma aktif kalau modal lagi discroll di posisi paling atas
+            if (modalContentEl.scrollTop > 0) return;
+            startY = e.touches[0].clientY;
+            geser = true;
+            modalContentEl.style.transition = 'none';
+        }, { passive: true });
+
+        modalContentEl.addEventListener('touchmove', (e) => {
+            if (!geser) return;
+            currentY = e.touches[0].clientY - startY;
+            if (currentY > 0) {
+                modalContentEl.style.transform = `translateY(${currentY}px)`;
+                modalContentEl.style.opacity = Math.max(1 - currentY / 300, 0.4);
+            }
+        }, { passive: true });
+
+        modalContentEl.addEventListener('touchend', () => {
+            if (!geser) return;
+            geser = false;
+            modalContentEl.style.transition = '';
+            if (currentY > 100) {
+                fungsiTutup();
+            } else {
+                modalContentEl.style.transform = '';
+                modalContentEl.style.opacity = '';
+            }
+            currentY = 0;
+        });
+    }
+    aktifkanSwipeClose(document.querySelector('#modal .modal-content'), tutupModal);
+    aktifkanSwipeClose(document.querySelector('#modalQris .modal-content'), tutupQris);
 
     // Eksekusi awal saat web dimuat
     renderKatalog();

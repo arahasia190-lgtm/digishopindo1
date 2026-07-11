@@ -22,6 +22,7 @@
             --dark-card: #14102A;
             --text: #FFFFFF;
             --text-muted: #9494B8;
+            --text-light: #D4D4EC;
             --gradient-1: linear-gradient(135deg, #7C3AED 0%, #F59E0B 100%);
             --shadow-hover: 0 30px 80px rgba(124, 58, 237, 0.2);
             --radius: 20px;
@@ -222,6 +223,40 @@
         .btn-qris svg {
             width: 14px;
             height: 14px;
+        }
+
+        /* ===== CART BUTTON ===== */
+        .btn-cart {
+            position: relative;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-cart:hover {
+            background: rgba(124, 58, 237, 0.15);
+            border-color: var(--primary);
+            transform: scale(1.04);
+        }
+        .cart-badge {
+            background: var(--secondary);
+            color: var(--dark);
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 1px 8px;
+            border-radius: 30px;
+            min-width: 20px;
+            text-align: center;
         }
 
         .whatsapp-nav {
@@ -534,6 +569,60 @@
             color: var(--text-muted);
         }
 
+        /* ===== PRICE & VARIANT BADGE ON CARD ===== */
+        .product-card .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 6px 0 10px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .product-card .price-start {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--secondary);
+        }
+        .product-card .price-start small {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .product-card .variant-count {
+            font-size: 0.55rem;
+            font-weight: 700;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            padding: 2px 10px;
+            border-radius: 30px;
+        }
+
+        .btn-select-paket {
+            width: 100%;
+            padding: 8px 0;
+            border: none;
+            border-radius: 50px;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-select-paket:hover {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px var(--primary-glow);
+        }
+        .btn-select-paket:active {
+            transform: scale(0.95);
+        }
+
         /* ========== MODAL VARIAN ========== */
         .modal {
             display: none;
@@ -704,8 +793,8 @@
             font-size: clamp(0.8rem, 1.1vw, 0.9rem);
             white-space: nowrap;
         }
-        .varian-item .btn-wa-beli {
-            background: #25D366;
+        .varian-item .btn-pilih-varian {
+            background: var(--primary);
             color: white;
             border: none;
             padding: 8px 0;
@@ -714,72 +803,606 @@
             font-size: clamp(0.7rem, 1vw, 0.75rem);
             cursor: pointer;
             transition: var(--transition);
-            text-decoration: none;
             font-family: inherit;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            width: 100%;
         }
-        .varian-item .btn-wa-beli:hover {
+        .varian-item .btn-pilih-varian:hover {
+            background: var(--primary-dark);
             transform: scale(1.02);
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
         }
-        .varian-item .btn-wa-beli:active {
+        .varian-item .btn-pilih-varian:active {
             transform: scale(0.95);
         }
 
-        /* ========== MODAL QRIS ========== */
-        .modal-qris {
+        /* ========== CART DRAWER ========== */
+        .drawer-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            animation: fadeIn 0.25s ease-out forwards;
+        }
+        .drawer-overlay.open {
+            display: block;
+        }
+        .drawer-overlay.closing {
+            animation: fadeOut 0.2s ease-in forwards;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: -480px;
+            width: 420px;
+            max-width: 92vw;
+            height: 100%;
+            background: var(--dark-card);
+            z-index: 2001;
+            padding: 24px 20px;
+            transition: right 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+        }
+        .drawer.open {
+            right: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            z-index: 1002;
-            animation: fadeIn 0.3s ease-out forwards;
-            padding: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            flex-shrink: 0;
         }
-        .modal-qris.closing {
-            animation: fadeOut 0.25s ease-in forwards;
+        .drawer-header h2 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .modal-qris .modal-content {
-            max-width: 400px;
-            text-align: center;
+        .drawer-header h2 span {
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.8rem;
         }
-        .modal-qris img {
-            width: 100%;
-            max-width: 200px;
-            border-radius: 14px;
-            border: 2px solid rgba(255, 255, 255, 0.06);
-            margin-bottom: 10px;
-        }
-        .modal-qris .btn-save-qris {
-            background: var(--success);
-            color: white;
+        .drawer-close {
+            background: none;
             border: none;
-            padding: 10px 16px;
-            border-radius: 50px;
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .drawer-close:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--danger);
+        }
+
+        .drawer-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px 0;
+        }
+
+        .drawer-empty {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+        }
+        .drawer-empty .empty-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 12px;
+            opacity: 0.4;
+        }
+
+        .drawer-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .drawer-item .item-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .drawer-item .item-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .drawer-item .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .drawer-item .item-info .item-name {
             font-weight: 700;
-            font-size: clamp(0.75rem, 1vw, 0.85rem);
+            font-size: 0.85rem;
+        }
+        .drawer-item .item-info .item-variant {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .drawer-item .item-info .item-price {
+            font-weight: 800;
+            color: var(--secondary);
+            font-size: 0.85rem;
+        }
+        .drawer-item .btn-remove {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 6px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .drawer-item .btn-remove:hover {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .drawer-footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            padding-top: 16px;
+            flex-shrink: 0;
+        }
+        .drawer-footer .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .drawer-footer .price-row .original {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .drawer-footer .price-row .save {
+            color: var(--success);
+        }
+        .drawer-footer .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.05rem;
+            font-weight: 800;
+            margin: 8px 0 14px;
+            padding-top: 8px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .drawer-footer .total-row .total-price {
+            color: var(--secondary);
+        }
+
+        .btn-checkout-drawer {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-radius: 50px;
+            background: var(--gradient-1);
+            color: white;
+            font-weight: 800;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: var(--transition);
             font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-checkout-drawer:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px var(--primary-glow);
+        }
+
+        /* ========== CHECKOUT PAGE ========== */
+        .page-checkout {
+            display: none;
+            padding: 20px 0;
+        }
+        .page-checkout.active {
+            display: block;
+        }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .checkout-form {
+            background: var(--dark-card);
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .checkout-form h2 {
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+        .checkout-form .form-sub {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .form-group input,
+        .form-group textarea {
             width: 100%;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.03);
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+            outline: none;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+            opacity: 0.5;
+            font-weight: 400;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+        .form-group .error-text {
+            color: var(--danger);
+            font-size: 0.65rem;
+            font-weight: 600;
+            margin-top: 4px;
+            display: none;
+        }
+        .form-group.error input,
+        .form-group.error textarea {
+            border-color: var(--danger);
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15);
+        }
+        .form-group.error .error-text {
+            display: block;
+        }
+
+        .payment-method {
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: var(--transition);
+            margin-bottom: 16px;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: default;
+        }
+        .payment-method.active {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.08);
+            box-shadow: 0 0 0 4px var(--primary-glow);
+        }
+        .payment-method .pm-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+        .payment-method .pm-info {
+            flex: 1;
+        }
+        .payment-method .pm-info .pm-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .payment-method .pm-info .pm-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .payment-method .pm-check {
+            color: var(--success);
+            font-size: 1.1rem;
+        }
+
+        .order-summary-card {
+            background: var(--dark-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            position: sticky;
+            top: 90px;
+        }
+        .order-summary-card h3 {
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .order-summary-card .summary-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            padding: 4px 0;
+            color: var(--text-muted);
+        }
+        .order-summary-card .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+            font-weight: 800;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 4px;
+        }
+        .order-summary-card .summary-total .total-amount {
+            color: var(--secondary);
+        }
+
+        .btn-submit-order {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-radius: 50px;
+            background: var(--gradient-1);
+            color: white;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+        .btn-submit-order:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px var(--primary-glow);
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 8px 0;
+            transition: var(--transition);
+            font-family: inherit;
+            margin-bottom: 12px;
+        }
+        .btn-back:hover {
+            color: var(--text);
+        }
+
+        /* ========== PAYMENT SUCCESS PAGE ========== */
+        .page-payment {
+            display: none;
+            padding: 20px 0;
+        }
+        .page-payment.active {
+            display: block;
+        }
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .payment-header .success-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin: 0 auto 10px;
+            border: 2px solid rgba(16, 185, 129, 0.2);
+        }
+        .payment-header .success-label {
+            color: var(--primary-light);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .payment-header h1 {
+            font-size: 1.6rem;
+            font-weight: 900;
+            margin: 4px 0;
+        }
+        .payment-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .qris-card {
+            background: var(--dark-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            text-align: center;
+        }
+        .qris-card .qris-image {
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto 12px;
+            border-radius: var(--radius-sm);
+            border: 2px solid rgba(255, 255, 255, 0.04);
+            padding: 10px;
+            background: white;
+        }
+        .qris-card .qris-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+        .qris-card .qris-label {
+            font-weight: 700;
+            font-size: 0.85rem;
             margin-bottom: 8px;
         }
-        .modal-qris .btn-save-qris:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3);
+
+        .order-detail-card {
+            background: var(--dark-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
-        .modal-qris .qris-hint {
-            font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+        .order-detail-card .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.82rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .order-detail-card .detail-row:last-child {
+            border-bottom: none;
+        }
+        .order-detail-card .detail-label {
             color: var(--text-muted);
-            line-height: 1.6;
+            font-weight: 600;
+        }
+        .order-detail-card .detail-value {
+            font-weight: 700;
+        }
+        .order-detail-card .detail-value.code {
+            color: var(--primary-light);
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        .order-detail-card .detail-value.price {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .payment-instructions {
+            margin: 18px 0;
+            padding: 14px 18px;
+            background: rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+        .payment-instructions .inst-title {
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+        .payment-instructions .inst-list {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            padding-left: 18px;
+        }
+
+        .alert-box {
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.15);
+            margin: 14px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .alert-box .alert-icon {
+            font-size: 1.2rem;
+        }
+
+        .btn-wa-confirm {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-radius: 50px;
+            background: #25D366;
+            color: white;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-wa-confirm:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
         }
 
         /* ========== TOAST ========== */
@@ -788,7 +1411,7 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 2000;
+            z-index: 3000;
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -840,18 +1463,18 @@
         .toast .toast-icon.success {
             color: var(--success);
         }
-        .toast .toast-icon.error {
-            color: var(--danger);
+        .toast .toast-icon.warning {
+            color: var(--secondary);
         }
         .toast .toast-content {
             flex: 1;
         }
         .toast .toast-content .toast-title {
             font-weight: 700;
-            font-size: clamp(0.75rem, 1vw, 0.8rem);
+            font-size: 0.8rem;
         }
         .toast .toast-content .toast-msg {
-            font-size: clamp(0.65rem, 0.8vw, 0.7rem);
+            font-size: 0.7rem;
             color: var(--text-muted);
         }
 
@@ -1073,11 +1696,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.03);
         }
 
-        /* ============================================================ */
-        /* ========== RESPONSIVE BREAKPOINTS ========== */
-        /* ============================================================ */
-
-        /* HP Kecil (max 480px) */
+        /* ========== RESPONSIVE ========== */
         @media (max-width: 480px) {
             .product-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1098,8 +1717,16 @@
             .product-card .subtitle {
                 font-size: 0.5rem;
             }
-            .product-card .sold {
+            .product-card .price-start {
+                font-size: 0.7rem;
+            }
+            .product-card .variant-count {
                 font-size: 0.45rem;
+                padding: 1px 8px;
+            }
+            .btn-select-paket {
+                font-size: 0.65rem;
+                padding: 6px 0;
             }
 
             .navbar {
@@ -1124,6 +1751,12 @@
                 display: none;
             }
             .btn-qris {
+                padding: 8px 10px;
+            }
+            .btn-cart span {
+                display: none;
+            }
+            .btn-cart {
                 padding: 8px 10px;
             }
             .whatsapp-nav span {
@@ -1163,30 +1796,12 @@
                 max-width: 100%;
                 margin: 0 4px;
             }
-            .modal-product-info .modal-icon {
-                width: 44px;
-                height: 44px;
+            .drawer {
+                width: 100%;
+                right: -100%;
+                max-width: 100%;
+                padding: 16px 14px;
             }
-            .modal-product-info h2 {
-                font-size: 0.95rem;
-            }
-
-            .varian-item {
-                padding: 10px 12px;
-            }
-            .varian-item .varian-top {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 4px;
-            }
-            .varian-item .varian-price {
-                align-self: flex-start;
-            }
-            .varian-item .btn-wa-beli {
-                padding: 8px 0;
-                font-size: 0.7rem;
-            }
-
             .hero h1 {
                 font-size: 1.4rem;
             }
@@ -1202,7 +1817,6 @@
             .hero-stats .stat p {
                 font-size: 0.6rem;
             }
-
             .search-box input {
                 padding: 10px 14px 10px 38px;
                 font-size: 0.8rem;
@@ -1212,12 +1826,10 @@
                 height: 16px;
                 left: 12px;
             }
-
             .testimoni-grid {
                 grid-template-columns: 1fr;
                 gap: 10px;
             }
-
             .float-wa {
                 width: 48px;
                 height: 48px;
@@ -1232,9 +1844,14 @@
                 bottom: 72px;
                 width: 94%;
             }
+            .checkout-grid {
+                grid-template-columns: 1fr;
+            }
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* HP Sedang (481px - 640px) */
         @media (min-width: 481px) and (max-width: 640px) {
             .product-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1250,7 +1867,6 @@
             .product-card h3 {
                 font-size: 0.8rem;
             }
-
             .navbar {
                 padding: 12px 16px;
                 margin: 0 -16px;
@@ -1258,14 +1874,15 @@
             .container {
                 padding: 0 16px;
             }
-
             .btn-qris span {
+                display: none;
+            }
+            .btn-cart span {
                 display: none;
             }
             .whatsapp-nav span {
                 display: none;
             }
-
             .filter-container {
                 flex-wrap: nowrap;
                 overflow-x: auto;
@@ -1290,22 +1907,16 @@
             .sort-box {
                 align-self: flex-end;
             }
-
             .modal-content {
                 padding: 18px 14px;
             }
         }
 
-        /* Tablet (641px - 1024px) */
         @media (min-width: 641px) and (max-width: 1024px) {
             .product-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 16px;
             }
-            .product-card {
-                padding: 16px 12px 14px;
-            }
-
             .navbar {
                 padding: 14px 20px;
                 margin: 0 -20px;
@@ -1313,14 +1924,15 @@
             .container {
                 padding: 0 20px;
             }
-
             .btn-qris span {
+                display: inline;
+            }
+            .btn-cart span {
                 display: inline;
             }
             .whatsapp-nav span {
                 display: inline;
             }
-
             .filter-container {
                 flex-wrap: wrap;
             }
@@ -1328,23 +1940,17 @@
                 flex-wrap: wrap;
                 gap: 12px;
             }
-
             .modal-content {
                 max-width: 440px;
                 padding: 22px 18px;
             }
         }
 
-        /* Desktop (1025px+) */
         @media (min-width: 1025px) {
             .product-grid {
                 grid-template-columns: repeat(4, 1fr);
                 gap: 20px;
             }
-            .product-card {
-                padding: 20px 16px 18px;
-            }
-
             .navbar {
                 padding: 16px 30px;
                 margin: 0 -30px;
@@ -1352,25 +1958,24 @@
             .container {
                 padding: 0 30px;
             }
-
             .btn-qris span {
+                display: inline;
+            }
+            .btn-cart span {
                 display: inline;
             }
             .whatsapp-nav span {
                 display: inline;
             }
-
             .modal-content {
                 max-width: 480px;
                 padding: 24px 20px;
             }
-
             .hero {
                 padding: 60px 0 40px;
             }
         }
 
-        /* Desktop besar (1440px+) */
         @media (min-width: 1440px) {
             .container {
                 max-width: 1280px;
@@ -1408,7 +2013,7 @@
 
     <!-- ========== NAVBAR ========== -->
     <nav class="navbar" id="navbar">
-        <a href="#" class="logo">
+        <a href="#" class="logo" onclick="goHome(event)">
             <div class="logo-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M12 2L2 7l10 5 10-5-10-5z" />
@@ -1423,6 +2028,9 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 8h8v8H8z"/><path d="M6 2v20"/><path d="M18 2v20"/></svg>
                 <span>QRIS</span>
             </button>
+            <button class="btn-cart" onclick="toggleDrawer()">
+                🛒 <span>Keranjang</span> <span class="cart-badge" id="cartBadge">0</span>
+            </button>
             <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" class="whatsapp-nav">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
                 <span>Order</span>
@@ -1431,7 +2039,7 @@
     </nav>
 
     <!-- ========== HERO ========== -->
-    <section class="hero">
+    <section class="hero" id="heroSection">
         <div class="container">
             <div class="hero-badge">✨ 5.000+ Pelanggan Puas</div>
             <h1>Layanan Digital <span class="highlight">Premium</span><br />Harga Terjangkau</h1>
@@ -1481,11 +2089,17 @@
             </div>
         </div>
 
-        <!-- PRODUCT GRID -->
+        <!-- KATALOG PRODUK -->
         <div class="product-grid" id="productGrid"></div>
 
+        <!-- CHECKOUT PAGE -->
+        <div class="page-checkout" id="checkoutPage"></div>
+
+        <!-- PAYMENT PAGE -->
+        <div class="page-payment" id="paymentPage"></div>
+
         <!-- TESTIMONI -->
-        <section class="testimoni-section">
+        <section class="testimoni-section" id="testimoniSection">
             <h2 style="font-size:clamp(1rem,2vw,1.3rem);font-weight:800;text-align:center;margin-bottom:14px;">
                 💬 Testimoni Pembeli
             </h2>
@@ -1553,6 +2167,39 @@
         </div>
     </div>
 
+    <!-- ========== CART DRAWER ========== -->
+    <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+    <div class="drawer" id="cartDrawer">
+        <div class="drawer-header">
+            <h2>🛒 Keranjang <span id="drawerItemCount">(0)</span></h2>
+            <button class="drawer-close" onclick="toggleDrawer()">✕</button>
+        </div>
+        <div class="drawer-items" id="drawerItems">
+            <div class="drawer-empty">
+                <span class="empty-icon">🛒</span>
+                <p>Keranjang kosong</p>
+                <p style="font-size:0.8rem;margin-top:4px;opacity:0.6;">Yuk mulai belanja!</p>
+            </div>
+        </div>
+        <div class="drawer-footer" id="drawerFooter" style="display:none;">
+            <div class="price-row">
+                <span>Harga normal</span>
+                <span class="original" id="drawerOriginal">Rp 0</span>
+            </div>
+            <div class="price-row">
+                <span>Kamu hemat</span>
+                <span class="save" id="drawerSave">Rp 0</span>
+            </div>
+            <div class="total-row">
+                <span>Total pembayaran</span>
+                <span class="total-price" id="drawerTotal">Rp 0</span>
+            </div>
+            <button class="btn-checkout-drawer" onclick="proceedToCheckout()">
+                Lanjut pembayaran ➔
+            </button>
+        </div>
+    </div>
+
     <!-- ========== FLOATING WA ========== -->
     <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" class="float-wa" aria-label="WhatsApp">
         <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
@@ -1562,9 +2209,9 @@
     <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
     <script>
-        // ============================================================
+        // ================================================================
         // DATA PRODUK
-        // ============================================================
+        // ================================================================
         const produk = [{
             id: 'am',
             nama: 'Alight Motion',
@@ -1574,8 +2221,8 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: 'Sharing 1 Tahun', harga: '3000', desk: 'Maksimal 5 device. Garansi 3 bulan.' },
-                { nama: 'Private 1 Tahun', harga: '8000', desk: 'Bisa ganti email. Akun private.' }
+                { id: 'am-sharing', nama: 'Sharing 1 Tahun', harga: '3000', desk: 'Maksimal 5 device. Garansi 3 bulan.' },
+                { id: 'am-private', nama: 'Private 1 Tahun', harga: '8000', desk: 'Bisa ganti email. Akun private.' }
             ]
         }, {
             id: 'capcut',
@@ -1586,10 +2233,10 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: '7 Hari Private', harga: '30000', desk: 'Akun private. Garansi 7 hari.' },
-                { nama: '7 Hari Sharing', harga: '23500', desk: 'Maksimal 1 device. Garansi 7 hari.' },
-                { nama: '1 Bulan Private', harga: '75000', desk: 'Akun private. Garansi 25 hari.' },
-                { nama: '1 Bulan Sharing', harga: '60000', desk: 'Maksimal 1 device. Garansi 25 hari.' }
+                { id: 'capcut-7d-private', nama: '7 Hari Private', harga: '30000', desk: 'Akun private. Garansi 7 hari.' },
+                { id: 'capcut-7d-sharing', nama: '7 Hari Sharing', harga: '23500', desk: 'Maksimal 1 device. Garansi 7 hari.' },
+                { id: 'capcut-1m-private', nama: '1 Bulan Private', harga: '75000', desk: 'Akun private. Garansi 25 hari.' },
+                { id: 'capcut-1m-sharing', nama: '1 Bulan Sharing', harga: '60000', desk: 'Maksimal 1 device. Garansi 25 hari.' }
             ]
         }, {
             id: 'netflix',
@@ -1600,11 +2247,11 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: '7 Hari (1P2U)', harga: '22000', desk: '1 profil 2 user. Garansi 7 hari.' },
-                { nama: '1 Bulan (1P2U)', harga: '35000', desk: '1 profil 2 user. Garansi 20 hari.' },
-                { nama: '1 Bulan (1P1U)', harga: '48000', desk: '1 profil private. Full garansi.' },
-                { nama: '1 Bulan SEMI PRIVATE', harga: '75000', desk: '1 profil private. Full garansi.' },
-                { nama: 'Netflix Crack', harga: '15000', desk: 'Garansi 24 jam.' }
+                { id: 'netflix-7d', nama: '7 Hari (1P2U)', harga: '22000', desk: '1 profil 2 user. Garansi 7 hari.' },
+                { id: 'netflix-1m-1p2u', nama: '1 Bulan (1P2U)', harga: '35000', desk: '1 profil 2 user. Garansi 20 hari.' },
+                { id: 'netflix-1m-1p1u', nama: '1 Bulan (1P1U)', harga: '48000', desk: '1 profil private. Full garansi.' },
+                { id: 'netflix-1m-semi', nama: '1 Bulan SEMI PRIVATE', harga: '75000', desk: '1 profil private. Full garansi.' },
+                { id: 'netflix-crack', nama: 'Netflix Crack', harga: '15000', desk: 'Garansi 24 jam.' }
             ]
         }, {
             id: 'spotify',
@@ -1615,8 +2262,8 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Indplan 1 Bulan', harga: '32000', desk: '1 perangkat. Garansi 20 hari.' },
-                { nama: 'Famplan 1 Bulan', harga: '25000', desk: 'Garansi 20 hari.' }
+                { id: 'spotify-indplan', nama: 'Indplan 1 Bulan', harga: '32000', desk: '1 perangkat. Garansi 20 hari.' },
+                { id: 'spotify-famplan', nama: 'Famplan 1 Bulan', harga: '25000', desk: 'Garansi 20 hari.' }
             ]
         }, {
             id: 'bstation',
@@ -1627,9 +2274,9 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '15000', desk: 'Maksimal 1 device. Garansi 25 hari.' },
-                { nama: 'Private 14 Hari', harga: '17500', desk: 'Akun private. Garansi Full.' },
-                { nama: 'Private 1 Bulan', harga: '31000', desk: 'Akun private. Garansi Full.' }
+                { id: 'bstation-sharing', nama: 'Sharing 1 Bulan', harga: '15000', desk: 'Maksimal 1 device. Garansi 25 hari.' },
+                { id: 'bstation-private-14d', nama: 'Private 14 Hari', harga: '17500', desk: 'Akun private. Garansi Full.' },
+                { id: 'bstation-private-1m', nama: 'Private 1 Bulan', harga: '31000', desk: 'Akun private. Garansi Full.' }
             ]
         }, {
             id: 'canva',
@@ -1640,9 +2287,9 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: 'Invite 1 Bulan', harga: '2500', desk: 'Akun Private. via invite.' },
-                { nama: 'Invite 1 Tahun', harga: '25000', desk: 'Akun Private. via invite.' },
-                { nama: 'Head (Owner) 1 Bulan', harga: '13000', desk: 'Cocok untuk tim. Bisa invite 100 anggota.' }
+                { id: 'canva-invite-1m', nama: 'Invite 1 Bulan', harga: '2500', desk: 'Akun Private. via invite.' },
+                { id: 'canva-invite-1y', nama: 'Invite 1 Tahun', harga: '25000', desk: 'Akun Private. via invite.' },
+                { id: 'canva-head', nama: 'Head (Owner) 1 Bulan', harga: '13000', desk: 'Cocok untuk tim. Bisa invite 100 anggota.' }
             ]
         }, {
             id: 'disney',
@@ -1653,8 +2300,8 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '30000', desk: 'Maksimal 1 device. Garansi 25 hari.' },
-                { nama: 'Sharing 7 Hari', harga: '20000', desk: 'Maksimal 1 device. Garansi 7 hari.' }
+                { id: 'disney-sharing-1m', nama: 'Sharing 1 Bulan', harga: '30000', desk: 'Maksimal 1 device. Garansi 25 hari.' },
+                { id: 'disney-sharing-7d', nama: 'Sharing 7 Hari', harga: '20000', desk: 'Maksimal 1 device. Garansi 7 hari.' }
             ]
         }, {
             id: 'youtube',
@@ -1665,8 +2312,8 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: '1 Bulan', harga: '8000', desk: 'Akun Private. Garansi 25 hari.' },
-                { nama: 'Famhead 1 Bulan', harga: '17000', desk: 'Akun dari pembeli. Bisa invite 5 member.' }
+                { id: 'youtube-1m', nama: '1 Bulan', harga: '8000', desk: 'Akun Private. Garansi 25 hari.' },
+                { id: 'youtube-famhead', nama: 'Famhead 1 Bulan', harga: '17000', desk: 'Akun dari pembeli. Bisa invite 5 member.' }
             ]
         }, {
             id: 'gemini',
@@ -1677,11 +2324,11 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '10000', desk: 'Maksimal 1 device. Garansi 1 bulan.' },
-                { nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
-                { nama: 'Private 2 Bulan', harga: '28000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
-                { nama: 'Private 3 Bulan', harga: '35000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
-                { nama: 'Private 4 Bulan', harga: '45000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }
+                { id: 'gemini-sharing', nama: 'Sharing 1 Bulan', harga: '10000', desk: 'Maksimal 1 device. Garansi 1 bulan.' },
+                { id: 'gemini-private-1m', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
+                { id: 'gemini-private-2m', nama: 'Private 2 Bulan', harga: '28000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
+                { id: 'gemini-private-3m', nama: 'Private 3 Bulan', harga: '35000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
+                { id: 'gemini-private-4m', nama: 'Private 4 Bulan', harga: '45000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }
             ]
         }, {
             id: 'prime',
@@ -1692,8 +2339,8 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi 15 hari.' },
-                { nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun private. Garansi Full.' }
+                { id: 'prime-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi 15 hari.' },
+                { id: 'prime-private', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun private. Garansi Full.' }
             ]
         }, {
             id: 'viu',
@@ -1704,7 +2351,7 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Private 1 Tahun', harga: '25000', desk: 'Akun Private. Garansi 3 bulan.' }
+                { id: 'viu-private-1y', nama: 'Private 1 Tahun', harga: '25000', desk: 'Akun Private. Garansi 3 bulan.' }
             ]
         }, {
             id: 'vidio',
@@ -1715,11 +2362,11 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Sharing 1B (Mobile)', harga: '30000', desk: 'Khusus HP/Mobile. Garansi 25 hari.' },
-                { nama: 'Private 1B (Mobile)', harga: '60000', desk: 'Khusus HP/Mobile. Private.' },
-                { nama: 'Sharing 1B (TV)', harga: '18000', desk: 'Khusus Smart TV. Garansi 25 hari.' },
-                { nama: 'Private 1B (TV)', harga: '30000', desk: 'Khusus Smart TV. Private.' },
-                { nama: '2 Bulan (TV)', harga: '45000', desk: 'Khusus Smart TV. Garansi 30 hari.' }
+                { id: 'vidio-sharing-mobile', nama: 'Sharing 1B (Mobile)', harga: '30000', desk: 'Khusus HP/Mobile. Garansi 25 hari.' },
+                { id: 'vidio-private-mobile', nama: 'Private 1B (Mobile)', harga: '60000', desk: 'Khusus HP/Mobile. Private.' },
+                { id: 'vidio-sharing-tv', nama: 'Sharing 1B (TV)', harga: '18000', desk: 'Khusus Smart TV. Garansi 25 hari.' },
+                { id: 'vidio-private-tv', nama: 'Private 1B (TV)', harga: '30000', desk: 'Khusus Smart TV. Private.' },
+                { id: 'vidio-2m-tv', nama: '2 Bulan (TV)', harga: '45000', desk: 'Khusus Smart TV. Garansi 30 hari.' }
             ]
         }, {
             id: 'zoom',
@@ -1730,8 +2377,8 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Private 14d (No Garansi)', harga: '8000', desk: 'Zoom Pro 14 hari. Tanpa garansi.' },
-                { nama: 'Private 14d (Full Garansi)', harga: '19000', desk: 'Zoom Pro 14 hari. Garansi full.' }
+                { id: 'zoom-14d-no', nama: 'Private 14d (No Garansi)', harga: '8000', desk: 'Zoom Pro 14 hari. Tanpa garansi.' },
+                { id: 'zoom-14d-full', nama: 'Private 14d (Full Garansi)', harga: '19000', desk: 'Zoom Pro 14 hari. Garansi full.' }
             ]
         }, {
             id: 'hbomax',
@@ -1742,7 +2389,7 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '23000', desk: 'Paket Ultimate. Garansi 20 hari.' }
+                { id: 'hbomax-sharing', nama: 'Sharing 1 Bulan', harga: '23000', desk: 'Paket Ultimate. Garansi 20 hari.' }
             ]
         }, {
             id: 'iqiyi',
@@ -1753,11 +2400,11 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Premium 18 Hari', harga: '10000', desk: 'Sharing, 1 device.' },
-                { nama: 'Premium Sharing 1B', harga: '18000', desk: 'Sharing, 1 device.' },
-                { nama: 'Standard Sharing 1B', harga: '12000', desk: 'Sharing, 1 device.' },
-                { nama: 'Premium Private 1B', harga: '50000', desk: 'Akun private.' },
-                { nama: 'Standard Private 1B', harga: '40000', desk: 'Akun private.' }
+                { id: 'iqiyi-premium-18d', nama: 'Premium 18 Hari', harga: '10000', desk: 'Sharing, 1 device.' },
+                { id: 'iqiyi-premium-sharing', nama: 'Premium Sharing 1B', harga: '18000', desk: 'Sharing, 1 device.' },
+                { id: 'iqiyi-standard-sharing', nama: 'Standard Sharing 1B', harga: '12000', desk: 'Sharing, 1 device.' },
+                { id: 'iqiyi-premium-private', nama: 'Premium Private 1B', harga: '50000', desk: 'Akun private.' },
+                { id: 'iqiyi-standard-private', nama: 'Standard Private 1B', harga: '40000', desk: 'Akun private.' }
             ]
         }, {
             id: 'wink',
@@ -1768,8 +2415,8 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' },
-                { nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }
+                { id: 'wink-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' },
+                { id: 'wink-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }
             ]
         }, {
             id: 'loklok',
@@ -1780,8 +2427,8 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Sharing 1B Basic', harga: '25000', desk: 'Paket Basic. 1 device.' },
-                { nama: 'Sharing 1B Standar', harga: '35000', desk: 'Paket Standard. 1 device.' }
+                { id: 'loklok-basic', nama: 'Sharing 1B Basic', harga: '25000', desk: 'Paket Basic. 1 device.' },
+                { id: 'loklok-standar', nama: 'Sharing 1B Standar', harga: '35000', desk: 'Paket Standard. 1 device.' }
             ]
         }, {
             id: 'getcontact',
@@ -1792,8 +2439,8 @@
             badge: 'HOT',
             badgeClass: 'hot',
             varian: [
-                { nama: 'Cek Tag Nomor', harga: '1000', desk: 'Kirim nomor tujuan.' },
-                { nama: 'Premium 1 Bulan', harga: '15000', desk: 'Garansi 20 hari.' }
+                { id: 'getcontact-tag', nama: 'Cek Tag Nomor', harga: '1000', desk: 'Kirim nomor tujuan.' },
+                { id: 'getcontact-premium', nama: 'Premium 1 Bulan', harga: '15000', desk: 'Garansi 20 hari.' }
             ]
         }, {
             id: 'meitu',
@@ -1804,8 +2451,8 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' },
-                { nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }
+                { id: 'meitu-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' },
+                { id: 'meitu-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }
             ]
         }, {
             id: 'wetv',
@@ -1816,9 +2463,9 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Sharing 3U', harga: '18000', desk: 'Sharing 3 User. Garansi backfree.' },
-                { nama: 'Sharing 6U', harga: '9000', desk: 'Sharing 6 User. Garansi backfree.' },
-                { nama: 'Private 1B', harga: '49000', desk: 'Akun private. Garansi backfree.' }
+                { id: 'wetv-sharing-3u', nama: 'Sharing 3U', harga: '18000', desk: 'Sharing 3 User. Garansi backfree.' },
+                { id: 'wetv-sharing-6u', nama: 'Sharing 6U', harga: '9000', desk: 'Sharing 6 User. Garansi backfree.' },
+                { id: 'wetv-private', nama: 'Private 1B', harga: '49000', desk: 'Akun private. Garansi backfree.' }
             ]
         }, {
             id: 'crunchyroll',
@@ -1829,8 +2476,8 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Private 1 Bulan', harga: '20500', desk: 'Akun private. Garansi backfree.' },
-                { nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi backfree.' }
+                { id: 'crunchyroll-private', nama: 'Private 1 Bulan', harga: '20500', desk: 'Akun private. Garansi backfree.' },
+                { id: 'crunchyroll-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi backfree.' }
             ]
         }, {
             id: 'vision',
@@ -1841,13 +2488,13 @@
             badge: '',
             badgeClass: '',
             varian: [
-                { nama: 'Private 1 Bulan', harga: '10000', desk: 'Akun private. Garansi backfree.' }
+                { id: 'vision-private', nama: 'Private 1 Bulan', harga: '10000', desk: 'Akun private. Garansi backfree.' }
             ]
         }];
 
-        // ============================================================
+        // ================================================================
         // TESTIMONI & FAQ
-        // ============================================================
+        // ================================================================
         const testimoniData = [
             { bintang: 5, isi: 'Prosesnya cepat banget, CapCut Pro langsung aktif. Recommended!', nama: 'Andi - Jakarta' },
             { bintang: 5, isi: 'Netflix murah dan garansi jelas. Udah 3x beli di sini.', nama: 'Siti - Surabaya' },
@@ -1862,16 +2509,36 @@
             { q: 'Bisa refund kalau berubah pikiran?', a: 'Refund hanya untuk kendala di pihak kami (akun tidak bisa diakses), bukan karena perubahan keputusan pembeli.' }
         ];
 
-        // ============================================================
+        // ================================================================
         // STATE
-        // ============================================================
-        let kategoriAktif = 'all';
-        let kataKunci = '';
-        let urutanAktif = 'default';
+        // ================================================================
+        let state = {
+            cart: [],
+            isModalOpen: false,
+            isDrawerOpen: false,
+            isCheckout: false,
+            isPayment: false,
+            selectedProduct: null,
+            formData: {
+                name: '',
+                wa: '',
+                email: '',
+                note: ''
+            },
+            orderData: null,
+            errors: {},
+            toast: null,
+            toastTimer: null
+        };
 
-        // ============================================================
+        // ================================================================
+        // DOM REFS
+        // ================================================================
+        let $ = (id) => document.getElementById(id);
+
+        // ================================================================
         // UTILITY
-        // ============================================================
+        // ================================================================
         function formatRupiah(num) {
             return 'Rp ' + new Intl.NumberFormat('id-ID').format(num);
         }
@@ -1884,32 +2551,163 @@
             return Math.min(...p.varian.map(v => parseHarga(v.harga)));
         }
 
-        // ============================================================
+        function generateOrderId() {
+            const now = new Date();
+            const date = now.getFullYear() +
+                String(now.getMonth() + 1).padStart(2, '0') +
+                String(now.getDate()).padStart(2, '0');
+            const random = Math.random().toString(16).substring(2, 8).toUpperCase();
+            return `DSI-${date}-${random}`;
+        }
+
+        // ================================================================
         // TOAST
-        // ============================================================
+        // ================================================================
         function showToast(title, message, type = 'success') {
-            const container = document.getElementById('toastContainer');
+            const container = $('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.innerHTML = `
-                <span class="toast-icon ${type}">${type === 'success' ? '✅' : '❌'}</span>
+                <span class="toast-icon ${type}">${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
                 <div class="toast-content">
                     <div class="toast-title">${title}</div>
                     <div class="toast-msg">${message}</div>
                 </div>
             `;
             container.appendChild(toast);
-            setTimeout(() => {
+
+            clearTimeout(state.toastTimer);
+            state.toastTimer = setTimeout(() => {
                 toast.classList.add('fade-out');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
-        // ============================================================
-        // RENDER PRODUCTS
-        // ============================================================
+        // ================================================================
+        // CART FUNCTIONS
+        // ================================================================
+        function getCartTotal() {
+            return state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        }
+
+        function getCartOriginalTotal() {
+            return state.cart.reduce((sum, item) => sum + ((item.originalPrice || item.price * 1.5) * item.qty), 0);
+        }
+
+        function getCartDiscount() {
+            return getCartOriginalTotal() - getCartTotal();
+        }
+
+        function getCartCount() {
+            return state.cart.reduce((sum, item) => sum + item.qty, 0);
+        }
+
+        function addToCart(productId, variantId) {
+            const product = produk.find(p => p.id === productId);
+            if (!product) return;
+
+            const variant = product.varian.find(v => v.id === variantId);
+            if (!variant) return;
+
+            // Cek apakah sudah ada di keranjang
+            const existing = state.cart.find(item => item.variantId === variantId);
+            if (existing) {
+                showToast('⚠️ Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
+                state.isDrawerOpen = true;
+                renderAll();
+                return;
+            }
+
+            // Tambahkan ke keranjang
+            state.cart.push({
+                productId: product.id,
+                variantId: variant.id,
+                name: product.nama,
+                variant: variant.nama,
+                price: parseHarga(variant.harga),
+                originalPrice: parseHarga(variant.harga) * 1.5,
+                icon: product.icon,
+                qty: 1
+            });
+
+            // Tutup modal, buka drawer
+            state.isModalOpen = false;
+            state.selectedProduct = null;
+            state.isDrawerOpen = true;
+
+            showToast('✅ Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
+            renderAll();
+        }
+
+        function removeFromCart(index) {
+            state.cart.splice(index, 1);
+            if (state.cart.length === 0) {
+                state.isDrawerOpen = false;
+            }
+            renderAll();
+        }
+
+        function toggleDrawer() {
+            state.isDrawerOpen = !state.isDrawerOpen;
+            renderAll();
+        }
+
+        // ================================================================
+        // MODAL FUNCTIONS
+        // ================================================================
+        function bukaModal(productId) {
+            const p = produk.find(item => item.id === productId);
+            if (!p) return;
+
+            state.selectedProduct = p;
+            state.isModalOpen = true;
+            renderAll();
+        }
+
+        function tutupModal() {
+            state.isModalOpen = false;
+            state.selectedProduct = null;
+            renderAll();
+        }
+
+        // ================================================================
+        // FILTER, SEARCH, SORT
+        // ================================================================
+        let kategoriAktif = 'all';
+        let kataKunci = '';
+        let urutanAktif = 'default';
+
+        function filterProduk(kategori) {
+            kategoriAktif = kategori;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === kategori);
+            });
+            renderProducts();
+        }
+
+        function cariProduk(value) {
+            kataKunci = value;
+            renderProducts();
+        }
+
+        function urutkanProduk(value) {
+            urutanAktif = value;
+            renderProducts();
+        }
+
+        // ================================================================
+        // RENDER: PRODUCTS
+        // ================================================================
         function renderProducts() {
-            const grid = document.getElementById('productGrid');
+            const grid = $('productGrid');
+            if (!grid) return;
+
+            // Sembunyikan grid jika di checkout/payment
+            if (state.isCheckout || state.isPayment) {
+                grid.style.display = 'none';
+                return;
+            }
+            grid.style.display = 'grid';
 
             let data = produk;
             if (kategoriAktif !== 'all') {
@@ -1937,8 +2735,10 @@
 
             grid.innerHTML = data.map(p => {
                 const badgeHtml = p.badge ? `<span class="badge ${p.badgeClass}">${p.badge}</span>` : '';
+                const minPrice = hargaTermurah(p);
+                const variantCount = p.varian.length;
                 return `
-                    <div class="product-card" onclick="bukaModal('${p.id}')" role="button" tabindex="0" aria-label="Lihat detail ${p.nama}">
+                    <div class="product-card">
                         ${badgeHtml}
                         <div class="product-icon">
                             <img src="${p.icon}" alt="${p.nama}" loading="lazy" onerror="this.style.display='none'" />
@@ -1946,102 +2746,444 @@
                         <div class="category">${p.kategori}</div>
                         <h3>${p.nama}</h3>
                         <div class="subtitle">${p.subtitle}</div>
-                        <div class="sold">⭐ 4.9 · 100+ terjual</div>
+                        <div class="price-row">
+                            <span class="price-start">${formatRupiah(minPrice)} <small>mulai</small></span>
+                            <span class="variant-count">${variantCount} variasi</span>
+                        </div>
+                        <button class="btn-select-paket" onclick="event.stopPropagation();bukaModal('${p.id}')">
+                            🛍️ Pilih paket
+                        </button>
                     </div>
                 `;
             }).join('');
         }
 
-        // ============================================================
-        // FILTER, SEARCH, SORT
-        // ============================================================
-        function filterProduk(kategori) {
-            kategoriAktif = kategori;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.filter === kategori);
-            });
-            renderProducts();
-        }
+        // ================================================================
+        // RENDER: MODAL
+        // ================================================================
+        function renderModal() {
+            const modal = $('productModal');
+            if (!modal) return;
 
-        function cariProduk(value) {
-            kataKunci = value;
-            renderProducts();
-        }
+            if (!state.isModalOpen || !state.selectedProduct) {
+                modal.className = 'modal' + (state.isModalOpen ? '' : '');
+                modal.style.display = 'none';
+                return;
+            }
 
-        function urutkanProduk(value) {
-            urutanAktif = value;
-            renderProducts();
-        }
+            const p = state.selectedProduct;
+            modal.style.display = 'flex';
+            modal.className = 'modal';
 
-        // ============================================================
-        // MODAL VARIAN
-        // ============================================================
-        function bukaModal(productId) {
-            const p = produk.find(item => item.id === productId);
-            if (!p) return;
+            $('modalTitle').textContent = p.nama;
+            $('modalSub').textContent = p.kategori + ' · ' + p.subtitle;
 
-            document.getElementById('modalTitle').textContent = p.nama;
-            document.getElementById('modalSub').textContent = p.kategori + ' · ' + p.subtitle;
-
-            const img = document.getElementById('modalImg');
+            const img = $('modalImg');
             img.src = p.icon;
             img.onerror = () => { img.style.display = 'none'; };
             img.style.display = '';
 
-            const container = document.getElementById('varianList');
-            container.innerHTML = p.varian.map(v => {
-                const waMessage = encodeURIComponent(
-                    `Halo Admin DigishopID, saya mau order ${p.nama} - ${v.nama} (${v.desk}) dengan harga ${formatRupiah(parseHarga(v.harga))}. Apakah tersedia?`
-                );
-                return `
-                    <div class="varian-item">
-                        <div class="varian-top">
-                            <div class="varian-info">
-                                <div class="varian-name">${v.nama}</div>
-                                <div class="varian-desc">${v.desk}</div>
-                            </div>
-                            <div class="varian-price">${formatRupiah(parseHarga(v.harga))}</div>
+            const container = $('varianList');
+            container.innerHTML = p.varian.map(v => `
+                <div class="varian-item">
+                    <div class="varian-top">
+                        <div class="varian-info">
+                            <div class="varian-name">${v.nama}</div>
+                            <div class="varian-desc">${v.desk}</div>
                         </div>
-                        <a href="https://wa.me/6283160593305?text=${waMessage}" target="_blank" class="btn-wa-beli">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
-                            Beli Sekarang
-                        </a>
+                        <div class="varian-price">${formatRupiah(parseHarga(v.harga))}</div>
+                    </div>
+                    <button class="btn-pilih-varian" onclick="addToCart('${p.id}','${v.id}')">
+                        🛒 Pilih Paket
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // ================================================================
+        // RENDER: DRAWER
+        // ================================================================
+        function renderDrawer() {
+            const overlay = $('drawerOverlay');
+            const drawer = $('cartDrawer');
+            if (!overlay || !drawer) return;
+
+            overlay.className = 'drawer-overlay' + (state.isDrawerOpen ? ' open' : '');
+            drawer.className = 'drawer' + (state.isDrawerOpen ? ' open' : '');
+
+            if (!state.isDrawerOpen) {
+                return;
+            }
+
+            const items = state.cart;
+            const totalItems = getCartCount();
+            const total = getCartTotal();
+            const originalTotal = getCartOriginalTotal();
+            const discount = getCartDiscount();
+
+            $('drawerItemCount').textContent = `(${totalItems})`;
+            $('cartBadge').textContent = totalItems;
+
+            const itemsContainer = $('drawerItems');
+            const footer = $('drawerFooter');
+
+            if (items.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="drawer-empty">
+                        <span class="empty-icon">🛒</span>
+                        <p>Keranjang kosong</p>
+                        <p style="font-size:0.8rem;margin-top:4px;opacity:0.6;">Yuk mulai belanja!</p>
                     </div>
                 `;
-            }).join('');
+                footer.style.display = 'none';
+                return;
+            }
 
-            document.getElementById('productModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            footer.style.display = 'block';
+
+            itemsContainer.innerHTML = items.map((item, idx) => `
+                <div class="drawer-item">
+                    <div class="item-icon">
+                        <img src="${item.icon}" alt="${item.name}" onerror="this.style.display='none'" />
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-variant">${item.variant}</div>
+                        <div class="item-price">${formatRupiah(item.price)}</div>
+                    </div>
+                    <button class="btn-remove" onclick="removeFromCart(${idx})">✕</button>
+                </div>
+            `).join('');
+
+            $('drawerOriginal').textContent = formatRupiah(originalTotal);
+            $('drawerSave').textContent = discount > 0 ? `-${formatRupiah(discount)}` : 'Rp 0';
+            $('drawerTotal').textContent = formatRupiah(total);
         }
 
-        function tutupModal() {
-            document.getElementById('productModal').classList.add('closing');
-            setTimeout(() => {
-                document.getElementById('productModal').style.display = 'none';
-                document.getElementById('productModal').classList.remove('closing');
-                document.body.style.overflow = '';
-            }, 250);
+        // ================================================================
+        // RENDER: CHECKOUT
+        // ================================================================
+        function renderCheckout() {
+            const container = $('checkoutPage');
+            if (!container) return;
+
+            if (!state.isCheckout) {
+                container.className = 'page-checkout';
+                container.innerHTML = '';
+                // Tampilkan kembali hero & testimoni
+                $('heroSection').style.display = 'block';
+                $('testimoniSection').style.display = 'block';
+                return;
+            }
+
+            $('heroSection').style.display = 'none';
+            $('testimoniSection').style.display = 'none';
+
+            const total = getCartTotal();
+
+            container.className = 'page-checkout active';
+            container.innerHTML = `
+                <button class="btn-back" onclick="goBackFromCheckout()">← Kembali ke toko</button>
+                <div class="checkout-grid">
+                    <div class="checkout-form">
+                        <h2>LANGKAH TERAKHIR</h2>
+                        <div class="form-sub">Lengkapi pesananmu — Pesanan akan dibayar melalui QRIS DigishopID</div>
+
+                        <div class="form-group ${state.errors.name ? 'error' : ''}">
+                            <label>Nama lengkap</label>
+                            <input type="text" id="inputName" placeholder="Contoh: Budi Santoso" value="${state.formData.name}" oninput="updateForm('name', this.value)" />
+                            <div class="error-text">Nama lengkap wajib diisi</div>
+                        </div>
+
+                        <div class="form-group ${state.errors.wa ? 'error' : ''}">
+                            <label>Nomor WhatsApp</label>
+                            <input type="text" id="inputWa" placeholder="0812 3456 7890" value="${state.formData.wa}" oninput="updateForm('wa', this.value)" />
+                            <div class="error-text">Nomor WhatsApp wajib diisi</div>
+                        </div>
+
+                        <div class="form-group ${state.errors.email ? 'error' : ''}">
+                            <label>Email</label>
+                            <input type="email" id="inputEmail" placeholder="nama@email.com" value="${state.formData.email}" oninput="updateForm('email', this.value)" />
+                            <div class="error-text">Email wajib diisi</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Catatan (opsional)</label>
+                            <textarea id="inputNote" placeholder="Contoh: Saya mau pakai untuk Android" oninput="updateForm('note', this.value)">${state.formData.note}</textarea>
+                        </div>
+
+                        <div class="payment-method active">
+                            <div class="pm-icon">QR</div>
+                            <div class="pm-info">
+                                <div class="pm-name">QRIS DigishopID</div>
+                                <div class="pm-desc">Pembayaran manual — verifikasi via WhatsApp</div>
+                            </div>
+                            <span class="pm-check">✓</span>
+                        </div>
+
+                        <button class="btn-submit-order" onclick="submitOrder()">
+                            Buat pesanan & lihat QRIS — ${formatRupiah(total)}
+                        </button>
+                    </div>
+
+                    <div class="order-summary-card">
+                        <h3>📋 Ringkasan Pesanan</h3>
+                        ${state.cart.map(item => `
+                            <div class="summary-item">
+                                <span>${item.name} — ${item.variant}</span>
+                                <span>${formatRupiah(item.price)}</span>
+                            </div>
+                        `).join('')}
+                        ${getCartDiscount() > 0 ? `
+                            <div class="summary-item" style="color:var(--success);">
+                                <span>Diskon</span>
+                                <span>-${formatRupiah(getCartDiscount())}</span>
+                            </div>
+                        ` : ''}
+                        <div class="summary-total">
+                            <span>Total</span>
+                            <span class="total-amount">${formatRupiah(total)}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
-        // ============================================================
-        // QRIS MODAL
-        // ============================================================
+        // ================================================================
+        // RENDER: PAYMENT
+        // ================================================================
+        function renderPayment() {
+            const container = $('paymentPage');
+            if (!container) return;
+
+            if (!state.isPayment || !state.orderData) {
+                container.className = 'page-payment';
+                container.innerHTML = '';
+                return;
+            }
+
+            $('heroSection').style.display = 'none';
+            $('testimoniSection').style.display = 'none';
+
+            const order = state.orderData;
+            container.className = 'page-payment active';
+
+            container.innerHTML = `
+                <div class="payment-header">
+                    <div class="success-icon">✓</div>
+                    <div class="success-label">PESANAN BERHASIL DIBUAT</div>
+                    <h1>Bayar dengan QRIS</h1>
+                    <p>Pindai QRIS di bawah untuk menyelesaikan pembayaran</p>
+                </div>
+
+                <div class="payment-grid">
+                    <div class="qris-card">
+                        <div class="qris-label">📱 QRIS DigishopID</div>
+                        <div class="qris-image">
+                            <img src="qris.jpg" alt="QRIS DigishopID" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect width=%22300%22 height=%22300%22 fill=%22%2314102A%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%239494B8%22 font-family=%22sans-serif%22 font-size=%2216%22%3EQRIS%3C/text%3E%3C/svg%3E'" />
+                        </div>
+                        <button class="btn-save-qris" onclick="downloadQRIS()" style="width:100%;justify-content:center;background:var(--success);color:white;border:none;padding:10px 16px;border-radius:50px;font-weight:700;font-size:0.85rem;cursor:pointer;transition:var(--transition);font-family:inherit;display:flex;align-items:center;gap:6px;">
+                            📥 Simpan gambar QRIS
+                        </button>
+                    </div>
+
+                    <div class="order-detail-card">
+                        <div class="detail-row">
+                            <span class="detail-label">KODE PESANAN</span>
+                            <span class="detail-value code">${order.orderId}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">TOTAL YANG HARUS DIBAYAR</span>
+                            <span class="detail-value price">${formatRupiah(order.total)}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Nama</span>
+                            <span class="detail-value">${order.name}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">WhatsApp</span>
+                            <span class="detail-value">${order.wa}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Email</span>
+                            <span class="detail-value">${order.email}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="payment-instructions">
+                    <div class="inst-title">📝 Instruksi setelah membayar</div>
+                    <ol class="inst-list">
+                        <li>Simpan bukti transaksi QRIS (screenshot)</li>
+                        <li>Klik tombol konfirmasi di bawah</li>
+                        <li>Kirim bukti transfer ke WhatsApp Admin</li>
+                    </ol>
+                </div>
+
+                <div class="alert-box">
+                    <span class="alert-icon">⏱️</span>
+                    Verifikasi manual biasanya memerlukan waktu 1-10 menit setelah bukti dikirim
+                </div>
+
+                <button class="btn-wa-confirm" onclick="confirmPayment()">
+                    💬 Saya sudah bayar — Kirim bukti
+                </button>
+            `;
+        }
+
+        // ================================================================
+        // RENDER ALL
+        // ================================================================
+        function renderAll() {
+            renderProducts();
+            renderModal();
+            renderDrawer();
+            renderCheckout();
+            renderPayment();
+            updateCartBadge();
+        }
+
+        function updateCartBadge() {
+            const badge = $('cartBadge');
+            if (badge) {
+                badge.textContent = getCartCount();
+            }
+        }
+
+        // ================================================================
+        // CHECKOUT ACTIONS
+        // ================================================================
+        function proceedToCheckout() {
+            if (state.cart.length === 0) {
+                showToast('⚠️ Keranjang kosong', 'Tambahkan produk dulu ya!', 'warning');
+                return;
+            }
+            state.isDrawerOpen = false;
+            state.isCheckout = true;
+            state.errors = {};
+            renderAll();
+        }
+
+        function goBackFromCheckout() {
+            if (!confirm('Kembali ke toko? Data yang diisi akan hilang.')) return;
+            state.isCheckout = false;
+            state.formData = { name: '', wa: '', email: '', note: '' };
+            state.errors = {};
+            renderAll();
+        }
+
+        function updateForm(field, value) {
+            state.formData[field] = value;
+            if (state.errors[field]) {
+                state.errors[field] = false;
+            }
+            renderAll();
+        }
+
+        function submitOrder() {
+            const { name, wa, email } = state.formData;
+            const errors = {};
+
+            if (!name.trim()) errors.name = true;
+            if (!wa.trim()) errors.wa = true;
+            if (!email.trim()) errors.email = true;
+
+            if (Object.keys(errors).length > 0) {
+                state.errors = errors;
+                renderAll();
+                showToast('⚠️ Data belum lengkap', 'Mohon isi semua field yang wajib', 'warning');
+                return;
+            }
+
+            const orderId = generateOrderId();
+            const total = getCartTotal();
+
+            state.orderData = {
+                orderId,
+                name: name.trim(),
+                wa: wa.trim(),
+                email: email.trim(),
+                note: state.formData.note.trim(),
+                items: [...state.cart],
+                total
+            };
+
+            state.isCheckout = false;
+            state.isPayment = true;
+            renderAll();
+        }
+
+        // ================================================================
+        // PAYMENT ACTIONS
+        // ================================================================
+        function confirmPayment() {
+            const order = state.orderData;
+            if (!order) return;
+
+            const adminNumber = '6283160593305';
+
+            const itemsText = order.items.map(i =>
+                `- ${i.name} (${i.variant}) = ${formatRupiah(i.price)}`
+            ).join('\n');
+
+            const message = encodeURIComponent(
+                `HALO ADMIN DIGISHOPID! 🙏\n\n` +
+                `SAYA SUDAH BAYAR! 💰\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `🆔 KODE PESANAN: ${order.orderId}\n` +
+                `👤 NAMA: ${order.name}\n` +
+                `📱 WHATSAPP: ${order.wa}\n` +
+                `📧 EMAIL: ${order.email}\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `📦 DETAIL PESANAN:\n${itemsText}\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `💵 TOTAL: ${formatRupiah(order.total)}\n` +
+                `━━━━━━━━━━━━━━━━━━━━\n` +
+                `📸 BUKTI TRANSFER MENYUSUL!\n` +
+                `Mohon segera diproses ya Admin! 🙏`
+            );
+
+            window.open(`https://wa.me/${adminNumber}?text=${message}`, '_blank');
+        }
+
+        // ================================================================
+        // NAVIGATION
+        // ================================================================
+        function goHome(e) {
+            if (e) e.preventDefault();
+            if (state.isCheckout || state.isPayment) {
+                if (!confirm('Kembali ke toko? Data pesanan akan hilang.')) return;
+            }
+            state.isCheckout = false;
+            state.isPayment = false;
+            state.isDrawerOpen = false;
+            state.isModalOpen = false;
+            state.orderData = null;
+            state.formData = { name: '', wa: '', email: '', note: '' };
+            state.errors = {};
+            renderAll();
+        }
+
+        // ================================================================
+        // QRIS FUNCTIONS
+        // ================================================================
         function bukaQris() {
-            document.getElementById('qrisModal').style.display = 'flex';
+            $('qrisModal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
 
         function tutupQris() {
-            document.getElementById('qrisModal').classList.add('closing');
+            const modal = $('qrisModal');
+            modal.classList.add('closing');
             setTimeout(() => {
-                document.getElementById('qrisModal').style.display = 'none';
-                document.getElementById('qrisModal').classList.remove('closing');
+                modal.style.display = 'none';
+                modal.classList.remove('closing');
                 document.body.style.overflow = '';
             }, 250);
         }
 
         function downloadQRIS() {
-            const img = document.getElementById('qrisImage');
+            const img = $('qrisImage');
             const canvas = document.createElement('canvas');
             canvas.width = img.naturalWidth || 300;
             canvas.height = img.naturalHeight || 300;
@@ -2055,15 +3197,17 @@
                 link.click();
                 document.body.removeChild(link);
                 URL.revokeObjectURL(link.href);
-                showToast('✅ QRIS Tersimpan!', 'Gambar berhasil disimpan ke galeri.');
+                showToast('✅ QRIS Tersimpan!', 'Gambar berhasil disimpan ke galeri.', 'success');
             });
         }
 
-        // ============================================================
+        // ================================================================
         // TESTIMONI & FAQ
-        // ============================================================
+        // ================================================================
         function renderTestimoni() {
-            const container = document.getElementById('testimoniContainer');
+            const container = $('testimoniContainer');
+            if (!container) return;
+
             if (testimoniData.length === 0) {
                 container.innerHTML =
                     `<p style="text-align:center;color:var(--text-muted);font-size:clamp(0.8rem,1vw,0.85rem);">Belum ada testimoni. Lihat di Telegram!</p>`;
@@ -2083,7 +3227,9 @@
         }
 
         function renderFaq() {
-            const container = document.getElementById('faqContainer');
+            const container = $('faqContainer');
+            if (!container) return;
+
             container.innerHTML = faqData.map((f, i) => `
                 <div class="faq-item" id="faq-${i}">
                     <button class="faq-question" onclick="toggleFaq(${i})" aria-expanded="false">
@@ -2096,35 +3242,62 @@
         }
 
         function toggleFaq(i) {
-            const item = document.getElementById('faq-' + i);
+            const item = $('faq-' + i);
+            if (!item) return;
             const open = item.classList.toggle('open');
             item.querySelector('.faq-question').setAttribute('aria-expanded', open);
         }
 
-        // ============================================================
+        // ================================================================
         // NAVBAR SCROLL
-        // ============================================================
+        // ================================================================
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            nav.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // ============================================================
-        // ESC KEY
-        // ============================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (document.getElementById('productModal').style.display === 'flex') tutupModal();
-                if (document.getElementById('qrisModal').style.display === 'flex') tutupQris();
+            const nav = $('navbar');
+            if (nav) {
+                nav.classList.toggle('scrolled', window.scrollY > 50);
             }
         });
 
-        // ============================================================
+        // ================================================================
+        // ESC KEY
+        // ================================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (state.isModalOpen) tutupModal();
+                if (state.isDrawerOpen) toggleDrawer();
+                if ($('qrisModal').style.display === 'flex') tutupQris();
+            }
+        });
+
+        // ================================================================
         // INIT
-        // ============================================================
-        renderProducts();
+        // ================================================================
+        renderAll();
         renderTestimoni();
         renderFaq();
+
+        // ================================================================
+        // EXPOSE GLOBAL
+        // ================================================================
+        window.goHome = goHome;
+        window.bukaModal = bukaModal;
+        window.tutupModal = tutupModal;
+        window.addToCart = addToCart;
+        window.removeFromCart = removeFromCart;
+        window.toggleDrawer = toggleDrawer;
+        window.proceedToCheckout = proceedToCheckout;
+        window.goBackFromCheckout = goBackFromCheckout;
+        window.updateForm = updateForm;
+        window.submitOrder = submitOrder;
+        window.confirmPayment = confirmPayment;
+        window.bukaQris = bukaQris;
+        window.tutupQris = tutupQris;
+        window.downloadQRIS = downloadQRIS;
+        window.filterProduk = filterProduk;
+        window.cariProduk = cariProduk;
+        window.urutkanProduk = urutkanProduk;
+        window.toggleFaq = toggleFaq;
+        window.renderAll = renderAll;
     </script>
 
 </body>

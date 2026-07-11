@@ -949,7 +949,24 @@
             if (!confirm('Kembali ke toko? Data yang diisi akan hilang.')) return;
             state.isCheckout = false; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; renderAll();
         }
-        function updateForm(field, value) { state.formData[field] = value; if (state.errors[field]) state.errors[field] = false; renderAll(); }
+function updateForm(field, value) {
+    // 1. Simpan data yang diketik ke state
+    state.formData[field] = value;
+    
+    // 2. Jika sebelumnya ada peringatan error merah, hilangkan peringatannya
+    if (state.errors[field]) {
+        state.errors[field] = false;
+        
+        // Manipulasi DOM langsung untuk menghapus class 'error' tanpa harus me-refresh seluruh halaman
+        const inputId = 'input' + field.charAt(0).toUpperCase() + field.slice(1);
+        const inputElement = document.getElementById(inputId);
+        if (inputElement && inputElement.closest('.form-group')) {
+            inputElement.closest('.form-group').classList.remove('error');
+        }
+    }
+    
+    // KITA HAPUS renderAll() di sini agar form tidak hilang fokus saat mengetik!
+}
 
         function submitOrder() {
             const { name, wa, email } = state.formData, errors = {};

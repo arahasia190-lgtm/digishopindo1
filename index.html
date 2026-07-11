@@ -6,6 +6,18 @@
     <title>DigishopID - Premium Digital Store</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'/%3E%3Cpath d='M2 17l10 5 10-5'/%3E%3Cpath d='M2 12l10 5 10-5'/%3E%3C/svg%3E" />
     <meta name="description" content="DigishopID - Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, dan lainnya." />
+
+    <!-- Open Graph / Social Share -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="DigishopID - Premium Digital Store" />
+    <meta property="og:description" content="Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, Alight Motion, dan lainnya — harga bersahabat, proses cepat." />
+    <meta property="og:image" content="https://digishopid.com/og-image.jpg" />
+    <meta property="og:locale" content="id_ID" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DigishopID - Premium Digital Store" />
+    <meta name="twitter:description" content="Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, Alight Motion, dan lainnya." />
+    <meta name="twitter:image" content="https://digishopid.com/og-image.jpg" />
+    <meta name="theme-color" content="#0A0616" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
     <style>
@@ -194,6 +206,18 @@
 
         .modal-close { position: absolute; top: 10px; right: 12px; background: rgba(255, 255, 255, 0.04); border: none; color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
         .modal-close:hover { background: rgba(239, 68, 68, 0.15); color: var(--danger); transform: rotate(90deg); }
+
+        /* ========== CONFIRM MODAL ========== */
+        .confirm-modal { z-index: 3500; }
+        .confirm-modal-content { max-width: 340px; padding: clamp(20px, 5vw, 26px) clamp(18px, 5vw, 22px); text-align: center; }
+        .confirm-modal-title { font-size: clamp(1rem, 3vw, 1.15rem); font-weight: 800; margin-bottom: 8px; }
+        .confirm-modal-text { font-size: clamp(0.8rem, 2.4vw, 0.85rem); color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+        .confirm-modal-actions { display: flex; gap: 10px; }
+        .btn-confirm-cancel, .btn-confirm-ok { flex: 1; padding: 11px 0; border-radius: 50px; font-weight: 700; font-size: clamp(0.8rem, 2.4vw, 0.85rem); cursor: pointer; font-family: inherit; border: none; transition: var(--transition); }
+        .btn-confirm-cancel { background: rgba(255, 255, 255, 0.06); color: var(--text); }
+        .btn-confirm-cancel:hover { background: rgba(255, 255, 255, 0.1); }
+        .btn-confirm-ok { background: var(--danger); color: white; }
+        .btn-confirm-ok:hover { background: #dc2626; transform: scale(1.03); }
 
         .modal-product-info { text-align: center; margin-bottom: 14px; }
         .modal-product-info .modal-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -492,7 +516,7 @@
             <button class="btn-cart" onclick="toggleDrawer()">
                 🛒 <span>Keranjang</span> <span class="cart-badge" id="cartBadge">0</span>
             </button>
-            <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" class="whatsapp-nav">
+            <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" rel="noopener noreferrer" class="whatsapp-nav">
                 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
                 <span>Order</span>
             </a>
@@ -554,7 +578,7 @@
             <h2 style="font-size:clamp(1rem,2vw,1.3rem);font-weight:800;text-align:center;margin-bottom:14px;">💬 Testimoni Pembeli</h2>
             <div id="testimoniContainer"></div>
             <div style="text-align:center;margin-top:12px;">
-                <a href="https://t.me/fdfORqSER45lMmZl" target="_blank" class="btn-telegram">
+                <a href="https://t.me/fdfORqSER45lMmZl" target="_blank" rel="noopener noreferrer" class="btn-telegram">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
                     Lihat Semua Testimoni di Telegram
                 </a>
@@ -572,9 +596,9 @@
             <div class="footer-brand">Digi<span>Shop</span>ID</div>
             <div class="footer-desc">Toko layanan digital premium terpercaya. Proses cepat, harga bersahabat, garansi jelas.</div>
             <div class="footer-social">
-                <a href="https://wa.me/6283160593305" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg></a>
-                <a href="https://www.instagram.com/digitalmarket_reall" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
-                <a href="https://www.tiktok.com/@digishopid6" target="_blank" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"/></svg></a>
+                <a href="https://wa.me/6283160593305" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg></a>
+                <a href="https://www.instagram.com/digitalmarket_reall" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+                <a href="https://www.tiktok.com/@digishopid6" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"/></svg></a>
             </div>
             <div class="footer-copy">&copy; 2026 DigishopID. All rights reserved.</div>
         </footer>
@@ -604,6 +628,18 @@
         </div>
     </div>
 
+    <!-- ========== MODAL KONFIRMASI (pengganti confirm() bawaan browser) ========== -->
+    <div class="modal confirm-modal" id="confirmModal" onclick="closeConfirmModal(false)" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
+        <div class="modal-content confirm-modal-content" onclick="event.stopPropagation()">
+            <h2 id="confirmModalTitle" class="confirm-modal-title">Yakin?</h2>
+            <p class="confirm-modal-text" id="confirmModalText">Apakah kamu yakin?</p>
+            <div class="confirm-modal-actions">
+                <button class="btn-confirm-cancel" onclick="closeConfirmModal(false)">Batal</button>
+                <button class="btn-confirm-ok" onclick="closeConfirmModal(true)">Ya, lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ========== CART DRAWER ========== -->
     <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
     <div class="drawer" id="cartDrawer">
@@ -627,7 +663,7 @@
     </div>
 
     <!-- ========== FLOATING WA ========== -->
-    <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" class="float-wa" aria-label="WhatsApp">
+    <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" rel="noopener noreferrer" class="float-wa" aria-label="WhatsApp">
         <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
     </a>
 
@@ -910,17 +946,17 @@
                         <div class="form-group ${state.errors.name ? 'error' : ''}">
                             <label>Nama lengkap</label>
                             <input type="text" id="inputName" placeholder="Contoh: Budi Santoso" value="${state.formData.name}" oninput="updateForm('name', this.value)" />
-                            <div class="error-text">Nama lengkap wajib diisi</div>
+                            <div class="error-text">${state.errors.name === 'format' ? 'Nama minimal 3 karakter' : 'Nama lengkap wajib diisi'}</div>
                         </div>
                         <div class="form-group ${state.errors.wa ? 'error' : ''}">
                             <label>Nomor WhatsApp</label>
                             <input type="tel" id="inputWa" placeholder="081234567890" value="${state.formData.wa}" oninput="updateForm('wa', this.value)" />
-                            <div class="error-text">Nomor WhatsApp wajib diisi</div>
+                            <div class="error-text">${state.errors.wa === 'format' ? 'Format nomor WhatsApp tidak valid (contoh: 081234567890)' : 'Nomor WhatsApp wajib diisi'}</div>
                         </div>
                         <div class="form-group ${state.errors.email ? 'error' : ''}">
                             <label>Email</label>
                             <input type="email" id="inputEmail" placeholder="nama@email.com" value="${state.formData.email}" oninput="updateForm('email', this.value)" />
-                            <div class="error-text">Email wajib diisi</div>
+                            <div class="error-text">${state.errors.email === 'format' ? 'Format email tidak valid' : 'Email wajib diisi'}</div>
                         </div>
                         <div class="form-group">
                             <label>Catatan (opsional)</label>
@@ -1016,9 +1052,26 @@
             renderAll();
         }
 
+        // ================================================================
+        // CUSTOM CONFIRM MODAL (pengganti confirm() bawaan browser)
+        // ================================================================
+        let confirmResolve = null;
+        function showConfirm(title, text) {
+            $('confirmModalTitle').textContent = title;
+            $('confirmModalText').textContent = text;
+            $('confirmModal').style.display = 'flex';
+            return new Promise((resolve) => { confirmResolve = resolve; });
+        }
+        function closeConfirmModal(result) {
+            $('confirmModal').style.display = 'none';
+            if (confirmResolve) { confirmResolve(result); confirmResolve = null; }
+        }
+
         function goBackFromCheckout() {
-            if (!confirm('Kembali ke toko? Data yang diisi akan hilang.')) return;
-            state.isCheckout = false; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; renderAll();
+            showConfirm('Kembali ke toko?', 'Data yang sudah kamu isi akan hilang.').then((ok) => {
+                if (!ok) return;
+                state.isCheckout = false; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; renderAll();
+            });
         }
 
         function updateForm(field, value) {
@@ -1035,10 +1088,22 @@
 
         function submitOrder() {
             const { name, wa, email } = state.formData, errors = {};
-            if (!name.trim()) errors.name = true; if (!wa.trim()) errors.wa = true; if (!email.trim()) errors.email = true;
+
+            const waDigits = wa.trim().replace(/[\s\-\(\)]/g, '');
+            const waValid = /^(\+62|62|0)8[0-9]{8,12}$/.test(waDigits);
+            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+
+            if (!name.trim()) errors.name = true;
+            else if (name.trim().length < 3) errors.name = 'format';
+
+            if (!wa.trim()) errors.wa = true;
+            else if (!waValid) errors.wa = 'format';
+
+            if (!email.trim()) errors.email = true;
+            else if (!emailValid) errors.email = 'format';
             
             if (Object.keys(errors).length > 0) {
-                state.errors = errors; renderAll(); showToast('Data belum lengkap', 'Isi form yang wajib', 'warning'); return;
+                state.errors = errors; renderAll(); showToast('Data belum lengkap', 'Periksa lagi form yang ditandai merah', 'warning'); return;
             }
 
             state.orderData = { orderId: generateOrderId(), name: name.trim(), wa: wa.trim(), email: email.trim(), note: state.formData.note.trim(), items: [...state.cart], total: getCartTotal() };
@@ -1051,12 +1116,22 @@
             const message = encodeURIComponent(
                 `HALO ADMIN DIGISHOPID! 🙏\n\nSAYA SUDAH BAYAR! 💰\n━━━━━━━━━━━━━━━━━━━━\n🆔 KODE PESANAN: ${order.orderId}\n👤 NAMA: ${order.name}\n📱 WHATSAPP: ${order.wa}\n📧 EMAIL: ${order.email}\n━━━━━━━━━━━━━━━━━━━━\n📦 DETAIL PESANAN:\n${itemsText}\n━━━━━━━━━━━━━━━━━━━━\n💵 TOTAL: ${formatRupiah(order.total)}\n━━━━━━━━━━━━━━━━━━━━\n📸 BUKTI TRANSFER MENYUSUL!`
             );
-            window.open(`https://wa.me/6283160593305?text=${message}`, '_blank');
+            window.open(`https://wa.me/6283160593305?text=${message}`, '_blank', 'noopener,noreferrer');
         }
 
         function goHome(e) {
             if (e) e.preventDefault();
-            if ((state.isCheckout || state.isPayment) && !confirm('Kembali ke toko? Data pesanan akan hilang.')) return;
+            if (state.isCheckout || state.isPayment) {
+                showConfirm('Kembali ke toko?', 'Data pesanan yang sudah kamu isi akan hilang.').then((ok) => {
+                    if (!ok) return;
+                    resetToHome();
+                });
+                return;
+            }
+            resetToHome();
+        }
+
+        function resetToHome() {
             state.isCheckout = state.isPayment = state.isDrawerOpen = state.isModalOpen = false;
             state.orderData = null; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; 
             unlockScroll();
@@ -1120,7 +1195,7 @@
         // ================================================================
         window.addEventListener('scroll', () => { const nav = $('navbar'); if (nav) nav.classList.toggle('scrolled', window.scrollY > 50); });
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') { if (state.isModalOpen) tutupModal(); if (state.isDrawerOpen) toggleDrawer(); if ($('qrisModal').style.display === 'flex') tutupQris(); }
+            if (e.key === 'Escape') { if ($('confirmModal').style.display === 'flex') { closeConfirmModal(false); return; } if (state.isModalOpen) tutupModal(); if (state.isDrawerOpen) toggleDrawer(); if ($('qrisModal').style.display === 'flex') tutupQris(); }
         });
 
         // INIT

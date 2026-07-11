@@ -659,8 +659,7 @@
         let state = {
             cart: [], isModalOpen: false, isDrawerOpen: false, isCheckout: false, isPayment: false,
             selectedProduct: null, formData: { name: '', wa: '', email: '', note: '' },
-            orderData: null, errors: {}, toastTimer: null,
-            toastShown: false // FLAG untuk mencegah toast dobel
+            orderData: null, errors: {}, toast: null, toastTimer: null
         };
 
         const $ = (id) => document.getElementById(id);
@@ -675,34 +674,20 @@
         }
 
         // ================================================================
-        // TOAST - PASTIKAN HANYA 1 YANG TAMPIL
+        // TOAST (PERBAIKAN NOTIFIKASI NUMPUK)
         // ================================================================
         function showToast(title, message, type = 'success') {
             const container = $('toastContainer');
-            if (!container) return;
-            
-            // Hapus semua toast yang sudah ada
-            container.innerHTML = '';
-            
-            // Reset flag
-            state.toastShown = false;
-            
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
             toast.innerHTML = `<span class="toast-icon ${type}">${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
                                <div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div>`;
             container.appendChild(toast);
             
-            state.toastShown = true;
-            
+            // Timer dibuat independen/lokal untuk masing-masing toast
             setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.classList.add('fade-out');
-                    setTimeout(() => {
-                        if (toast.parentNode) toast.remove();
-                        state.toastShown = false;
-                    }, 300);
-                }
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
@@ -719,16 +704,11 @@
             const variant = product?.varian.find(v => v.id === variantId);
             if (!product || !variant) return;
 
-            // Cek apakah sudah ada di keranjang
-            const existingItem = state.cart.find(item => item.variantId === variantId);
-            if (existingItem) {
-                if (!state.toastShown) {
-                    showToast('⚠️ Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
-                }
+            if (state.cart.find(item => item.variantId === variantId)) {
+                showToast('Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
                 state.isDrawerOpen = true; 
-                document.body.style.overflow = 'hidden';
-                renderAll(); 
-                return;
+                document.body.style.overflow = 'hidden'; // Kunci scroll
+                renderAll(); return;
             }
 
             state.cart.push({
@@ -736,18 +716,12 @@
                 price: parseHarga(variant.harga), originalPrice: parseHarga(variant.harga) * 1.5, icon: product.icon, qty: 1
             });
 
-            // Tutup modal setelah add to cart
             state.isModalOpen = false; 
-            state.selectedProduct = null;
-            
-            // Buka drawer
+            state.selectedProduct = null; 
             state.isDrawerOpen = true;
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; // Kunci scroll
             
-            // HANYA SATU TOAST - dengan flag
-            if (!state.toastShown) {
-                showToast('✅ Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
-            }
+            showToast('Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
             renderAll();
         }
 
@@ -755,14 +729,14 @@
             state.cart.splice(index, 1);
             if (state.cart.length === 0) {
                 state.isDrawerOpen = false;
-                document.body.style.overflow = '';
+                document.body.style.overflow = ''; // Lepas scroll jika keranjang habis dan tertutup
             }
             renderAll();
         }
 
         function toggleDrawer() { 
             state.isDrawerOpen = !state.isDrawerOpen; 
-            document.body.style.overflow = state.isDrawerOpen ? 'hidden' : '';
+            document.body.style.overflow = state.isDrawerOpen ? 'hidden' : ''; // Kunci/Lepas scroll
             renderAll(); 
         }
 
@@ -773,7 +747,7 @@
             state.selectedProduct = produk.find(item => item.id === productId);
             if (state.selectedProduct) { 
                 state.isModalOpen = true; 
-                document.body.style.overflow = 'hidden';
+                document.body.style.overflow = 'hidden'; // Kunci scroll
                 renderAll(); 
             }
         }
@@ -781,7 +755,7 @@
         function tutupModal() { 
             state.isModalOpen = false; 
             state.selectedProduct = null; 
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // Lepas scroll
             renderAll(); 
         }
 
@@ -898,7 +872,7 @@
 
             if (!state.isCheckout) {
                 container.className = 'page-checkout'; container.innerHTML = '';
-                return;
+                return; // Tampilan hero dan lainnya dihandle di renderAll
             }
 
             container.className = 'page-checkout active';
@@ -988,6 +962,7 @@
             renderCheckout(); 
             renderPayment();
             
+            // Atur elemen mana yang tampil berdasarkan halaman saat ini
             const isHome = !state.isCheckout && !state.isPayment;
             
             const hero = document.getElementById('heroSection');
@@ -1011,14 +986,9 @@
         // CHECKOUT & PAYMENT ACTIONS
         // ================================================================
         function proceedToCheckout() {
-            if (state.cart.length === 0) { 
-                if (!state.toastShown) {
-                    showToast('⚠️ Kosong', 'Tambahkan produk dulu!', 'warning');
-                }
-                return; 
-            }
+            if (state.cart.length === 0) { showToast('Kosong', 'Tambahkan produk dulu!', 'warning'); return; }
             state.isDrawerOpen = false; state.isCheckout = true; state.errors = {}; 
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // Lepas scroll saat ke checkout
             renderAll();
         }
 
@@ -1041,34 +1011,14 @@
 
         function submitOrder() {
             const { name, wa, email } = state.formData, errors = {};
-            if (!name.trim()) errors.name = true; 
-            if (!wa.trim()) errors.wa = true; 
-            if (!email.trim()) errors.email = true;
+            if (!name.trim()) errors.name = true; if (!wa.trim()) errors.wa = true; if (!email.trim()) errors.email = true;
             
             if (Object.keys(errors).length > 0) {
-                state.errors = errors; 
-                renderAll(); 
-                if (!state.toastShown) {
-                    showToast('⚠️ Data belum lengkap', 'Isi form yang wajib', 'warning');
-                }
-                return;
+                state.errors = errors; renderAll(); showToast('Data belum lengkap', 'Isi form yang wajib', 'warning'); return;
             }
 
-            state.orderData = { 
-                orderId: generateOrderId(), 
-                name: name.trim(), 
-                wa: wa.trim(), 
-                email: email.trim(), 
-                note: state.formData.note.trim(), 
-                items: [...state.cart], 
-                total: getCartTotal() 
-            };
-            
-            // Reset keranjang setelah order dibuat
-            state.cart = [];
-            state.isCheckout = false; 
-            state.isPayment = true; 
-            renderAll();
+            state.orderData = { orderId: generateOrderId(), name: name.trim(), wa: wa.trim(), email: email.trim(), note: state.formData.note.trim(), items: [...state.cart], total: getCartTotal() };
+            state.isCheckout = false; state.isPayment = true; renderAll();
         }
 
         function confirmPayment() {
@@ -1085,34 +1035,21 @@
             if ((state.isCheckout || state.isPayment) && !confirm('Kembali ke toko? Data pesanan akan hilang.')) return;
             state.isCheckout = state.isPayment = state.isDrawerOpen = state.isModalOpen = false;
             state.orderData = null; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; 
-            document.body.style.overflow = '';
+            document.body.style.overflow = ''; // Lepas semua scroll lock
             renderAll();
         }
 
         // ================================================================
-        // QRIS
+        // QRIS FIX
         // ================================================================
-        function bukaQris() { 
-            const modal = $('qrisModal'); 
-            if (modal) {
-                modal.style.display = 'flex'; 
-                document.body.style.overflow = 'hidden';
-            }
-        }
-        
+        function bukaQris() { $('qrisModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
         function tutupQris() {
-            const m = $('qrisModal'); 
-            if (!m) return;
-            m.classList.add('closing');
-            setTimeout(() => { 
-                m.style.display = 'none'; 
-                m.classList.remove('closing'); 
-                document.body.style.overflow = ''; 
-            }, 250);
+            const m = $('qrisModal'); m.classList.add('closing');
+            setTimeout(() => { m.style.display = 'none'; m.classList.remove('closing'); document.body.style.overflow = ''; }, 250);
         }
         
         function downloadQRIS() {
-            const imgSrc = $('qrisImage') ? $('qrisImage').src : $('qrisToDownload')?.src || 'qris.jpg';
+            const imgSrc = $('qrisImage') ? $('qrisImage').src : $('qrisToDownload').src;
             
             fetch(imgSrc)
                 .then(response => response.blob())
@@ -1123,11 +1060,9 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                    if (!state.toastShown) {
-                        showToast('✅ QRIS Tersimpan!', 'Gambar berhasil disimpan.', 'success');
-                    }
+                    showToast('QRIS Tersimpan!', 'Gambar berhasil disimpan.', 'success');
                 })
-                .catch(() => {
+                .catch(err => {
                     const link = document.createElement('a');
                     link.href = imgSrc;
                     link.download = 'QRIS-DigishopID.jpg';
@@ -1135,9 +1070,7 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                    if (!state.toastShown) {
-                        showToast('✅ QRIS Dibuka!', 'Silakan simpan gambar secara manual.', 'success');
-                    }
+                    showToast('QRIS Dibuka!', 'Silakan simpan gambar secara manual.', 'success');
                 });
         }
 
@@ -1148,15 +1081,14 @@
             const container = $('testimoniContainer'); if (!container) return;
             container.innerHTML = `<div class="testimoni-grid">${testimoniData.map(t => `<div class="testimoni-card"><div class="stars">${'★'.repeat(t.bintang)}${'☆'.repeat(5-t.bintang)}</div><div class="quote">"${t.isi}"</div><div class="name">${t.nama}</div></div>`).join('')}</div>`;
         }
-        
         function renderFaq() {
             const container = $('faqContainer'); if (!container) return;
             container.innerHTML = faqData.map((f, i) => `<div class="faq-item" id="faq-${i}"><button class="faq-question" onclick="toggleFaq(${i})"><span>${f.q}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg></button><div class="faq-answer">${f.a}</div></div>`).join('');
         }
-        
         function toggleFaq(i) {
             const item = $('faq-' + i); if (!item) return;
-            item.classList.toggle('open');
+            const open = item.classList.toggle('open');
+            item.querySelector('.faq-question').setAttribute('aria-expanded', open);
         }
 
         // ================================================================
@@ -1164,18 +1096,11 @@
         // ================================================================
         window.addEventListener('scroll', () => { const nav = $('navbar'); if (nav) nav.classList.toggle('scrolled', window.scrollY > 50); });
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') { 
-                if (state.isModalOpen) tutupModal(); 
-                if (state.isDrawerOpen) toggleDrawer(); 
-                const qrisModal = $('qrisModal');
-                if (qrisModal && qrisModal.style.display === 'flex') tutupQris(); 
-            }
+            if (e.key === 'Escape') { if (state.isModalOpen) tutupModal(); if (state.isDrawerOpen) toggleDrawer(); if ($('qrisModal').style.display === 'flex') tutupQris(); }
         });
 
         // INIT
-        renderAll(); 
-        renderTestimoni(); 
-        renderFaq();
+        renderAll(); renderTestimoni(); renderFaq();
         
     </script>
 </body>

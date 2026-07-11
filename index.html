@@ -1,1196 +1,100 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DigishopID - Premium Digital Store</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'/%3E%3Cpath d='M2 17l10 5 10-5'/%3E%3Cpath d='M2 12l10 5 10-5'/%3E%3C/svg%3E" />
-    <meta name="description" content="DigishopID - Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, dan lainnya." />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigishopID - Premium Store</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'/%3E%3Cpath d='M2 17l10 5 10-5'/%3E%3Cpath d='M2 12l10 5 10-5'/%3E%3C/svg%3E">
+    <meta name="description" content="DigishopID - Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, dan lainnya dengan harga terjangkau.">
+    <meta property="og:title" content="DigishopID - Premium Store">
+    <meta property="og:description" content="Pilih layanan digital premium kebutuhan Anda: Movie, Desain, Musik, Aplikasi, dan AI Tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="netflix murah, spotify premium murah, capcut pro, canva pro, akun premium murah, digishopid, toko digital">
+    <meta name="theme-color" content="#7c3aed">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
 
+    <!-- STRUCTURED DATA (JSON-LD) BIAR GOOGLE PAHAM INI TOKO ONLINE -->
+    <!-- GANTI "url" di bawah dengan domain asli kamu setelah web ini di-hosting -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "DigishopID",
+        "description": "Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, dan lainnya dengan harga terjangkau.",
+        "priceRange": "Rp8.000 - Rp50.000",
+        "sameAs": [
+            "https://www.instagram.com/digitalmarket_reall",
+            "https://www.tiktok.com/@digishopid6"
+        ]
+    }
+    </script>
+    
     <style>
-        /* ========== ROOT ========== */
         :root {
-            --primary: #7C3AED;
-            --primary-dark: #5B21B6;
-            --primary-light: #A78BFA;
-            --primary-glow: rgba(124, 58, 237, 0.35);
-            --secondary: #F59E0B;
-            --secondary-light: #FCD34D;
-            --success: #10B981;
-            --danger: #EF4444;
-            --dark: #0A0616;
-            --dark-card: #14102A;
-            --dark-surface: #1E1A3A;
-            --text: #FFFFFF;
-            --text-muted: #9494B8;
-            --text-light: #D4D4EC;
-            --gradient-1: linear-gradient(135deg, #7C3AED 0%, #F59E0B 100%);
-            --gradient-2: linear-gradient(135deg, #0A0616 0%, #14102A 50%, #1E1A3A 100%);
-            --shadow: 0 20px 60px rgba(124, 58, 237, 0.12);
-            --shadow-hover: 0 30px 80px rgba(124, 58, 237, 0.2);
-            --radius: 20px;
-            --radius-sm: 12px;
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --primary: #7c3aed; 
+            --bg-color: #fafafa;
+            --text-muted: #a3aed1;
         }
 
-        /* ========== RESET ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; /* Menghilangkan kedip biru di HP */
+            outline: none; /* Menghilangkan garis tepi biru di PC */
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--dark);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-bottom: 30px;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 20px 20px;
+            color: #1f2937;
+            padding-bottom: 50px;
         }
 
-        /* ========== BACKGROUND ORBS ========== */
-        .bg-orbs {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .bg-orbs .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.12;
-            animation: orbFloat 30s infinite ease-in-out;
-        }
-        .bg-orbs .orb:nth-child(1) {
-            width: 600px;
-            height: 600px;
-            background: var(--primary);
-            top: -15%;
-            right: -10%;
-            animation-delay: 0s;
-        }
-        .bg-orbs .orb:nth-child(2) {
-            width: 450px;
-            height: 450px;
-            background: var(--secondary);
-            bottom: -15%;
-            left: -10%;
-            animation-delay: -10s;
-        }
-        .bg-orbs .orb:nth-child(3) {
-            width: 350px;
-            height: 350px;
-            background: var(--success);
-            top: 50%;
-            left: 50%;
-            transform: translateX(-50%);
-            animation-delay: -20s;
-            opacity: 0.06;
-        }
-        @keyframes orbFloat {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(80px, -100px) scale(1.1);
-            }
-            66% {
-                transform: translate(-60px, 80px) scale(0.9);
-            }
-        }
-
-        /* ========== SCROLLBAR ========== */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--dark);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        /* ========== CONTAINER ========== */
         .container {
-            max-width: 1280px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 24px;
-            position: relative;
-            z-index: 1;
+            padding: 15px;
         }
 
-        /* ========== NAVBAR ========== */
+        /* NAVBAR */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 30px;
-            background: rgba(10, 6, 22, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            background: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border-bottom: 1px solid #f3f4f6;
             position: sticky;
             top: 0;
             z-index: 500;
-            transition: var(--transition);
-            margin: 0 -24px;
-            padding: 16px 30px;
+            transition: padding 0.25s ease, box-shadow 0.25s ease;
         }
         .navbar.scrolled {
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.6);
-            padding: 12px 30px;
+            padding: 9px 20px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
         }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: var(--text);
-            transition: var(--transition);
-        }
-        .logo:hover {
-            transform: scale(1.02);
-        }
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: var(--gradient-1);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: white;
-            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.3);
-            transition: var(--transition);
-        }
-        .logo:hover .logo-icon {
-            box-shadow: 0 8px 40px rgba(124, 58, 237, 0.5);
-            transform: rotate(-3deg) scale(1.05);
-        }
-
-        /* ===== LOGO DIAMOND ===== */
-        .logo-icon svg {
-            width: 26px;
-            height: 26px;
-            stroke: white;
-            stroke-width: 2.5;
-            fill: none;
-        }
-
-        .logo span {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
+        .navbar .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; transition: font-size 0.25s ease; }
+        .navbar.scrolled .logo { font-size: 1.15rem; }
+        
+        /* Tombol QRIS */
         .btn-qris {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: inherit;
+            background: var(--primary); color: white; padding: 8px 16px; 
+            border-radius: 10px; border: none; font-size: 0.85rem; font-weight: 700;
+            cursor: pointer; transition: 0.2s;
         }
-        .btn-qris:hover {
-            background: rgba(124, 58, 237, 0.15);
-            border-color: var(--primary);
-            transform: scale(1.04);
-        }
+        .btn-qris:hover { transform: scale(1.02); opacity: 0.9; }
 
-        .cart-btn {
-            position: relative;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text);
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .cart-btn:hover {
-            background: rgba(124, 58, 237, 0.15);
-            border-color: var(--primary);
-            transform: scale(1.06);
-        }
-        .cart-count {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: var(--secondary);
-            color: var(--dark);
-            font-size: 0.6rem;
-            font-weight: 800;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
-        }
-
-        .whatsapp-nav {
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            font-family: inherit;
-        }
-        .whatsapp-nav:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
-        }
-
-        /* ========== HERO ========== */
-        .hero {
-            padding: 50px 0 35px;
-            text-align: center;
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(124, 58, 237, 0.15);
-            border: 1px solid rgba(124, 58, 237, 0.2);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--primary-light);
-            margin-bottom: 16px;
-            letter-spacing: 0.5px;
-        }
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 14px;
-            letter-spacing: -1.5px;
-        }
-        .hero h1 .highlight {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 560px;
-            margin: 0 auto 28px;
-            line-height: 1.7;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 45px;
-            flex-wrap: wrap;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .hero-stats .stat h3 {
-            font-size: 1.6rem;
-            font-weight: 900;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero-stats .stat p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 600;
-            margin-top: 2px;
-        }
-
-        /* ========== SEARCH ========== */
-        .search-box {
-            position: relative;
-            max-width: 520px;
-            margin: 0 auto 24px;
-        }
-        .search-box input {
-            width: 100%;
-            padding: 14px 20px 14px 52px;
-            border-radius: 60px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(10px);
-            font-family: inherit;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text);
-            transition: var(--transition);
-        }
-        .search-box input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px var(--primary-glow);
-            background: rgba(255, 255, 255, 0.06);
-            outline: none;
-        }
-        .search-box input::placeholder {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        .search-box .search-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* ========== FILTER ========== */
-        .filter-row {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            margin-bottom: 26px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .filter-container {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .filter-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 8px 22px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .filter-btn:hover {
-            border-color: var(--primary);
-            color: var(--text);
-            transform: translateY(-2px);
-        }
-        .filter-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 20px var(--primary-glow);
-        }
-
-        .sort-box select {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 8px 18px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-family: inherit;
-            transition: var(--transition);
-        }
-        .sort-box select:hover {
-            border-color: var(--primary);
-            color: var(--text);
-        }
-        .sort-box select option {
-            background: var(--dark-card);
-            color: var(--text);
-        }
-
-        /* ========== PRODUCT GRID ========== */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-            gap: 20px;
-        }
-
-        /* ========== PRODUCT CARD ========== */
-        .product-card {
-            background: var(--dark-card);
-            border-radius: var(--radius);
-            padding: 20px 16px 18px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-        }
-        .product-card::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gradient-1);
-            opacity: 0;
-            transition: var(--transition);
-            border-radius: var(--radius);
-        }
-        .product-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--primary);
-            box-shadow: var(--shadow-hover);
-        }
-        .product-card:hover::before {
-            opacity: 0.04;
-        }
-        .product-card>* {
-            position: relative;
-            z-index: 1;
-        }
-
-        .product-card .product-icon {
-            width: 72px;
-            height: 72px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.03);
-            margin: 0 auto 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: var(--transition);
-        }
-        .product-card:hover .product-icon {
-            border-color: var(--primary);
-            transform: scale(1.04);
-        }
-        .product-card .product-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-card .badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            font-size: 0.55rem;
-            font-weight: 800;
-            padding: 4px 12px;
-            border-radius: 30px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 2;
-        }
-        .badge.hot {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-            color: white;
-            animation: pulseBadge 2s ease-in-out infinite;
-        }
-        .badge.new {
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-        }
-        .badge.sale {
-            background: linear-gradient(135deg, var(--secondary), #D97706);
-            color: var(--dark);
-        }
-        @keyframes pulseBadge {
-            0%,
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.08);
-            }
-        }
-
-        .product-card .category {
-            font-size: 0.55rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--primary-light);
-            margin-bottom: 4px;
-        }
-        .product-card h3 {
-            font-size: 1rem;
-            font-weight: 800;
-            margin-bottom: 2px;
-        }
-        .product-card .subtitle {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-        }
-        .product-card .price-min {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--secondary);
-        }
-        .product-card .sold {
-            font-size: 0.6rem;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        /* ========== CART SIDEBAR ========== */
-        .cart-overlay {
+        /* FLOATING WHATSAPP BUTTON */
+        .btn-wa-float {
             position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition);
-        }
-        .cart-overlay.open {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -460px;
-            width: 420px;
-            max-width: 92vw;
-            height: 100%;
-            background: var(--dark-card);
-            border-left: 1px solid rgba(255, 255, 255, 0.04);
-            z-index: 1000;
-            padding: 24px;
-            transition: var(--transition);
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-        .cart-sidebar.open {
-            right: 0;
-        }
-
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            flex-shrink: 0;
-        }
-        .cart-header h2 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .cart-header h2 span {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        .cart-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.4rem;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
-        .cart-close:hover {
-            color: var(--danger);
-            background: rgba(239, 68, 68, 0.1);
-            transform: rotate(90deg);
-        }
-
-        .cart-items {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px 0;
-        }
-        .cart-empty {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-muted);
-        }
-        .cart-empty svg {
-            opacity: 0.3;
-            margin-bottom: 12px;
-        }
-
-        .cart-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-        }
-        .cart-item-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .cart-item-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .cart-item-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .cart-item-info h4 {
-            font-size: 0.85rem;
-            font-weight: 700;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .cart-item-info .cart-item-varian {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-        .cart-item-info .cart-item-price {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--secondary);
-        }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .cart-item-actions button {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.03);
-            color: var(--text);
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .cart-item-actions button:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-        .cart-item-actions .qty {
-            font-weight: 700;
-            min-width: 20px;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-        .cart-item-remove {
-            background: none !important;
-            border: none !important;
-            color: var(--text-muted) !important;
-            font-size: 0.8rem !important;
-            width: auto !important;
-            height: auto !important;
-            padding: 4px 6px !important;
-        }
-        .cart-item-remove:hover {
-            color: var(--danger) !important;
-            background: rgba(239, 68, 68, 0.1) !important;
-            border-radius: 8px !important;
-        }
-
-        .cart-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            padding-top: 16px;
-            flex-shrink: 0;
-        }
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.05rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-        .cart-total .total-price {
-            color: var(--secondary);
-        }
-
-        .btn-checkout {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px;
-            border-radius: 60px;
-            border: none;
-            background: var(--gradient-1);
-            color: white;
-            font-weight: 800;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            font-family: inherit;
-        }
-        .btn-checkout:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 40px var(--primary-glow);
-        }
-        .btn-checkout:active {
-            transform: scale(0.97);
-        }
-
-        /* ========== MODAL ========== */
-        .modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(14px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1001;
-            animation: fadeIn 0.3s ease-out forwards;
-        }
-        .modal.closing {
-            animation: fadeOut 0.25s ease-in forwards;
-        }
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-            }
-        }
-
-        .modal-content {
-            background: var(--dark-card);
-            border-radius: var(--radius);
-            padding: 28px;
-            width: 92%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6);
-            animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            position: relative;
-        }
-        .modal.closing .modal-content {
-            animation: popDown 0.25s ease-in forwards;
-        }
-        @keyframes popUp {
-            from {
-                opacity: 0;
-                transform: scale(0.85) translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        @keyframes popDown {
-            from {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-            to {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 14px;
-            right: 18px;
-            background: rgba(255, 255, 255, 0.04);
-            border: none;
-            color: var(--text-muted);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-close:hover {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            transform: rotate(90deg);
-        }
-
-        .modal-product {
-            text-align: center;
-        }
-        .modal-product .modal-icon {
-            width: 80px;
-            height: 80px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            margin: 0 auto 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .modal-product .modal-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .modal-product h2 {
-            font-size: 1.4rem;
-            font-weight: 900;
-        }
-        .modal-product .modal-sub {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            margin-bottom: 4px;
-        }
-        .modal-product .modal-cat {
-            font-size: 0.65rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--primary-light);
-            letter-spacing: 0.5px;
-        }
-
-        .varian-list {
-            margin-top: 18px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .varian-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-sm);
-            padding: 14px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            transition: var(--transition);
-            flex-wrap: wrap;
-        }
-        .varian-item:hover {
-            border-color: var(--primary);
-            background: rgba(124, 58, 237, 0.04);
-        }
-        .varian-item .varian-info {
-            text-align: left;
-            flex: 1;
-            min-width: 120px;
-        }
-        .varian-item .varian-info .varian-name {
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-        .varian-item .varian-info .varian-desc {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-        .varian-item .varian-price {
-            font-weight: 800;
-            color: var(--secondary);
-            font-size: 0.9rem;
-            white-space: nowrap;
-        }
-        .varian-actions {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-        .btn-add-cart {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: var(--transition);
-            font-family: inherit;
-        }
-        .btn-add-cart:hover {
-            transform: scale(1.06);
-            box-shadow: 0 4px 20px var(--primary-glow);
-        }
-        .btn-add-cart:active {
-            transform: scale(0.93);
-        }
-        .btn-wa-order {
-            background: #25D366;
-            color: white;
-            border: none;
-            padding: 6px 14px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-family: inherit;
-        }
-        .btn-wa-order:hover {
-            transform: scale(1.06);
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
-        }
-
-        /* ========== TOAST ========== */
-        .toast-container {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-            width: 92%;
-            max-width: 380px;
-            pointer-events: none;
-        }
-        .toast {
-            background: var(--dark-card);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 14px 20px;
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            width: 100%;
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
-            animation: toastIn 0.4s ease-out forwards;
-            pointer-events: all;
-        }
-        .toast.fade-out {
-            animation: toastOut 0.3s ease-in forwards;
-        }
-        @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        @keyframes toastOut {
-            from {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(-10px) scale(0.95);
-            }
-        }
-        .toast .toast-icon {
-            font-size: 1.3rem;
-            flex-shrink: 0;
-        }
-        .toast .toast-icon.success {
-            color: var(--success);
-        }
-        .toast .toast-icon.error {
-            color: var(--danger);
-        }
-        .toast .toast-content {
-            flex: 1;
-        }
-        .toast .toast-content .toast-title {
-            font-weight: 700;
-            font-size: 0.85rem;
-        }
-        .toast .toast-content .toast-msg {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        /* ========== TESTIMONI ========== */
-        .testimoni-section {
-            margin-top: 50px;
-        }
-        .testimoni-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        .testimoni-card {
-            background: var(--dark-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-sm);
-            padding: 16px 18px;
-        }
-        .testimoni-card .stars {
-            color: var(--secondary);
-            font-size: 0.8rem;
-            margin-bottom: 6px;
-        }
-        .testimoni-card .quote {
-            font-size: 0.82rem;
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 8px;
-        }
-        .testimoni-card .name {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .btn-telegram {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: #229ED9;
-            color: white;
-            text-decoration: none;
-            font-weight: 700;
-            padding: 12px 28px;
-            border-radius: 50px;
-            transition: var(--transition);
-            font-size: 0.85rem;
-        }
-        .btn-telegram:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 40px rgba(34, 158, 217, 0.3);
-        }
-
-        /* ========== FAQ ========== */
-        .faq-section {
-            margin-top: 40px;
-        }
-        .faq-list {
-            max-width: 640px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .faq-item {
-            background: var(--dark-card);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-        }
-        .faq-question {
-            width: 100%;
-            background: none;
-            border: none;
-            text-align: left;
-            padding: 14px 18px;
-            font-family: inherit;
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--text);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            transition: var(--transition);
-        }
-        .faq-question:hover {
-            color: var(--primary-light);
-        }
-        .faq-question svg {
-            flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            color: var(--primary-light);
-            transition: transform 0.3s;
-        }
-        .faq-item.open .faq-question svg {
-            transform: rotate(180deg);
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.35s ease, padding 0.35s ease;
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            padding: 0 18px;
-        }
-        .faq-item.open .faq-answer {
-            max-height: 300px;
-            padding: 0 18px 18px;
-        }
-
-        /* ========== FLOATING WA ========== */
-        .float-wa {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
+            bottom: 20px;
+            right: 20px;
             width: 56px;
             height: 56px;
             background: #25D366;
@@ -1198,1113 +102,1182 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 25px rgba(37, 211, 102, 0.35);
-            z-index: 998;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+            z-index: 999;
+            transition: 0.2s;
             text-decoration: none;
-            transition: var(--transition);
         }
-        .float-wa::before {
+        .btn-wa-float::before {
             content: '';
             position: absolute;
-            inset: -6px;
+            inset: 0;
             border-radius: 50%;
             background: #25D366;
-            opacity: 0.25;
-            animation: waPulse 2.5s ease-out infinite;
+            animation: waPulse 2.4s ease-out infinite;
             z-index: -1;
         }
         @keyframes waPulse {
-            0% {
-                transform: scale(1);
-                opacity: 0.3;
-            }
-            100% {
-                transform: scale(1.9);
-                opacity: 0;
-            }
+            0% { transform: scale(1); opacity: 0.55; }
+            100% { transform: scale(1.9); opacity: 0; }
         }
-        .float-wa:hover {
-            transform: scale(1.1);
-        }
-        .float-wa svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-        }
+        .btn-wa-float:hover { transform: scale(1.08); }
+        .btn-wa-float svg { width: 30px; height: 30px; }
 
-        /* ========== FOOTER ========== */
-        .footer {
-            margin-top: 50px;
-            padding: 30px 0 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            text-align: center;
-        }
-        .footer-brand {
-            font-size: 1.2rem;
-            font-weight: 900;
-        }
-        .footer-brand span {
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .footer-desc {
-            color: var(--text-muted);
-            font-size: 0.82rem;
-            max-width: 400px;
-            margin: 6px auto 16px;
-            line-height: 1.6;
-        }
-        .footer-social {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .footer-social a {
-            width: 40px;
-            height: 40px;
+        /* BACK TO TOP BUTTON */
+        .btn-top {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: white;
+            border: 1px solid #e5e7eb;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted);
-            transition: var(--transition);
-            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+            z-index: 998;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: 0.25s;
         }
-        .footer-social a:hover {
-            border-color: var(--primary);
-            color: var(--text);
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px var(--primary-glow);
+        .btn-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        .btn-top:hover { border-color: var(--primary); }
+        .btn-top svg { width: 20px; height: 20px; color: var(--primary); }
+
+        /* TOAST NOTIFICATION */
+        .toast-container {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            z-index: 2000; display: flex; flex-direction: column; gap: 10px; align-items: center;
+            width: 90%; max-width: 360px;
         }
-        .footer-social svg {
-            width: 18px;
-            height: 18px;
+        .toast {
+            background: #1f2937; color: white; padding: 12px 18px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 8px; width: 100%;
+            animation: toastIn 0.3s ease-out forwards;
         }
-        .footer-copy {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        .toast.error { background: #ef4444; }
+        .toast.success { background: #10b981; }
+        .toast.fade-out { animation: toastOut 0.3s ease-in forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-15px); } }
+
+        .welcome-text {
+            text-align: center;
+            margin: 30px 0 20px;
         }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            .hero p {
-                font-size: 0.95rem;
-            }
-            .hero-stats {
-                gap: 25px;
-            }
-            .hero-stats .stat h3 {
-                font-size: 1.3rem;
-            }
-
-            .product-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 14px;
-            }
-
-            .navbar {
-                padding: 12px 16px;
-                margin: 0 -16px;
-            }
-            .container {
-                padding: 0 16px;
-            }
-
-            .whatsapp-nav span {
-                display: none;
-            }
-            .btn-qris span {
-                display: none;
-            }
-
-            .cart-sidebar {
-                width: 100%;
-                right: -100%;
-                max-width: 100%;
-            }
-
-            .varian-item {
-                flex-wrap: wrap;
-            }
-            .varian-actions {
-                width: 100%;
-                justify-content: flex-end;
-            }
-
-            .filter-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .filter-container {
-                justify-content: flex-start;
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                padding-bottom: 8px;
-            }
-            .sort-box {
-                align-self: flex-end;
-            }
+        .welcome-text h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .welcome-text p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            font-weight: 600;
         }
 
-        @media (max-width: 480px) {
-            .product-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-            }
-            .product-card {
-                padding: 14px 12px;
-            }
-            .product-card .product-icon {
-                width: 56px;
-                height: 56px;
-            }
-            .product-card h3 {
-                font-size: 0.82rem;
-            }
+        /* FILTER KATEGORI */
+        .filter-row {
+            display: flex; gap: 12px; align-items: center; margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-container {
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px;
+            justify-content: flex-start; position: relative; flex: 1;
+        }
+        @media (min-width: 768px) {
+            .filter-row { justify-content: center; }
+            .filter-container { flex: none; justify-content: center; }
+        }
+        .filter-container::-webkit-scrollbar { display: none; }
 
-            .modal-content {
-                padding: 20px;
-                width: 95%;
-            }
+        /* DROPDOWN URUTKAN HARGA */
+        .sort-box select {
+            background: white; border: 1px solid #e5e7eb; padding: 8px 14px;
+            border-radius: 20px; font-size: 0.8rem; font-weight: 700; color: #6b7280;
+            cursor: pointer; font-family: inherit; transition: 0.2s;
+        }
+        .sort-box select:hover { border-color: var(--primary); color: var(--primary); }
 
-            .hero h1 {
-                font-size: 1.6rem;
-            }
-            .hero-stats {
-                gap: 16px;
-            }
-            .hero-stats .stat h3 {
-                font-size: 1.1rem;
-            }
-            .hero-stats .stat p {
-                font-size: 0.7rem;
-            }
+        /* RIWAYAT / BARU DILIHAT */
+        .section-label { font-size: 0.85rem; font-weight: 800; color: #6b7280; margin-bottom: 10px; }
+        .riwayat-container {
+            display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 10px;
+        }
+        .riwayat-container::-webkit-scrollbar { display: none; }
+        .riwayat-item {
+            flex: 0 0 auto; width: 80px; text-align: center; cursor: pointer; background: none; border: none;
+            font-family: inherit;
+        }
+        .riwayat-item img {
+            width: 55px; height: 55px; border-radius: 12px; object-fit: cover; margin-bottom: 6px;
+            border: 1px solid #f3f4f6; transition: transform 0.15s;
+        }
+        .riwayat-item:hover img { transform: scale(1.05); }
+        .riwayat-item span { font-size: 0.65rem; font-weight: 700; color: #6b7280; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .filter-btn {
+            background: white; border: 1px solid #e5e7eb; padding: 8px 18px;
+            border-radius: 20px; font-size: 0.85rem; font-weight: 700;
+            color: #6b7280; cursor: pointer; white-space: nowrap;
+            transition: color 0.3s, border-color 0.3s, background 0.3s, transform 0.15s, box-shadow 0.3s;
+        }
+        .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .filter-btn:active { transform: scale(0.94); }
+        .filter-btn.active {
+            background: var(--primary); color: white; border-color: var(--primary);
+            box-shadow: 0 4px 10px rgba(124, 58, 237, 0.2);
+            animation: filterPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes filterPop {
+            0% { transform: scale(0.9); }
+            60% { transform: scale(1.06); }
+            100% { transform: scale(1); }
         }
 
+        /* SEARCH BAR */
+        .search-box {
+            position: relative;
+            max-width: 480px;
+            margin: 0 auto 20px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px 18px 12px 44px;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1f2937;
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+        }
+        .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(124,58,237,0.12); transform: scale(1.015); }
+        .search-box input::placeholder { color: #a3aed1; font-weight: 500; }
+        .search-box svg { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #a3aed1; pointer-events: none; transition: color 0.25s; }
+        .search-box input:focus ~ svg { color: var(--primary); }
+
+        /* GRID RESPONSIVE */
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        @media (min-width: 768px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1024px) { .grid { grid-template-columns: repeat(6, 1fr); } }
+
+        /* KARTU PRODUK */
+        .card {
+            background: white; border: 1px solid #f3f4f6; border-radius: 20px;
+            padding: 15px; text-align: center; cursor: pointer; position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s, border-color 0.2s;
+            overflow: hidden; /* wadah buat efek ripple */
+            will-change: transform;
+        }
+        .card:hover { border-color: #ddd; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
+        .card:active { transform: scale(0.92) !important; transition-duration: 0.1s; } /* Efek tekan tegas */
+        .card:focus-visible { outline: 2px solid var(--primary) !important; outline-offset: 3px; }
+        .badge-terjual {
+            margin-top: 6px; font-size: 0.62rem; font-weight: 800; color: #b45309;
+            background: #fef3c7; border-radius: 8px; padding: 3px 8px; display: inline-block;
+        }
+        .card.pressed { animation: cardPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes cardPop {
+            0% { transform: scale(0.92); }
+            60% { transform: scale(1.035); }
+            100% { transform: scale(1); }
+        }
+
+        /* RIPPLE EFFECT SAAT KLIK */
+        .ripple {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            background: rgba(124, 58, 237, 0.25);
+            transform: scale(0); animation: rippleAnim 0.6s ease-out forwards;
+        }
+        @keyframes rippleAnim {
+            to { transform: scale(1); opacity: 0; }
+        }
+
+        /* SKELETON LOADING */
+        .skeleton-card {
+            background: white; border: 1px solid #f3f4f6; border-radius: 20px; padding: 15px;
+        }
+        .skeleton-box {
+            border-radius: 16px; height: 85px; margin-bottom: 12px;
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
+            background-size: 400% 100%; animation: skeletonShine 1.4s ease infinite;
+        }
+        .skeleton-line { height: 10px; border-radius: 6px; margin: 0 auto 6px;
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
+            background-size: 400% 100%; animation: skeletonShine 1.4s ease infinite;
+        }
+        .skeleton-line.w60 { width: 60%; }
+        .skeleton-line.w40 { width: 40%; }
+        @keyframes skeletonShine { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+
+        /* EMPTY STATE */
+        .empty-state {
+            grid-column: 1 / -1; text-align: center; padding: 50px 20px; color: #9ca3af;
+        }
+        .empty-state svg { width: 50px; height: 50px; margin-bottom: 12px; color: #d1d5db; }
+        .empty-state p { font-weight: 700; font-size: 0.9rem; }
+
+        /* ICON BOX */
+        .icon-box {
+            background: #ffffff; border: 1px solid #f3f4f6; border-radius: 16px;
+            padding: 15px; margin-bottom: 12px; display: flex; justify-content: center;
+            align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.01); position: relative;
+        }
+        .icon-box img {
+            width: 55px; height: 55px; border-radius: 12px; object-fit: cover;
+            filter: blur(0); opacity: 1; transition: filter 0.4s ease-out, opacity 0.4s ease-out;
+            background: #f3f4f6;
+        }
+        .icon-box img.img-loading { filter: blur(10px); opacity: 0.5; }
+        #iconModal { filter: blur(0); opacity: 1; transition: filter 0.4s ease-out, opacity 0.4s ease-out; }
+        #iconModal.img-loading { filter: blur(10px); opacity: 0.5; }
+
+        /* TYPOGRAPHY */
+        .card .kategori { color: var(--primary); font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .card h3 { font-size: 0.95rem; font-weight: 800; margin-bottom: 4px; }
+        .card .subtitle { font-size: 0.65rem; color: #9ca3af; font-weight: 500; }
+
+        /* BADGES */
+        .badge {
+            position: absolute; top: -5px; right: -5px; 
+            font-size: 0.55rem; font-weight: 800; padding: 4px 8px; border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .badge.hot {
+            background: #fee2e2; color: #ef4444; border: 1px solid #fecaca;
+            animation: hotGlow 1.8s ease-in-out infinite;
+        }
+        @keyframes hotGlow {
+            0%, 100% { box-shadow: 0 2px 4px rgba(239,68,68,0.15); transform: scale(1); }
+            50% { box-shadow: 0 2px 12px rgba(239,68,68,0.55); transform: scale(1.08); }
+        }
+
+        /* MODAL DENGAN ANIMASI SMOOTH */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(17, 24, 39, 0.6); backdrop-filter: blur(8px);
+            justify-content: center; align-items: center; z-index: 1000;
+            animation: fadeInModal 0.3s ease-out forwards;
+        }
+        .modal-content {
+            background: white; padding: 25px; border-radius: 28px; width: 90%; max-width: 420px;
+            max-height: 85vh; overflow-y: auto; position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            animation: popUpModal 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .modal-header { text-align: center; margin-bottom: 20px; }
+        .modal-header h2 { font-size: 1.2rem; font-weight: 800; animation: fadeSlideUp 0.4s ease-out 0.1s both; }
+        .close-btn { position: absolute; top: 15px; right: 15px; background: #f3f4f6; border: none; padding: 5px 10px; border-radius: 8px; font-weight: bold; color: #ef4444; cursor: pointer; transition: transform 0.15s; }
+        .close-btn:active { transform: scale(0.85) rotate(90deg); }
+        
+        .varian-item {
+            border: 1px solid #e5e7eb; padding: 15px; border-radius: 16px; margin-bottom: 12px;
+            animation: fadeSlideUp 0.4s ease-out both;
+        }
+        .varian-header { display: flex; justify-content: space-between; font-weight: 800; margin-bottom: 5px; font-size: 0.95rem;}
+        .varian-harga { color: var(--primary); }
+        .varian-desk { font-size: 0.75rem; color: #6b7280; margin-bottom: 12px; }
+        .btn-wa {
+            display: block; background: var(--primary); color: white; text-align: center;
+            padding: 10px; border-radius: 10px; text-decoration: none; font-size: 0.85rem; font-weight: 700;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+            position: relative; overflow: hidden;
+        }
+        .btn-wa:active { transform: scale(0.95); box-shadow: 0 2px 8px rgba(124,58,237,0.35); }
+        .btn-wa.tapped::after {
+            content: '✓ Membuka WhatsApp...';
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            background: var(--primary); animation: tapConfirm 0.9s ease forwards;
+        }
+        @keyframes tapConfirm {
+            0% { opacity: 0; transform: translateY(6px); }
+            15% { opacity: 1; transform: translateY(0); }
+            85% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .btn-share {
+            width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px;
+            background: none; border: 1px dashed #d1d5db; color: #6b7280; font-family: inherit;
+            font-size: 0.8rem; font-weight: 700; padding: 10px; border-radius: 10px; cursor: pointer;
+            transition: 0.2s; margin-top: 4px;
+        }
+        .btn-share:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-share:active { transform: scale(0.96); }
+        
+        /* TESTIMONI */
+        .testimoni-section { margin-top: 50px; }
+        .testimoni-empty {
+            text-align: center; background: white; border: 1px dashed #e5e7eb; border-radius: 20px;
+            padding: 30px 20px; color: #9ca3af; font-size: 0.85rem; font-weight: 600; margin-bottom: 16px;
+        }
+        .testimoni-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+        @media (min-width: 768px) { .testimoni-grid { grid-template-columns: repeat(3, 1fr); } }
+        .testimoni-card {
+            background: white; border: 1px solid #f3f4f6; border-radius: 16px; padding: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .testimoni-card .bintang { color: #f59e0b; font-size: 0.85rem; margin-bottom: 6px; }
+        .testimoni-card .isi { font-size: 0.82rem; color: #4b5563; font-weight: 600; margin-bottom: 8px; line-height: 1.5; }
+        .testimoni-card .nama { font-size: 0.75rem; color: #9ca3af; font-weight: 700; }
+        .btn-telegram {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: #229ED9; color: white; text-decoration: none; font-weight: 700;
+            font-size: 0.85rem; padding: 12px; border-radius: 14px; max-width: 380px; margin: 0 auto;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+        .btn-telegram:hover { opacity: 0.92; transform: translateY(-2px); }
+        .btn-telegram:active { transform: scale(0.97); }
+
+        /* FAQ ACCORDION */
+        .faq-section { margin-top: 40px; }
+        .faq-list { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .faq-item { background: white; border: 1px solid #f3f4f6; border-radius: 14px; overflow: hidden; }
+        .faq-question {
+            width: 100%; background: none; border: none; text-align: left; padding: 14px 16px;
+            font-family: inherit; font-size: 0.88rem; font-weight: 700; color: #1f2937; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center; gap: 10px;
+        }
+        .faq-question svg { flex-shrink: 0; width: 18px; height: 18px; color: var(--primary); transition: transform 0.25s; }
+        .faq-item.open .faq-question svg { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease;
+            font-size: 0.82rem; color: #6b7280; font-weight: 600; line-height: 1.6; padding: 0 16px;
+        }
+        .faq-item.open .faq-answer { max-height: 220px; padding: 0 16px 16px; }
+
+        /* FOOTER */
+        .footer {
+            margin-top: 50px; padding: 30px 20px 20px; text-align: center;
+            border-top: 1px solid #eceff3;
+        }
+        .footer-brand { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-bottom: 6px; }
+        .footer-desc { font-size: 0.8rem; color: #9ca3af; font-weight: 600; margin-bottom: 16px; max-width: 320px; margin-left: auto; margin-right: auto; }
+        .footer-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 18px; }
+        .footer-social a {
+            width: 38px; height: 38px; border-radius: 50%; background: white; border: 1px solid #e5e7eb;
+            display: flex; align-items: center; justify-content: center; color: #6b7280; transition: 0.2s;
+        }
+        .footer-social a:hover { border-color: var(--primary); color: var(--primary); }
+        .footer-social svg { width: 18px; height: 18px; }
+        .footer-copy { font-size: 0.8rem; color: #9ca3af; font-weight: 600; padding-top: 16px; border-top: 1px solid #f3f4f6; }
+        ::-webkit-scrollbar { width: 0px; }
+
+        /* KEYFRAMES ANIMASI */
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+        .modal.closing { animation: fadeOutModal 0.25s ease-in forwards; }
+        .modal.closing .modal-content { animation: popDownModal 0.25s ease-in forwards; }
+        @keyframes fadeOutModal { from { opacity: 1; } to { opacity: 0; } }
+        @keyframes popDownModal { from { opacity: 1; transform: scale(1) translateY(0); } to { opacity: 0; transform: scale(0.9) translateY(20px); } }
+        @keyframes popUpModal {
+            0% { opacity: 0; transform: scale(0.75) translateY(40px); }
+            60% { opacity: 1; transform: scale(1.03) translateY(-4px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInCard { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes iconPop {
+            0% { transform: scale(0.5) rotate(-8deg); opacity: 0; }
+            70% { transform: scale(1.1) rotate(3deg); opacity: 1; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        .icon-pop-modal { display: inline-block; animation: iconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.15s both; }
+
+        /* AKSESIBILITAS: kembalikan fokus visual buat pengguna keyboard (global outline:none di atas menghapusnya) */
+        button:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+            outline: 2px solid var(--primary) !important; outline-offset: 2px;
+        }
+
+        /* AKSESIBILITAS: sembunyikan visual tapi tetap terbaca screen reader */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
+
+        /* HORMATI SETTING "REDUCE MOTION" DI SISTEM/BROWSER USER */
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 animation-duration: 0.001s !important;
+                animation-iteration-count: 1 !important;
                 transition-duration: 0.001s !important;
+                scroll-behavior: auto !important;
             }
-            .float-wa::before {
-                display: none;
-            }
-            .badge.hot {
-                animation: none;
-            }
+            .btn-wa-float::before { display: none; } /* matikan ring pulse yang infinite */
+            .badge.hot { animation: none; box-shadow: 0 2px 4px rgba(239,68,68,0.15); }
         }
     </style>
 </head>
 <body>
 
-    <!-- ========== BACKGROUND ========== -->
-    <div class="bg-orbs">
-        <div class="orb"></div>
-        <div class="orb"></div>
-        <div class="orb"></div>
+<div class="navbar">
+    <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        DigishopID
+    </div>
+    <button class="btn-qris" onclick="bukaQris()">QRIS / Bayar</button>
+</div>
+
+<div class="container">
+    <div class="welcome-text">
+        <h1>Selamat Datang di DigishopID</h1>
+        <p>Pilih layanan digital premium kebutuhan Anda di bawah ini</p>
     </div>
 
-    <!-- ========== NAVBAR ========== -->
-    <nav class="navbar" id="navbar">
-        <a href="#" class="logo">
-            <div class="logo-icon">
-                <!-- ===== LOGO DIAMOND ===== -->
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                    <path d="M2 17l10 5 10-5" />
-                    <path d="M2 12l10 5 10-5" />
-                </svg>
-            </div>
-            Digi<span>Shop</span>ID
+    <!-- SEARCH BAR -->
+    <div class="search-box">
+        <label for="searchInput" class="sr-only">Cari produk</label>
+        <input type="text" id="searchInput" placeholder="Cari produk (Netflix, CapCut, dll)..." oninput="cariProduk(this.value)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    </div>
+
+    <!-- FITUR FILTER + URUTKAN HARGA -->
+    <div class="filter-row">
+        <div class="filter-container">
+            <button class="filter-btn active" id="btn-Semua" onclick="filterProduk('Semua')">Semua</button>
+            <button class="filter-btn" id="btn-MOVIE" onclick="filterProduk('MOVIE')">Movie</button>
+            <button class="filter-btn" id="btn-DESAIN" onclick="filterProduk('DESAIN')">Desain</button>
+            <button class="filter-btn" id="btn-MUSIK" onclick="filterProduk('MUSIK')">Musik</button>
+            <button class="filter-btn" id="btn-APPS" onclick="filterProduk('APPS')">Aplikasi</button>
+            <button class="filter-btn" id="btn-SMART" onclick="filterProduk('SMART')">AI Tools</button>
+        </div>
+        <div class="sort-box">
+            <label for="sortSelect" class="sr-only">Urutkan produk</label>
+            <select id="sortSelect" onchange="urutkanProduk(this.value)">
+                <option value="default">Urutkan</option>
+                <option value="termurah">Harga: Termurah</option>
+                <option value="termahal">Harga: Termahal</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- BARU DILIHAT -->
+    <div id="baruDilihatWrap" style="display:none;">
+        <div class="section-label">Baru Dilihat</div>
+        <div class="riwayat-container" id="riwayatContainer"></div>
+    </div>
+
+    <div class="grid" id="katalog"></div>
+
+    <!-- TESTIMONI -->
+    <div class="testimoni-section">
+        <div class="section-label" style="text-align:center; margin-bottom:14px;">Testimoni Pembeli</div>
+        <div id="testimoniIsi"></div>
+        <a href="https://t.me/fdfORqSER45lMmZl" target="_blank" rel="noopener" class="btn-telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm4.76 6.79-1.61 7.59c-.12.54-.44.67-.89.42l-2.46-1.81-1.19 1.14c-.13.13-.24.24-.5.24l.18-2.52 4.58-4.14c.2-.18-.04-.28-.31-.1l-5.66 3.56-2.44-.76c-.53-.17-.54-.53.11-.78l9.54-3.68c.44-.16.83.11.65.84Z"/></svg>
+            Lihat Semua Testimoni Asli di Telegram
         </a>
-        <div class="nav-actions">
-            <button class="btn-qris" onclick="bukaQris()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 8h8v8H8z"/><path d="M6 2v20"/><path d="M18 2v20"/></svg>
-                <span>QRIS</span>
-            </button>
-            <button class="cart-btn" id="cartToggle">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                <span class="cart-count" id="cartCount">0</span>
-            </button>
-            <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" class="whatsapp-nav">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
-                <span>Order</span>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+        <div class="section-label" style="text-align:center; margin-bottom:14px;">Pertanyaan yang Sering Ditanyakan</div>
+        <div class="faq-list" id="faqList"></div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-brand">DigishopID</div>
+        <div class="footer-desc">Toko layanan digital premium terpercaya. Proses cepat, harga bersahabat, garansi jelas.</div>
+        <div class="footer-social">
+            <a href="https://wa.me/6283160593305" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/digitalmarket_reall?" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+            </a>
+            <a href="https://www.tiktok.com/@digishopid6" target="_blank" rel="noopener" aria-label="TikTok">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"/></svg>
             </a>
         </div>
-    </nav>
-
-    <!-- ========== HERO ========== -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-badge">✨ 5.000+ Pelanggan Puas</div>
-            <h1>Layanan Digital <span class="highlight">Premium</span><br />Harga Terjangkau</h1>
-            <p>Netflix, Spotify, CapCut Pro, Canva, dan 20+ layanan digital lainnya. Proses cepat, garansi jelas, harga bersahabat.</p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <h3>5.000+</h3>
-                    <p>Pelanggan Puas</p>
-                </div>
-                <div class="stat">
-                    <h3>⭐ 4.9</h3>
-                    <p>Rating Pembeli</p>
-                </div>
-                <div class="stat">
-                    <h3>100%</h3>
-                    <p>Garansi Uang Kembali</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ========== MAIN CONTENT ========== -->
-    <div class="container">
-
-        <!-- SEARCH -->
-        <div class="search-box">
-            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" id="searchInput" placeholder="Cari layanan digital..." oninput="cariProduk(this.value)" />
-        </div>
-
-        <!-- FILTER + SORT -->
-        <div class="filter-row">
-            <div class="filter-container" id="filterContainer">
-                <button class="filter-btn active" data-filter="all" onclick="filterProduk('all')">Semua</button>
-                <button class="filter-btn" data-filter="MOVIE" onclick="filterProduk('MOVIE')">🎬 Movie</button>
-                <button class="filter-btn" data-filter="DESAIN" onclick="filterProduk('DESAIN')">🎨 Desain</button>
-                <button class="filter-btn" data-filter="MUSIK" onclick="filterProduk('MUSIK')">🎵 Musik</button>
-                <button class="filter-btn" data-filter="APPS" onclick="filterProduk('APPS')">📱 Aplikasi</button>
-                <button class="filter-btn" data-filter="SMART" onclick="filterProduk('SMART')">🤖 AI Tools</button>
-            </div>
-            <div class="sort-box">
-                <select id="sortSelect" onchange="urutkanProduk(this.value)">
-                    <option value="default">Urutkan</option>
-                    <option value="termurah">Harga: Termurah</option>
-                    <option value="termahal">Harga: Termahal</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- PRODUCT GRID -->
-        <div class="product-grid" id="productGrid"></div>
-
-        <!-- TESTIMONI -->
-        <section class="testimoni-section">
-            <h2 style="font-size:1.3rem;font-weight:800;text-align:center;margin-bottom:16px;">
-                💬 Testimoni Pembeli
-            </h2>
-            <div id="testimoniContainer"></div>
-            <div style="text-align:center;margin-top:14px;">
-                <a href="https://t.me/fdfORqSER45lMmZl" target="_blank" class="btn-telegram">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
-                    Lihat Semua Testimoni di Telegram
-                </a>
-            </div>
-        </section>
-
-        <!-- FAQ -->
-        <section class="faq-section">
-            <h2 style="font-size:1.3rem;font-weight:800;text-align:center;margin-bottom:16px;">
-                ❓ Pertanyaan Umum
-            </h2>
-            <div class="faq-list" id="faqContainer"></div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="footer">
-            <div class="footer-brand">Digi<span>Shop</span>ID</div>
-            <div class="footer-desc">Toko layanan digital premium terpercaya. Proses cepat, harga bersahabat, garansi jelas.</div>
-            <div class="footer-social">
-                <a href="https://wa.me/6283160593305" target="_blank" aria-label="WhatsApp">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
-                </a>
-                <a href="https://www.instagram.com/digitalmarket_reall" target="_blank" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-                </a>
-                <a href="https://www.tiktok.com/@digishopid6" target="_blank" aria-label="TikTok">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z"/></svg>
-                </a>
-            </div>
-            <div class="footer-copy">&copy; 2026 DigishopID. All rights reserved.</div>
-        </footer>
+        <div class="footer-copy">&copy; 2026 DigishopID. All rights reserved.</div>
     </div>
+</div>
 
-    <!-- ========== CART SIDEBAR ========== -->
-    <div class="cart-overlay" id="cartOverlay"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h2>🛒 Keranjang <span id="cartItemCount">(0)</span></h2>
-            <button class="cart-close" id="cartClose">✕</button>
+<!-- Modal Katalog Varian -->
+<div id="modal" class="modal" onclick="tutupModal()" role="dialog" aria-modal="true" aria-labelledby="judulProduk">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="tutupModal()" aria-label="Tutup detail produk">X</button>
+        <div class="modal-header">
+            <img id="iconModal" src="" alt="" class="icon-pop-modal" style="width:56px; height:56px; border-radius:14px; object-fit:cover; margin-bottom:10px; box-shadow:0 6px 14px rgba(0,0,0,0.12);">
+            <h2 id="judulProduk">Nama Produk</h2>
         </div>
-        <div class="cart-items" id="cartItems">
-            <div class="cart-empty">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                <p>Keranjang kosong</p>
-                <p style="font-size:0.8rem;margin-top:4px;">Mulai belanja sekarang!</p>
-            </div>
-        </div>
-        <div class="cart-footer" id="cartFooter" style="display:none;">
-            <div class="cart-total">
-                <span>Total</span>
-                <span class="total-price" id="cartTotalPrice">Rp 0</span>
-            </div>
-            <button class="btn-checkout" id="checkoutBtn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                Checkout via WhatsApp
-            </button>
-        </div>
+        <div id="listVarian"></div>
     </div>
+</div>
 
-    <!-- ========== PRODUCT MODAL ========== -->
-    <div class="modal" id="productModal" onclick="tutupModal()" role="dialog" aria-modal="true">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <button class="modal-close" onclick="tutupModal()">✕</button>
-            <div class="modal-product">
-                <div class="modal-icon" id="modalIcon">
-                    <img id="modalImg" src="" alt="" />
-                </div>
-                <h2 id="modalTitle">Nama Produk</h2>
-                <div class="modal-sub" id="modalSub">Subtitle</div>
-                <div class="modal-cat" id="modalCat">Kategori</div>
-            </div>
-            <div class="varian-list" id="modalVariants"></div>
-        </div>
+<!-- Modal Khusus QRIS -->
+<div id="modalQris" class="modal" onclick="tutupQris()" role="dialog" aria-modal="true" aria-label="Pembayaran QRIS">
+    <div class="modal-content" style="text-align: center;" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="tutupQris()" aria-label="Tutup pembayaran QRIS">X</button>
+        <h2 style="margin-bottom: 15px; font-weight: 800; font-size: 1.2rem;">Pembayaran QRIS</h2>
+        
+        <img id="gambarQrisLokal" src="qris.jpg" alt="QRIS DigishopID" style="width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        
+        <button onclick="downloadQrisPastiBisa()" class="btn-wa" style="background: #10b981; border: none; cursor: pointer; width: 100%; font-family: inherit; margin-bottom: 15px;">
+            ⬇️ Simpan Gambar QRIS
+        </button>
+        
+        <p style="font-size: 0.8rem; color: #6b7280; font-weight: 600; line-height: 1.5;">
+            1. Klik tombol hijau di atas.<br>
+            2. Gambar otomatis tersimpan di Galeri.<br>
+            3. Bayar lewat aplikasi DANA/OVO/M-Banking.<br>
+            4. Kirim bukti transfer ke WhatsApp admin.
+        </p>
     </div>
+</div>
 
-    <!-- ========== QRIS MODAL ========== -->
-    <div class="modal" id="qrisModal" onclick="tutupQris()" role="dialog" aria-modal="true">
-        <div class="modal-content" onclick="event.stopPropagation()" style="text-align:center;">
-            <button class="modal-close" onclick="tutupQris()">✕</button>
-            <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:10px;">💳 Pembayaran QRIS</h2>
-            <img id="qrisImage" src="qris.jpg" alt="QRIS DigishopID" style="width:100%;max-width:220px;border-radius:16px;margin-bottom:14px;border:2px solid rgba(255,255,255,0.04);" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22%3E%3Crect width=%22300%22 height=%22300%22 fill=%22%2314102A%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22 fill=%22%239494B8%22 font-family=%22sans-serif%22 font-size=%2216%22%3EQRIS%3C/text%3E%3C/svg%3E'" />
-            <button onclick="downloadQRIS()" style="background:var(--success);color:white;border:none;padding:12px 24px;border-radius:50px;font-weight:700;font-size:0.85rem;cursor:pointer;transition:var(--transition);font-family:inherit;width:100%;margin-bottom:12px;">
-                ⬇️ Simpan Gambar QRIS
-            </button>
-            <p style="font-size:0.75rem;color:var(--text-muted);line-height:1.6;font-weight:600;">
-                1. Klik tombol hijau di atas<br />
-                2. Gambar otomatis tersimpan di Galeri<br />
-                3. Bayar lewat DANA/OVO/GoPay/M-Banking<br />
-                4. Kirim bukti transfer ke WhatsApp Admin
-            </p>
-        </div>
-    </div>
+<!-- FLOATING WHATSAPP BUTTON -->
+<a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID,%20saya%20mau%20tanya%20tentang%20produk" class="btn-wa-float" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.04 3.67C14.25 3.67 16.32 4.53 17.89 6.09C19.45 7.66 20.31 9.73 20.31 11.92C20.31 16.46 16.58 20.17 12.03 20.17C10.56 20.17 9.12 19.78 7.85 19.04L7.55 18.87L4.43 19.69L5.27 16.65L5.08 16.34C4.27 15.03 3.84 13.5 3.84 11.91C3.85 7.37 7.5 3.67 12.04 3.67ZM8.53 6.85C8.36 6.85 8.1 6.91 7.87 7.16C7.65 7.41 7 8.01 7 9.22C7 10.43 7.89 11.6 8 11.76C8.14 11.92 9.76 14.44 12.29 15.53C14.38 16.43 14.8 16.27 15.26 16.22C15.72 16.18 16.72 15.62 16.93 15.04C17.14 14.46 17.14 13.97 17.08 13.87C17.02 13.76 16.85 13.7 16.6 13.58C16.35 13.45 15.13 12.85 14.9 12.77C14.67 12.68 14.5 12.64 14.34 12.89C14.17 13.14 13.69 13.7 13.55 13.87C13.4 14.03 13.26 14.05 13.01 13.93C12.76 13.8 11.96 13.54 11.01 12.69C10.27 12.03 9.77 11.21 9.63 10.96C9.49 10.71 9.62 10.58 9.74 10.45C9.86 10.33 10 10.15 10.13 10C10.25 9.85 10.3 9.75 10.38 9.58C10.46 9.42 10.42 9.27 10.36 9.15C10.3 9.03 9.81 7.79 9.6 7.31C9.4 6.83 9.19 6.86 9.03 6.85C8.9 6.85 8.72 6.85 8.53 6.85Z"/>
+    </svg>
+</a>
 
-    <!-- ========== FLOATING WA ========== -->
-    <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" class="float-wa" aria-label="WhatsApp">
-        <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
-    </a>
+<!-- BACK TO TOP BUTTON -->
+<button class="btn-top" id="btnTop" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-label="Kembali ke atas">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
+</button>
 
-    <!-- ========== TOAST ========== -->
-    <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <script>
-        // ============================================================
-        // DATA PRODUK
-        // ============================================================
-        const produk = [{
-            id: 'am',
-            nama: 'Alight Motion',
-            kategori: 'DESAIN',
-            subtitle: 'Editing App',
+<script>
+    // ICON CADANGAN kalau link gambar produk gagal dimuat (data URI, jadi gak mungkin ikut gagal)
+    const ICON_FALLBACK = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='4'/%3E%3Ccircle cx='9' cy='9' r='2'/%3E%3Cpath d='m21 15-5-5L5 21'/%3E%3C/svg%3E";
+    function gantiIconFallback(imgEl) {
+        imgEl.onerror = null; // cegah loop tak berhenti kalau fallback-nya ikut error
+        imgEl.src = ICON_FALLBACK;
+        imgEl.style.padding = '10px';
+        imgEl.style.background = '#f8f7ff';
+        imgEl.classList.remove('img-loading');
+    }
+
+    // DATA FAQ - silakan tambah/edit sesuai kebutuhan toko
+    const faqData = [
+        { q: 'Berapa lama proses setelah order?', a: 'Prosesnya manual ya, Kak, jadi saya pastikan akun aman. Biasanya hitungan menit langsung beres, tapi kalau sedang antre mohon tunggu maksimal 5-15 menit setelah pembayaran masuk' },
+        { q: 'Bagaimana kalau akun error atau kena limit?', a: 'Semua produk sudah termasuk garansi sesuai keterangan di setiap varian (garansi kendala backfree/masa aktif). Tinggal hubungi admin via WhatsApp dengan bukti order, nanti langsung dibantu.' },
+        { q: 'Metode pembayaran apa saja yang diterima?', a: 'Saat ini menerima pembayaran via QRIS (DANA, OVO, GoPay, ShopeePay, m-banking, dll). Klik tombol "QRIS / Bayar" di pojok kanan atas untuk detailnya.' },
+        { q: 'Apakah akun ini aman dan legal?', a: 'Akun yang dijual berupa akun sharing/private resmi yang diambil dari partner resmi seller. Selama digunakan sesuai ketentuan (tidak ganti password/email), akun akan tetap aman.' },
+        { q: 'Bisa refund kalau berubah pikiran?', a: 'Karena sifatnya produk digital yang langsung terpakai, refund hanya berlaku untuk kendala di pihak kami (misal akun tidak bisa diakses), bukan karena perubahan keputusan pembeli.' }
+    ];
+
+    // TESTIMONI ASLI - tambahkan testimoni asli pembeli kamu di sini ya, contoh formatnya:
+    // { bintang: 5, isi: 'Prosesnya cepat banget, recommended!', nama: 'Budi - Jakarta' }
+    // Kalau array ini kosong, yang tampil cuma tombol menuju channel Telegram testimoni kamu.
+    const testimoniData = [
+        // ISI SENDIRI DENGAN TESTIMONI ASLI DARI PEMBELI KAMU
+
+    ];
+
+    const produk = [
+        {
+            id: 'am', nama: 'Alight Motion', kategori: 'DESAIN', subtitle: 'Editing App',
             icon: 'https://play-lh.googleusercontent.com/LRjRXaVEtoeHyiFcnMLCHs1ZJV8Q4q70PggflRDAfgOkulzFTbJg65y0drg6Yapo22Xoos_XCbyh7EgycBhQ',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: 'Sharing 1 Tahun', harga: '3.000', desk: 'Maksimal 5 device. Garansi 3 bulan.' },
-                { nama: 'Private 1 Tahun', harga: '8.000', desk: 'Bisa ganti email. Akun private.' }
+                { nama: 'AM Sharing 1 Tahun', harga: '3.000', desk: 'Maksimal 5 device. Garansi 3 bulan. Khusus kendala backfree.' },
+                { nama: 'AM Private 1 Tahun', harga: '8.000', desk: 'Bisa ganti email. Akun private bebas share. Garansi 3 bulan.' }
             ]
-        }, {
-            id: 'capcut',
-            nama: 'CapCut Pro',
-            kategori: 'DESAIN',
-            subtitle: 'Editing App',
+        },
+        {
+            id: 'capcut', nama: 'CapCut Pro', kategori: 'DESAIN', subtitle: 'Editing App',
             icon: 'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHM0OYfiFeMI2p9MWie0CvL99U4GA1gf6_kayTt_kBblFwHwo8BW8JXlqfnYxKPmmBaQDG.nPeYqpMXSUQbV6ZbDqKB2cfxC8XGBuMMG2wnfQDreT0rlqZucFHBfMnKmf9jEjSzK_3h4euGl2PWZ9ggU-&format=source',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: '7 Hari Private', harga: '30.000', desk: 'Akun private. Garansi 7 hari.' },
-                { nama: '7 Hari Sharing', harga: '23.500', desk: 'Maksimal 1 device. Garansi 7 hari.' },
-                { nama: '1 Bulan Private', harga: '75.000', desk: 'Akun private. Garansi 25 hari.' },
-                { nama: '1 Bulan Sharing', harga: '60.000', desk: 'Maksimal 1 device. Garansi 25 hari.' }
+                { nama: '7 Hari Private', harga: '30.000', desk: 'Akun private. Garansi backfree 7 hari.' },
+                { nama: '7 Hari Sharing', harga: '23.500', desk: 'Maksimal 1 device. Garansi backfree 7 hari.' },
+                { nama: '1 Bulan Private', harga: '75.000', desk: 'Akun private. Login 1 device. Garansi backfree 25 hari.' },
+                { nama: '1 Bulan Sharing', harga: '60.000', desk: 'Maksimal 1 device. Garansi backfree 25 hari.' }
             ]
-        }, {
-            id: 'netflix',
-            nama: 'Netflix 4K',
-            kategori: 'MOVIE',
-            subtitle: 'Streaming',
+        },
+        {
+            id: 'netflix', nama: 'Netflix 4K', kategori: 'MOVIE', subtitle: 'Streaming',
             icon: 'https://yt3.googleusercontent.com/6Tx4cExHCNrdMIRxfNcPBh-90reH5ugoKyzi0cJZUd6jbFKvHJpPYWMPjwCWxuuOCmW05avdNUI=s900-c-k-c0x00ffffff-no-rj',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: '7 Hari (1P2U)', harga: '22.000', desk: '1 profil 2 user. Garansi 7 hari.' },
-                { nama: '1 Bulan (1P2U)', harga: '35.000', desk: '1 profil 2 user. Garansi 20 hari.' },
-                { nama: '1 Bulan (1P1U)', harga: '48.000', desk: '1 profil private. Full garansi.' },
-                { nama: '1 Bulan SEMI PRIVATE', harga: '75.000', desk: '1 profil private. Full garansi.' },
-                { nama: 'Netflix Crack', harga: '15.000', desk: 'Garansi 24 jam.' }
+                { nama: '7 Hari (1P2U)', harga: '22.000', desk: '1 profil isi 2 user. Login 1 device. Garansi 7 hari.' },
+                { nama: '1 Bulan (1P2U)', harga: '35.000', desk: '1 profil isi 2 user. Login 1 device. Garansi 20 hari.' },
+                { nama: '1 Bulan (1P1U)', harga: '48.000', desk: '1 profil private milik sendiri. Login 1 device. Full garansi.' },
+                { nama: '1 Bulan (SEMI PRIVATE)', harga: '75.000', desk: '1 profil private milik sendiri. Bisa login 2 device tetapi tidak boleh nonton bersamaan. Full garansi.' },
+                { nama: 'Netflix Crack', harga: '15.000', desk: 'Garansi 24 jam setelah Aktivasi' }
             ]
-        }, {
-            id: 'spotify',
-            nama: 'Spotify',
-            kategori: 'MUSIK',
-            subtitle: 'Audio Premium',
+        },
+        {
+            id: 'spotify', nama: 'Spotify', kategori: 'MUSIK', subtitle: 'Audio Premium',
             icon: 'https://yt3.googleusercontent.com/UMGZZMPQkM3kGtyW4jNE1GtpSrydfNJdbG1UyWTp5zeqUYc6-rton70Imm7B11RulRRuK521NQ=s900-c-k-c0x00ffffff-no-rj',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Indplan 1 Bulan', harga: '32.000', desk: '1 perangkat. Garansi 20 hari.' },
-                { nama: 'Famplan 1 Bulan', harga: '25.000', desk: 'Garansi 20 hari.' }
+                { nama: 'Indplan 1 Bulan', harga: '32.000', desk: 'Gunakan 1 perangkat saja. Garansi 20 hari sejak pembelian.' },
+                { nama: 'Famplan 1 Bulan', harga: '25.000', desk: 'Garansi 20 hari sejak pembelian.' }
             ]
-        }, {
-            id: 'bstation',
-            nama: 'Bstation',
-            kategori: 'MOVIE',
-            subtitle: 'Anime Stream',
+        },
+        {
+            id: 'bstation', nama: 'Bstation', kategori: 'MOVIE', subtitle: 'Anime Stream',
             icon: 'https://screenscore.digitalmama.id/wp-content/uploads/2025/03/unnamed-9.webp',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
                 { nama: 'Sharing 1 Bulan', harga: '15.000', desk: 'Maksimal 1 device. Garansi 25 hari.' },
-                { nama: 'Private 14 Hari', harga: '17.500', desk: 'Akun private. Garansi Full.' },
+                { nama: 'Private 14 Hari', harga: '17.500', desk: 'Pakai akun sendiri. Garansi Full.' },
                 { nama: 'Private 1 Bulan', harga: '31.000', desk: 'Akun private. Garansi Full.' }
             ]
-        }, {
-            id: 'canva',
-            nama: 'Canva',
-            kategori: 'DESAIN',
-            subtitle: 'Template Premium',
+        },
+        {
+            id: 'canva', nama: 'Canva', kategori: 'DESAIN', subtitle: 'Template Premium',
             icon: 'https://pbs.twimg.com/profile_images/1542647040756568064/YbE5Hs-5_400x400.jpg',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: 'Invite 1 Bulan', harga: '2.500', desk: 'Akun Private. via invite.' },
-                { nama: 'Invite 1 Tahun', harga: '25.000', desk: 'Akun Private. via invite.' },
-                { nama: 'Head (Owner) 1 Bulan', harga: '13.000', desk: 'Cocok untuk tim. Bisa invite 100 anggota.' }
+                { nama: 'Canva Invite 1 Bulan', harga: '2.500', desk: 'Akun Private. via invite. Garansi Full' },
+                { nama: 'Canva Invite 1 Tahun', harga: '25.000', desk: 'Akun Private. via invite. sistem invite tiap bulan. Garansi Full' },
+                { nama: 'Canva Head (Owner) 1 Bulan', harga: '13.000', desk: 'Cocok untuk kerja tim.bisa invite 100 anggota. Garansi 25 hari. Khusus kendala backfree' }
             ]
-        }, {
-            id: 'disney',
-            nama: 'Disney+',
-            kategori: 'MOVIE',
-            subtitle: 'Streaming',
+        },
+        {
+            id: 'disney', nama: 'Disney+', kategori: 'MOVIE', subtitle: 'Streaming',
             icon: 'https://images.seeklogo.com/logo-png/4/1/disney-logo-png_seeklogo-41972.png',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '30.000', desk: 'Maksimal 1 device. Garansi 25 hari.' },
-                { nama: 'Sharing 7 Hari', harga: '20.000', desk: 'Maksimal 1 device. Garansi 7 hari.' }
+                { nama: 'Disney Sharing 1 Bulan', harga: '30.000', desk: 'Maksimal 1 device. Garansi 25 hari.' },
+                { nama: 'Disney Sharing 7 Hari', harga: '20.000', desk: 'Maksimal 1 device. Garansi 7 hari.' }
             ]
-        }, {
-            id: 'youtube',
-            nama: 'YouTube',
-            kategori: 'MOVIE',
-            subtitle: 'Video Premium',
+        },
+        {
+            id: 'youtube', nama: 'YouTube', kategori: 'MOVIE', subtitle: 'Video Premium',
             icon: 'https://yt3.googleusercontent.com/1NFw5olkb4TAkk0ZrGc9_VVDjxjJemetRY3FZQ7DKmPosb0lWwx2mgPY2YhGKkgFzHZGn44zZQ=s900-c-k-c0x00ffffff-no-rj',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: '1 Bulan', harga: '8.000', desk: 'Akun Private. Garansi 25 hari.' },
-                { nama: 'Famhead 1 Bulan', harga: '17.000', desk: 'Akun dari pembeli. Bisa invite 5 member.' }
+                { nama: 'Youtube 1 Bulan', harga: '8.000', desk: 'Akun Private. masa aktif 25-30 hari. pastikan email belum pernah join family. Garansi 25 hari' },
+                { nama: 'Youtube Famhead 1 Bulan', harga: '17.000', desk: 'Akun dari pembeli. bisa invite 5 member. Garansi 7 hari setelah aktivasi' }
             ]
-        }, {
-            id: 'gemini',
-            nama: 'Gemini AI',
-            kategori: 'SMART',
-            subtitle: 'AI Tools',
+        },
+        {
+            id: 'gemini', nama: 'Gemini AI', kategori: 'SMART', subtitle: 'AI Tools',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqGrqBPffjc--HscZ5gQAsD7XaVdVbrxL5IvRJwgdqRUqRvW9YxcNtCc&s=10',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '10.000', desk: 'Maksimal 1 device. Garansi 1 bulan.' },
-                { nama: 'Private 1 Bulan', harga: '18.000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
-                { nama: 'Private 2 Bulan', harga: '28.000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
-                { nama: 'Private 3 Bulan', harga: '35.000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' },
-                { nama: 'Private 4 Bulan', harga: '45.000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }
+                { nama: 'Gemini Sharing 1 Bulan', harga: '10.000', desk: 'Maksimal 1 device. dilarang otak atik akun. Garansi 1 bulan.' },
+                { nama: 'Gemini Private 1 Bulan', harga: '18.000', desk: 'Akun dari pembeli. bonus google drive 2tb. Garansi Full.' },
+                { nama: 'Gemini Private 2 Bulan', harga: '28.000', desk: 'Akun dari pembeli. bonus google drive 2tb. Garansi Full.' },
+                { nama: 'Gemini Private 3 Bulan', harga: '35.000', desk: 'Akun dari pembeli. bonus google drive 2tb. Garansi 2 bulan.' },
+                { nama: 'Gemini Private 4 Bulan', harga: '45.000', desk: 'Akun dari pembeli. bonus google drive 2tb. Garansi Full.' }
             ]
-        }, {
-            id: 'prime',
-            nama: 'Prime Video',
-            kategori: 'MOVIE',
-            subtitle: 'Streaming',
+        },
+        {
+            id: 'prime', nama: 'Prime Video', kategori: 'MOVIE', subtitle: 'Streaming',
             icon: 'https://store-images.s-microsoft.com/image/apps.29354.14618985536919905.45e2438b-0358-430f-a226-e856ef5f56cd.6045f10d-194a-41bc-aa21-f7fce8cabd7c',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '8.000', desk: 'Maksimal 1 device. Garansi 15 hari.' },
-                { nama: 'Private 1 Bulan', harga: '18.000', desk: 'Akun private. Garansi Full.' }
+                { nama: 'Prime Sharing 1 Bulan', harga: '8.000', desk: 'Akun dari admin. mendapatkan 1profil. maksimal digunakan 1device. Garansi 15 hari' },
+                { nama: 'Prime Private 1 Bulan', harga: '18.000', desk: 'Akun private bebas share. maksimal digunakan 3/4 device. Garansi Full.' }
             ]
-        }, {
-            id: 'viu',
-            nama: 'Viu',
-            kategori: 'MOVIE',
-            subtitle: 'Drama & Film',
+        },
+        {
+            id: 'viu', nama: 'Viu', kategori: 'MOVIE', subtitle: 'Drama & Film',
             icon: 'https://yt3.googleusercontent.com/ytc/AIdro_mGgWUT-KZejIMSOL4h8Mu5_y3g6rIw7qcg8b3NwsBpHA=s900-c-k-c0x00ffffff-no-rj',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Private 1 Tahun', harga: '25.000', desk: 'Akun Private. Garansi 3 bulan.' }
+                { nama: 'VIU Private 1 Tahun', harga: '25.000', desk: 'Akun Private. Garansi 3 bulan. Khusus kendala backfree.' }
             ]
-        }, {
-            id: 'vidio',
-            nama: 'Vidio',
-            kategori: 'MOVIE',
-            subtitle: 'Sports & TV',
+        },
+        {
+            id: 'vidio', nama: 'Vidio', kategori: 'MOVIE', subtitle: 'Sports & TV',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGq-kVjmk0MbiDqy8JXTY5ccE_gP3uSC3h0y1YX1OdIQ&s',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Sharing 1B (Mobile)', harga: '30.000', desk: 'Khusus HP/Mobile. Garansi 25 hari.' },
-                { nama: 'Private 1B (Mobile)', harga: '60.000', desk: 'Khusus HP/Mobile. Private.' },
-                { nama: 'Sharing 1B (TV)', harga: '18.000', desk: 'Khusus Smart TV. Garansi 25 hari.' },
-                { nama: 'Private 1B (TV)', harga: '30.000', desk: 'Khusus Smart TV. Private.' },
-                { nama: '2 Bulan (TV)', harga: '45.000', desk: 'Khusus Smart TV. Garansi 30 hari.' }
+                { nama: 'Vidio Sharing 1 bulan (Mobile)', harga: '30.000', desk: 'Khusus HP/Mobile, paket Platinum, sharing 1 device. Dilarang ubah pasword.' },
+                { nama: 'Vidio Private 1 bulan (Mobile)', harga: '60.000', desk: 'Khusus HP/Mobile, paket Platinum, private 1 bulan. Bebas ubah password.' },
+                { nama: 'Vidio Sharing 1 bulan (tv only)', harga: '18.000', desk: 'Khusus Smart TV, paket Platinum, sharing 1 device. Masa aktif 25-30 hari.' },
+                { nama: 'Vidio Private 1 bulan (tv only)', harga: '30.000', desk: 'Khusus Smart TV, paket Platinum, private 1 bulan. Garansi 20 hari.' },
+                { nama: 'Vidio 2 bulan (tv only)', harga: '45.000', desk: 'Khusus Smart TV, durasi 60 hari. Garansi 30 hari. Ada iklan di awal.' }
             ]
-        }, {
-            id: 'zoom',
-            nama: 'Zoom',
-            kategori: 'APPS',
-            subtitle: 'Layanan Digital',
+        },
+        {
+            id: 'zoom', nama: 'Zoom', kategori: 'APPS', subtitle: 'Layanan Digital',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnjOHJJXN6oRjISn0Z9KRZ0wLNwPLxWDb9OFKndmVW-g&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Private 14d (No Garansi)', harga: '8.000', desk: 'Zoom Pro 14 hari. Tanpa garansi.' },
-                { nama: 'Private 14d (Full Garansi)', harga: '19.000', desk: 'Zoom Pro 14 hari. Garansi full.' }
+                { nama: 'Zoom Private 14d (No Garansi)', harga: '8.000', desk: 'Zoom Pro 14 hari, private 1 device. Aktivasi via web/apps. Tanpa garansi.' },
+                { nama: 'Zoom Private 14d (Full Garansi)', harga: '19.000', desk: 'Zoom Pro 14 hari, private 1 device. Aktivasi via web/apps. Garansi full 14 hari.' }
             ]
-        }, {
-            id: 'hbomax',
-            nama: 'HBO Max',
-            kategori: 'MOVIE',
-            subtitle: 'Streaming',
+        },
+        {
+            id: 'hbomax', nama: 'HBO Max', kategori: 'MOVIE', subtitle: 'Streaming',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQacegfITyK7jTZJo9HBZVAi4OjalLUkgI2XZfLHsPQJg&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Sharing 1 Bulan', harga: '23.000', desk: 'Paket Ultimate. Garansi 20 hari.' }
+                { nama: 'Max Sharing 1 bulan', harga: '23.000', desk: 'Paket Ultimate 28-30 hari, sharing 1 device. Aktivasi via web/apps. Garansi 20 hari.' }
             ]
-        }, {
-            id: 'iqiyi',
-            nama: 'iQIYI',
-            kategori: 'MOVIE',
-            subtitle: 'Asian Content',
+        },
+        {
+            id: 'iqiyi', nama: 'iQIYI', kategori: 'MOVIE', subtitle: 'Asian Content',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2iLLIrxlsjgfvCASqFcj_rmy6JUoE6Fd-zRKYzYUK6A&s',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Premium 18 Hari', harga: '10.000', desk: 'Sharing, 1 device.' },
-                { nama: 'Premium Sharing 1B', harga: '18.000', desk: 'Sharing, 1 device.' },
-                { nama: 'Standard Sharing 1B', harga: '12.000', desk: 'Sharing, 1 device.' },
-                { nama: 'Premium Private 1B', harga: '50.000', desk: 'Akun private.' },
-                { nama: 'Standard Private 1B', harga: '40.000', desk: 'Akun private.' }
+                { nama: 'Premium 18 Hari', harga: '10.000', desk: 'Paket Premium durasi 18 hari. Akun sharing, login maksimal 1 device.' },
+                { nama: 'Premium Sharing 1 Bulan', harga: '18.000', desk: 'Paket Premium durasi 1 bulan. Akun sharing, login maksimal 1 device.' },
+                { nama: 'Standard Sharing 1 Bulan', harga: '12.000', desk: 'Paket Standard durasi 1 bulan. Akun sharing, login maksimal 1 device.' },
+                { nama: 'Premium Private 1 Bulan', harga: '50.000', desk: 'Paket Premium durasi 1 bulan. Akun private/full.'},
+                { nama: 'Standard Private 1 Bulan', harga: '40.000', desk: 'Paket Standard durasi 1 bulan. Akun private/full.' }
             ]
-        }, {
-            id: 'wink',
-            nama: 'Wink',
-            kategori: 'DESAIN',
-            subtitle: 'Editing App',
+        },
+        {
+            id: 'wink', nama: 'Wink', kategori: 'DESAIN', subtitle: 'Editing App',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4xgbNcT3c_ZfiaA5lrgD4Zv26hr_UGn336retHj0YUw&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: '7D Android Private', harga: '13.000', desk: 'Khusus Android. Garansi backfree.' },
-                { nama: '7D iOS Private', harga: '15.000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }
+                { nama: '7D Android Private', harga: '13.000', desk: 'Khusus Android, durasi 7 hari. Akun private full, garansi kendala backfree.' },
+                { nama: '7D iOS Private', harga: '15.000', desk: 'Khusus iOS/iPhone, durasi 7 hari. Akun private full, garansi kendala backfree.' }
             ]
-        }, {
-            id: 'loklok',
-            nama: 'Loklok',
-            kategori: 'MOVIE',
-            subtitle: 'Streaming',
+        },
+        {
+            id: 'loklok', nama: 'Loklok', kategori: 'MOVIE', subtitle: 'Streaming',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvkxSQ9t438PB0MyM_mPJyBWmK2_jytMyiycHLDghPYQ&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Sharing 1B Basic', harga: '25.000', desk: 'Paket Basic. 1 device.' },
-                { nama: 'Sharing 1B Standar', harga: '35.000', desk: 'Paket Standard. 1 device.' }
+                { nama: 'Sharing 1 Bulan Plan Basic', harga: '25.000', desk: 'Paket Basic durasi 1 bulan. Akun sharing, login maksimal 1 device.' },
+                { nama: 'Sharing 1 Bulan Plan Standar', harga: '35.000', desk: 'Paket Standard durasi 1 bulan. Akun sharing, login maksimal 1 device.' }
             ]
-        }, {
-            id: 'getcontact',
-            nama: 'Getcontact',
-            kategori: 'APPS',
-            subtitle: 'Layanan Digital',
+        },
+        {
+            id: 'getcontact', nama: 'Getcontact', kategori: 'APPS', subtitle: 'Layanan Digital',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbXnESqAkv-UwBEhocQ313CzbOcC_UbU8ClJm6rLhyTg&s=10',
-            badge: 'HOT',
-            badgeClass: 'hot',
+            badge: 'HOT', badgeClass: 'hot',
             varian: [
-                { nama: 'Cek Tag Nomor', harga: '1.000', desk: 'Kirim nomor tujuan.' },
-                { nama: 'Premium 1 Bulan', harga: '15.000', desk: 'Garansi 20 hari.' }
+                { nama: 'Cek Tag Nomor', harga: '1.000', desk: 'Proses via admin. Kirim nomor tujuan setelah melakukan pembayaran, lalu tunggu proses.' },
+                { nama: 'Premium 1 Bulan', harga: '15.000', desk: 'Proses manual (mohon standby maks 5 menit). Garansi masa aktif 20 hari.' }
             ]
-        }, {
-            id: 'meitu',
-            nama: 'Meitu',
-            kategori: 'DESAIN',
-            subtitle: 'Editing App',
+        },
+        {
+            id: 'meitu', nama: 'Meitu', kategori: 'DESAIN', subtitle: 'Editing App',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQztjC_a0TqP4NQoBgpJNVQyxtx5Guz6F7Vkr_tICJM6Q&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: '7D Android Private', harga: '13.000', desk: 'Khusus Android. Garansi backfree.' },
-                { nama: '7D iOS Private', harga: '15.000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }
+                { nama: '7D Android Private', harga: '13.000', desk: 'Khusus Android, durasi 7 hari. Akun private full, garansi kendala backfree.' },
+                { nama: '7D iOS Private', harga: '15.000', desk: 'Khusus iOS/iPhone, durasi 7 hari. Akun private full, garansi kendala backfree.' }
             ]
-        }, {
-            id: 'wetv',
-            nama: 'WeTV',
-            kategori: 'MOVIE',
-            subtitle: 'Streaming',
+        },
+        {
+            id: 'wetv', nama: 'WeTV', kategori: 'MOVIE', subtitle: 'Streaming',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScZVZ9YVHV2fEoHsmuzeLuDeMIudX1trxDBOLGHPEGeA&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Sharing 3U', harga: '18.000', desk: 'Sharing 3 User. Garansi backfree.' },
-                { nama: 'Sharing 6U', harga: '9.000', desk: 'Sharing 6 User. Garansi backfree.' },
-                { nama: 'Private 1B', harga: '49.000', desk: 'Akun private. Garansi backfree.' }
+                { nama: 'Sharing 3U', harga: '18.000', desk: 'Akun sharing 3 User dari seller. Durasi 1 bulan, garansi kendala backfree.' },
+                { nama: 'Sharing 6U', harga: '9.000', desk: 'Akun sharing 6 User dari seller. Durasi 1 bulan, garansi kendala backfree.' },
+                { nama: 'Private 1B', harga: '49.000', desk: 'Akun private 1 bulan dari seller. Bebas pakai, garansi kendala backfree.' }
             ]
-        }, {
-            id: 'crunchyroll',
-            nama: 'Crunchyroll',
-            kategori: 'MOVIE',
-            subtitle: 'Anime Stream',
+        },
+        {
+            id: 'crunchyroll', nama: 'Crunchyroll', kategori: 'MOVIE', subtitle: 'Anime Stream',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDynR-uCBAQcT6ipMhQEIwdatVeCDiqSNmfuujoKHBXg&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Private 1 Bulan', harga: '20.500', desk: 'Akun private. Garansi backfree.' },
-                { nama: 'Sharing 1 Bulan', harga: '8.000', desk: 'Maksimal 1 device. Garansi backfree.' }
+                { nama: 'Private 1 Bulan', harga: '20.500', desk: 'Akun private 1 bulan dari seller. Bebas pakai, garansi kendala backfree.' },
+                { nama: 'Sharing 1 Bulan', harga: '8.000', desk: 'Akun sharing 1 bulan. Login maksimal 1 device, garansi kendala backfree.' }
             ]
-        }, {
-            id: 'vision',
-            nama: 'Vision+',
-            kategori: 'MOVIE',
-            subtitle: 'Streaming',
+        },
+        {
+            id: 'vision', nama: 'Vision+', kategori: 'MOVIE', subtitle: 'Streaming',
             icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjJtIBUwuyiA3k6oODFz6hxKaeMK67z3GMPV0ZQd8Ucw&s=10',
-            badge: '',
-            badgeClass: '',
+            badge: '', badgeClass: '',
             varian: [
-                { nama: 'Private 1 Bulan', harga: '10.000', desk: 'Akun private. Garansi backfree.' }
+                { nama: 'Private 1 Bulan', harga: '10.000', desk: 'Akun private 1 bulan. Hanya untuk 1 user (private), garansi kendala backfree.' }
             ]
-        }];
-
-        // ============================================================
-        // TESTIMONI & FAQ
-        // ============================================================
-        const testimoniData = [
-            { bintang: 5, isi: 'Prosesnya cepat banget, CapCut Pro langsung aktif. Recommended!', nama: 'Andi - Jakarta' },
-            { bintang: 5, isi: 'Netflix murah dan garansi jelas. Udah 3x beli di sini.', nama: 'Siti - Surabaya' },
-            { bintang: 4, isi: 'Canva Pro via invite works perfectly. Harga bersahabat.', nama: 'Rina - Bandung' }
-        ];
-
-        const faqData = [
-            { q: 'Berapa lama proses setelah order?', a: 'Proses manual, biasanya hitungan menit langsung beres. Kalau antre mohon tunggu maksimal 5-15 menit setelah pembayaran masuk.' },
-            { q: 'Bagaimana kalau akun error atau kena limit?', a: 'Semua produk sudah termasuk garansi sesuai keterangan di setiap varian. Hubungi admin via WhatsApp dengan bukti order.' },
-            { q: 'Metode pembayaran apa saja?', a: 'QRIS (DANA, OVO, GoPay, ShopeePay, m-banking). Klik tombol QRIS di navbar untuk detail.' },
-            { q: 'Apakah akun ini aman?', a: 'Akun dari partner resmi seller. Selama tidak ganti password/email, akun akan tetap aman.' },
-            { q: 'Bisa refund kalau berubah pikiran?', a: 'Refund hanya untuk kendala di pihak kami (akun tidak bisa diakses), bukan karena perubahan keputusan pembeli.' }
-        ];
-
-        // ============================================================
-        // STATE
-        // ============================================================
-        let cart = [];
-        let kategoriAktif = 'all';
-        let kataKunci = '';
-        let urutanAktif = 'default';
-
-        // ============================================================
-        // UTILITY
-        // ============================================================
-        function parseHarga(str) {
-            return parseInt(str.replace(/\./g, ''), 10) || 0;
         }
+    ];
 
-        function formatRupiah(num) {
-            return 'Rp ' + new Intl.NumberFormat('id-ID').format(num);
-        }
+    const katalog = document.getElementById('katalog');
+    let kategoriAktif = 'Semua';
+    let kataKunci = '';
+    let urutanAktif = 'default';
 
-        function hargaTermurah(p) {
-            return Math.min(...p.varian.map(v => parseHarga(v.harga)));
-        }
+    // FUNGSI BANTU: ubah "15.000" jadi angka 15000, ambil harga termurah dari varian produk
+    function parseHarga(str) { return parseInt(str.replace(/\./g, ''), 10) || 0; }
+    function hargaTermurah(p) { return Math.min(...p.varian.map(v => parseHarga(v.harga))); }
 
-        // ============================================================
-        // TOAST
-        // ============================================================
-        function showToast(title, message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.innerHTML = `
-                <span class="toast-icon ${type}">${type === 'success' ? '✅' : '❌'}</span>
-                <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-msg">${message}</div>
-                </div>
-            `;
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.add('fade-out');
-                setTimeout(() => toast.remove(), 300);
-            }, 2800);
-        }
+    // FUNGSI SKELETON LOADING
+    function tampilSkeleton() {
+        katalog.innerHTML = Array(6).fill(`
+            <div class="skeleton-card">
+                <div class="skeleton-box"></div>
+                <div class="skeleton-line w40"></div>
+                <div class="skeleton-line w60"></div>
+            </div>
+        `).join('');
+    }
 
-        // ============================================================
-        // CART
-        // ============================================================
-        function addToCart(productId, variantName, price) {
-            const existing = cart.find(item => item.productId === productId && item.variant === variantName);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                const product = produk.find(p => p.id === productId);
-                cart.push({
-                    productId,
-                    variant: variantName,
-                    price: parseHarga(price),
-                    qty: 1,
-                    name: product.nama,
-                    icon: product.icon
-                });
-            }
-            updateCartUI();
-            showToast('✅ Ditambahkan!', `${variantName} masuk keranjang`);
-        }
+    // FUNGSI RENDER KATALOG (filter kategori + pencarian digabung)
+    function renderKatalog() {
+        tampilSkeleton();
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
+        setTimeout(() => {
+            let dataTampil = kategoriAktif === 'Semua' ? produk : produk.filter(p => p.kategori === kategoriAktif);
 
-        function updateQty(index, delta) {
-            if (cart[index].qty + delta <= 0) {
-                removeFromCart(index);
-                return;
-            }
-            cart[index].qty += delta;
-            updateCartUI();
-        }
-
-        function getTotalItems() {
-            return cart.reduce((sum, item) => sum + item.qty, 0);
-        }
-
-        function getTotalPrice() {
-            return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-        }
-
-        function updateCartUI() {
-            const container = document.getElementById('cartItems');
-            const footer = document.getElementById('cartFooter');
-            const count = document.getElementById('cartCount');
-            const itemCount = document.getElementById('cartItemCount');
-            const totalPrice = document.getElementById('cartTotalPrice');
-
-            const totalItems = getTotalItems();
-            count.textContent = totalItems;
-            itemCount.textContent = `(${totalItems})`;
-
-            if (cart.length === 0) {
-                container.innerHTML = `
-                    <div class="cart-empty">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                        <p>Keranjang kosong</p>
-                        <p style="font-size:0.8rem;margin-top:4px;">Mulai belanja sekarang!</p>
-                    </div>
-                `;
-                footer.style.display = 'none';
-                return;
-            }
-
-            footer.style.display = 'block';
-            container.innerHTML = cart.map((item, idx) => `
-                <div class="cart-item">
-                    <div class="cart-item-icon">
-                        <img src="${item.icon}" alt="${item.name}" onerror="this.style.display='none'" />
-                    </div>
-                    <div class="cart-item-info">
-                        <h4>${item.name}</h4>
-                        <div class="cart-item-varian">${item.variant}</div>
-                        <div class="cart-item-price">${formatRupiah(item.price)}</div>
-                    </div>
-                    <div class="cart-item-actions">
-                        <button onclick="updateQty(${idx}, -1)">−</button>
-                        <span class="qty">${item.qty}</span>
-                        <button onclick="updateQty(${idx}, 1)">+</button>
-                        <button class="cart-item-remove" onclick="removeFromCart(${idx})">✕</button>
-                    </div>
-                </div>
-            `).join('');
-
-            totalPrice.textContent = formatRupiah(getTotalPrice());
-
-            const checkoutBtn = document.getElementById('checkoutBtn');
-            const waMessage = encodeURIComponent(
-                'Halo Admin DigishopID, saya mau order:\n' +
-                cart.map(i => `- ${i.name} (${i.variant}) x${i.qty} = ${formatRupiah(i.price * i.qty)}`).join('\n') +
-                `\n\nTotal: ${formatRupiah(getTotalPrice())}`
-            );
-            checkoutBtn.onclick = () => {
-                window.open(`https://wa.me/6283160593305?text=${waMessage}`, '_blank');
-            };
-        }
-
-        // ============================================================
-        // RENDER PRODUCTS
-        // ============================================================
-        function renderProducts() {
-            const grid = document.getElementById('productGrid');
-
-            let data = produk;
-            if (kategoriAktif !== 'all') {
-                data = data.filter(p => p.kategori === kategoriAktif);
-            }
-            if (kataKunci.trim()) {
+            if (kataKunci.trim() !== '') {
                 const q = kataKunci.trim().toLowerCase();
-                data = data.filter(p => p.nama.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q));
-            }
-            if (urutanAktif === 'termurah') {
-                data = [...data].sort((a, b) => hargaTermurah(a) - hargaTermurah(b));
-            } else if (urutanAktif === 'termahal') {
-                data = [...data].sort((a, b) => hargaTermurah(b) - hargaTermurah(a));
+                dataTampil = dataTampil.filter(p => p.nama.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q));
             }
 
-            if (data.length === 0) {
-                grid.innerHTML = `
-                    <div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--text-muted);">
-                        <p style="font-size:1.1rem;font-weight:700;">Produk tidak ditemukan</p>
-                        <p style="font-size:0.85rem;">Coba kata kunci lain atau reset filter</p>
+            if (urutanAktif === 'termurah') {
+                dataTampil = [...dataTampil].sort((a, b) => hargaTermurah(a) - hargaTermurah(b));
+            } else if (urutanAktif === 'termahal') {
+                dataTampil = [...dataTampil].sort((a, b) => hargaTermurah(b) - hargaTermurah(a));
+            }
+
+            if (dataTampil.length === 0) {
+                katalog.innerHTML = `
+                    <div class="empty-state">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <p>Produk tidak ditemukan</p>
                     </div>
                 `;
                 return;
             }
 
-            grid.innerHTML = data.map(p => {
-                const badgeHtml = p.badge ? `<span class="badge ${p.badgeClass}">${p.badge}</span>` : '';
-                const minPrice = formatRupiah(hargaTermurah(p));
+            katalog.innerHTML = dataTampil.map((p, i) => {
+                const badgeHtml = p.badge ? `<div class="badge ${p.badgeClass}">${p.badge}</div>` : '';
+                const terjualHtml = p.terjual ? `<div class="badge-terjual">🔥 Terjual ${p.terjual}+</div>` : '';
+                const delay = Math.min(i * 0.04, 0.4);
                 return `
-                    <div class="product-card" onclick="openModal('${p.id}')" role="button" tabindex="0" aria-label="Lihat detail ${p.nama}">
-                        ${badgeHtml}
-                        <div class="product-icon">
-                            <img src="${p.icon}" alt="${p.nama}" loading="lazy" onerror="this.style.display='none'" />
+                    <div class="card" onclick="handleCardClick(event, '${p.id}')"
+                         onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); handleCardClick(event, '${p.id}');}"
+                         role="button" tabindex="0" aria-label="Lihat detail produk ${p.nama}, ${p.subtitle}"
+                         style="opacity:0; animation: fadeInCard 0.35s ease-out ${delay}s forwards;">
+                        <div class="icon-box">
+                            ${badgeHtml}
+                            <img src="${p.icon}" alt="Logo ${p.nama}" class="img-loading" loading="lazy" onload="this.classList.remove('img-loading')" onerror="gantiIconFallback(this)">
                         </div>
-                        <div class="category">${p.kategori}</div>
+                        <div class="kategori">${p.kategori}</div>
                         <h3>${p.nama}</h3>
                         <div class="subtitle">${p.subtitle}</div>
-                        <div class="price-min">${minPrice}</div>
-                        <div class="sold">⭐ 4.9 · 100+ terjual</div>
+                        ${terjualHtml}
                     </div>
                 `;
             }).join('');
-        }
+        }, 250);
+    }
 
-        // ============================================================
-        // FILTER, SEARCH, SORT
-        // ============================================================
-        function filterProduk(kategori) {
-            kategoriAktif = kategori;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.filter === kategori);
-            });
-            renderProducts();
-        }
+    // FUNGSI FILTER PRODUK
+    function filterProduk(kategori) {
+        kategoriAktif = kategori;
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + kategori).classList.add('active');
+        renderKatalog();
+    }
 
-        function cariProduk(value) {
-            kataKunci = value;
-            renderProducts();
-        }
+    // FUNGSI BAGIKAN PRODUK (pakai Web Share API kalau didukung, fallback copy teks)
+    function bagikanProduk(idProduk) {
+        const p = produk.find(item => item.id === idProduk);
+        const teks = `${p.nama} (${p.subtitle}) - Cek harganya di DigishopID!`;
+        const url = window.location.href;
 
-        function urutkanProduk(value) {
-            urutanAktif = value;
-            renderProducts();
+        if (navigator.share) {
+            navigator.share({ title: p.nama, text: teks, url: url }).catch(() => {});
+        } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(`${teks}\n${url}`)
+                .then(() => tampilToast('Link produk disalin ke clipboard!', 'success'))
+                .catch(() => tampilToast('Gagal menyalin link.', 'error'));
+        } else {
+            tampilToast('Fitur share tidak didukung browser ini.', 'error');
         }
+    }
 
-        // ============================================================
-        // MODAL
-        // ============================================================
-        function openModal(id) {
+    // FUNGSI RIWAYAT "BARU DILIHAT" (disimpan di memori selama sesi/kunjungan berjalan)
+    let riwayatDilihat = [];
+    function catatRiwayat(idProduk) {
+        riwayatDilihat = riwayatDilihat.filter(id => id !== idProduk);
+        riwayatDilihat.unshift(idProduk);
+        riwayatDilihat = riwayatDilihat.slice(0, 8);
+        renderRiwayat();
+    }
+    function renderRiwayat() {
+        const wrap = document.getElementById('baruDilihatWrap');
+        const container = document.getElementById('riwayatContainer');
+        if (riwayatDilihat.length === 0) { wrap.style.display = 'none'; return; }
+
+        wrap.style.display = 'block';
+        container.innerHTML = riwayatDilihat.map(id => {
             const p = produk.find(item => item.id === id);
-            if (!p) return;
+            if (!p) return '';
+            return `
+                <button class="riwayat-item" onclick="bukaModal('${p.id}')" aria-label="Buka lagi ${p.nama}">
+                    <img src="${p.icon}" alt="Logo ${p.nama}" loading="lazy" onerror="gantiIconFallback(this)">
+                    <span>${p.nama}</span>
+                </button>
+            `;
+        }).join('');
+    }
 
-            document.getElementById('modalTitle').textContent = p.nama;
-            document.getElementById('modalSub').textContent = p.subtitle;
-            document.getElementById('modalCat').textContent = p.kategori;
+    // FUNGSI URUTKAN HARGA (dropdown select)
+    function urutkanProduk(value) {
+        urutanAktif = value;
+        renderKatalog();
+    }
 
-            const img = document.getElementById('modalImg');
-            img.src = p.icon;
-            img.onerror = () => { img.style.display = 'none'; };
-            img.style.display = '';
+    // FUNGSI PENCARIAN (dengan debounce ringan)
+    let timerCari;
+    function cariProduk(value) {
+        kataKunci = value;
+        clearTimeout(timerCari);
+        timerCari = setTimeout(renderKatalog, 200);
+    }
 
-            const container = document.getElementById('modalVariants');
-            container.innerHTML = p.varian.map(v => `
-                <div class="varian-item">
-                    <div class="varian-info">
-                        <div class="varian-name">${v.nama}</div>
-                        <div class="varian-desc">${v.desk}</div>
-                    </div>
-                    <div class="varian-price">${formatRupiah(parseHarga(v.harga))}</div>
-                    <div class="varian-actions">
-                        <button class="btn-add-cart" onclick="event.stopPropagation();addToCart('${p.id}','${v.nama}','${v.harga}')">
-                            🛒
-                        </button>
-                        <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID,%20saya%20mau%20order%20${encodeURIComponent(p.nama + ' - ' + v.nama)}" target="_blank" class="btn-wa-order" onclick="event.stopPropagation()">
-                            💬 WA
-                        </a>
-                    </div>
+    // FUNGSI EFEK RIPPLE + POP SAAT CARD DIKLIK
+    function handleCardClick(e, idProduk) {
+        const card = e.currentTarget;
+
+        // Buat ripple dari titik klik (kalau dari keyboard, ripple muncul di tengah card)
+        const rect = card.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        const size = Math.max(rect.width, rect.height) * 1.4;
+        const clickX = (typeof e.clientX === 'number' && e.clientX !== 0) ? e.clientX : rect.left + rect.width / 2;
+        const clickY = (typeof e.clientY === 'number' && e.clientY !== 0) ? e.clientY : rect.top + rect.height / 2;
+        ripple.className = 'ripple';
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (clickX - rect.left - size / 2) + 'px';
+        ripple.style.top = (clickY - rect.top - size / 2) + 'px';
+        card.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+
+        // Trigger animasi pop (bounce) di card
+        card.classList.remove('pressed');
+        void card.offsetWidth; // reflow biar animasi bisa diulang
+        card.classList.add('pressed');
+
+        // Buka modal sedikit delay biar animasi klik kelihatan dulu
+        setTimeout(() => bukaModal(idProduk), 90);
+    }
+
+    // FUNGSI KUNCI SCROLL BODY SAAT MODAL TERBUKA
+    // (pakai teknik position:fixed, bukan cuma overflow:hidden, biar aman di iOS Safari)
+    let scrollYTersimpan = 0;
+    function lockScroll() {
+        scrollYTersimpan = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollYTersimpan}px`;
+        document.body.style.width = '100%';
+    }
+    function unlockScroll() {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollYTersimpan);
+    }
+
+    // FUNGSI MODAL VARIAN
+    function bukaModal(idProduk) {
+        const p = produk.find(item => item.id === idProduk);
+        document.getElementById('judulProduk').innerText = p.nama;
+
+        const iconEl = document.getElementById('iconModal');
+        iconEl.classList.add('img-loading');
+        iconEl.src = p.icon;
+        iconEl.onload = () => iconEl.classList.remove('img-loading');
+        iconEl.onerror = () => gantiIconFallback(iconEl);
+        iconEl.alt = p.nama;
+        // Restart animasi icon setiap kali modal dibuka
+        iconEl.style.animation = 'none';
+        void iconEl.offsetWidth; // trigger reflow
+        iconEl.style.animation = '';
+
+        const list = document.getElementById('listVarian');
+        list.innerHTML = p.varian.map((v, i) => `
+            <div class="varian-item" style="animation-delay: ${0.15 + i * 0.08}s">
+                <div class="varian-header">
+                    <span>${v.nama}</span>
+                    <span class="varian-harga">Rp ${v.harga}</span>
                 </div>
-            `).join('');
+                <div class="varian-desk">${v.desk}</div>
+                <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID,%20saya%20mau%20order%20${encodeURIComponent(p.nama + ' - ' + v.nama)}" class="btn-wa">Beli Sekarang</a>
+            </div>
+        `).join('') + `
+            <button class="btn-share" onclick="bagikanProduk('${p.id}')" aria-label="Bagikan produk ${p.nama}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Bagikan Produk Ini
+            </button>
+        `;
+        
+        document.getElementById('modal').style.display = 'flex';
+        lockScroll();
+        catatRiwayat(p.id);
+    }
+    function tutupModal() {
+        const modal = document.getElementById('modal');
+        modal.classList.add('closing');
+        unlockScroll();
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+        }, 250);
+    }
+    
+    // FUNGSI MODAL QRIS
+    function bukaQris() {
+        document.getElementById('modalQris').style.display = 'flex';
+        lockScroll();
+    }
+    function tutupQris() {
+        const modal = document.getElementById('modalQris');
+        modal.classList.add('closing');
+        unlockScroll();
+        setTimeout(() => {
+            modal.style.display = 'none';
+            modal.classList.remove('closing');
+        }, 250);
+    }
 
-            document.getElementById('productModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+    // FUNGSI TOAST NOTIFICATION (pengganti alert())
+    function tampilToast(pesan, tipe = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${tipe}`;
+        toast.textContent = pesan;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('fade-out');
+            setTimeout(() => toast.remove(), 300);
+        }, 2800);
+    }
 
-        function tutupModal() {
-            document.getElementById('productModal').classList.add('closing');
-            setTimeout(() => {
-                document.getElementById('productModal').style.display = 'none';
-                document.getElementById('productModal').classList.remove('closing');
-                document.body.style.overflow = '';
-            }, 250);
-        }
+    // FUNGSI UNDUH QRIS DENGAN CANVAS
+    function downloadQrisPastiBisa() {
+        const img = document.getElementById('gambarQrisLokal');
+        if(!img.complete) { tampilToast('Gambar QRIS sedang dimuat, harap tunggu.', 'error'); return; }
 
-        // ============================================================
-        // QRIS
-        // ============================================================
-        function bukaQris() {
-            document.getElementById('qrisModal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        context.drawImage(img, 0, 0);
 
-        function tutupQris() {
-            document.getElementById('qrisModal').classList.add('closing');
-            setTimeout(() => {
-                document.getElementById('qrisModal').style.display = 'none';
-                document.getElementById('qrisModal').classList.remove('closing');
-                document.body.style.overflow = '';
-            }, 250);
-        }
+        canvas.toBlob(function(blob) {
+            const link = document.createElement('a');
+            link.download = 'QRIS-DigishopID.png'; 
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+            tampilToast('QRIS berhasil disimpan ke galeri!', 'success');
+        }, 'image/png');
+    }
 
-        function downloadQRIS() {
-            const img = document.getElementById('qrisImage');
-            const canvas = document.createElement('canvas');
-            canvas.width = img.naturalWidth || 300;
-            canvas.height = img.naturalHeight || 300;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            canvas.toBlob(blob => {
-                const link = document.createElement('a');
-                link.download = 'QRIS-DigishopID.png';
-                link.href = URL.createObjectURL(blob);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(link.href);
-                showToast('✅ QRIS Tersimpan!', 'Gambar berhasil disimpan ke galeri.');
-            });
-        }
+    // FUNGSI BACK TO TOP (muncul setelah scroll 300px)
+    const btnTop = document.getElementById('btnTop');
+    const navbarEl = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) btnTop.classList.add('show');
+        else btnTop.classList.remove('show');
 
-        // ============================================================
-        // CART TOGGLE
-        // ============================================================
-        document.getElementById('cartToggle').addEventListener('click', () => {
-            document.getElementById('cartSidebar').classList.toggle('open');
-            document.getElementById('cartOverlay').classList.toggle('open');
-            document.body.style.overflow = 'hidden';
-        });
+        if (window.scrollY > 40) navbarEl.classList.add('scrolled');
+        else navbarEl.classList.remove('scrolled');
+    });
 
-        document.getElementById('cartClose').addEventListener('click', () => {
-            document.getElementById('cartSidebar').classList.remove('open');
-            document.getElementById('cartOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        });
+    // FUNGSI TUTUP MODAL PAKAI TOMBOL ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        const modal = document.getElementById('modal');
+        const modalQris = document.getElementById('modalQris');
+        if (modal.style.display === 'flex') tutupModal();
+        else if (modalQris.style.display === 'flex') tutupQris();
+    });
 
-        document.getElementById('cartOverlay').addEventListener('click', () => {
-            document.getElementById('cartSidebar').classList.remove('open');
-            document.getElementById('cartOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        });
+    // FUNGSI TAP FEEDBACK DI TOMBOL "BELI SEKARANG" (event delegation krn tombolnya dibuat dinamis)
+    document.addEventListener('click', (e) => {
+        const tombol = e.target.closest('.btn-wa');
+        if (!tombol) return;
+        tombol.classList.remove('tapped');
+        void tombol.offsetWidth; // reflow biar animasi bisa diulang
+        tombol.classList.add('tapped');
+    });
 
-        // ============================================================
-        // TESTIMONI
-        // ============================================================
-        function renderTestimoni() {
-            const container = document.getElementById('testimoniContainer');
-            if (testimoniData.length === 0) {
-                container.innerHTML =
-                    `<p style="text-align:center;color:var(--text-muted);">Belum ada testimoni. Lihat di Telegram!</p>`;
-                return;
+    // FUNGSI SWIPE-DOWN UNTUK NUTUP MODAL (khusus layar sentuh/HP)
+    function aktifkanSwipeClose(modalContentEl, fungsiTutup) {
+        let startY = 0, currentY = 0, geser = false;
+
+        modalContentEl.addEventListener('touchstart', (e) => {
+            // Cuma aktif kalau modal lagi discroll di posisi paling atas
+            if (modalContentEl.scrollTop > 0) return;
+            startY = e.touches[0].clientY;
+            geser = true;
+            modalContentEl.style.transition = 'none';
+        }, { passive: true });
+
+        modalContentEl.addEventListener('touchmove', (e) => {
+            if (!geser) return;
+            currentY = e.touches[0].clientY - startY;
+            if (currentY > 0) {
+                modalContentEl.style.transform = `translateY(${currentY}px)`;
+                modalContentEl.style.opacity = Math.max(1 - currentY / 300, 0.4);
             }
-            container.innerHTML = `
-                <div class="testimoni-grid">
-                    ${testimoniData.map(t => `
-                        <div class="testimoni-card">
-                            <div class="stars">${'★'.repeat(t.bintang)}${'☆'.repeat(5-t.bintang)}</div>
-                            <div class="quote">"${t.isi}"</div>
-                            <div class="name">${t.nama}</div>
-                        </div>
-                    `).join('')}
+        }, { passive: true });
+
+        modalContentEl.addEventListener('touchend', () => {
+            if (!geser) return;
+            geser = false;
+            modalContentEl.style.transition = '';
+            if (currentY > 100) {
+                fungsiTutup();
+            } else {
+                modalContentEl.style.transform = '';
+                modalContentEl.style.opacity = '';
+            }
+            currentY = 0;
+        });
+    }
+    aktifkanSwipeClose(document.querySelector('#modal .modal-content'), tutupModal);
+    aktifkanSwipeClose(document.querySelector('#modalQris .modal-content'), tutupQris);
+
+    // FUNGSI RENDER TESTIMONI
+    function renderTestimoni() {
+        const wadah = document.getElementById('testimoniIsi');
+        if (testimoniData.length === 0) {
+            wadah.innerHTML = `
+                <div class="testimoni-empty">
+                    Testimoni asli dari pembeli kami bisa dilihat langsung di channel Telegram resmi ⬇️
                 </div>
             `;
+            return;
         }
+        wadah.innerHTML = `<div class="testimoni-grid">` + testimoniData.map(t => `
+            <div class="testimoni-card">
+                <div class="bintang">${'★'.repeat(t.bintang)}${'☆'.repeat(5 - t.bintang)}</div>
+                <div class="isi">"${t.isi}"</div>
+                <div class="nama">${t.nama}</div>
+            </div>
+        `).join('') + `</div>`;
+    }
 
-        // ============================================================
-        // FAQ
-        // ============================================================
-        function renderFaq() {
-            const container = document.getElementById('faqContainer');
-            container.innerHTML = faqData.map((f, i) => `
-                <div class="faq-item" id="faq-${i}">
-                    <button class="faq-question" onclick="toggleFaq(${i})" aria-expanded="false">
-                        <span>${f.q}</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-                    </button>
-                    <div class="faq-answer">${f.a}</div>
-                </div>
-            `).join('');
-        }
+    // FUNGSI RENDER FAQ (accordion)
+    function renderFaq() {
+        const wadah = document.getElementById('faqList');
+        wadah.innerHTML = faqData.map((f, i) => `
+            <div class="faq-item" id="faq-${i}">
+                <button class="faq-question" onclick="toggleFaq(${i})" aria-expanded="false">
+                    <span>${f.q}</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="faq-answer">${f.a}</div>
+            </div>
+        `).join('');
+    }
+    function toggleFaq(i) {
+        const item = document.getElementById('faq-' + i);
+        const buka = item.classList.toggle('open');
+        item.querySelector('.faq-question').setAttribute('aria-expanded', buka ? 'true' : 'false');
+    }
 
-        function toggleFaq(i) {
-            const item = document.getElementById('faq-' + i);
-            const open = item.classList.toggle('open');
-            item.querySelector('.faq-question').setAttribute('aria-expanded', open);
-        }
-
-        // ============================================================
-        // NAVBAR SCROLL
-        // ============================================================
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            nav.classList.toggle('scrolled', window.scrollY > 50);
-        });
-
-        // ============================================================
-        // ESC KEY
-        // ============================================================
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (document.getElementById('productModal').style.display === 'flex') tutupModal();
-                if (document.getElementById('qrisModal').style.display === 'flex') tutupQris();
-                if (document.getElementById('cartSidebar').classList.contains('open')) {
-                    document.getElementById('cartSidebar').classList.remove('open');
-                    document.getElementById('cartOverlay').classList.remove('open');
-                    document.body.style.overflow = '';
-                }
-            }
-        });
-
-        // ============================================================
-        // INIT
-        // ============================================================
-        renderProducts();
-        renderTestimoni();
-        renderFaq();
-        updateCartUI();
-    </script>
-
+    // Eksekusi awal saat web dimuat
+    renderKatalog();
+    renderTestimoni();
+    renderFaq();
+</script>
 </body>
-</html>2
+</html>

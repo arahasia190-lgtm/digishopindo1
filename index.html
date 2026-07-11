@@ -219,37 +219,38 @@
         .drawer-overlay.open { display: block; }
         .drawer-overlay.closing { animation: fadeOut 0.2s ease-in forwards; }
 
-        .drawer { position: fixed; top: 0; right: -480px; width: 420px; max-width: 92vw; height: 100dvh; background: var(--dark-card); z-index: 2001; padding: 24px 20px; transition: right 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; border-left: 1px solid rgba(255, 255, 255, 0.04); box-shadow: 0 0 60px rgba(0, 0, 0, 0.5); }
+        .drawer { position: fixed; top: 0; right: -480px; width: 420px; max-width: 92vw; height: 100dvh; height: 100vh; background: var(--dark-card); z-index: 2001; padding: clamp(16px, 4vw, 24px) clamp(14px, 3.5vw, 20px); transition: right 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; border-left: 1px solid rgba(255, 255, 255, 0.04); box-shadow: 0 0 60px rgba(0, 0, 0, 0.5); overflow: hidden; }
+        @supports (height: 100dvh) { .drawer { height: 100dvh; } }
         .drawer.open { right: 0; }
 
         .drawer-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); flex-shrink: 0; }
-        .drawer-header h2 { font-size: 1.1rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-        .drawer-header h2 span { color: var(--text-muted); font-weight: 600; font-size: 0.8rem; }
-        .drawer-close { background: none; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: var(--transition); }
+        .drawer-header h2 { font-size: clamp(1rem, 3.2vw, 1.1rem); font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .drawer-header h2 span { color: var(--text-muted); font-weight: 600; font-size: clamp(0.72rem, 2.2vw, 0.8rem); }
+        .drawer-close { background: none; border: none; color: var(--text-muted); font-size: 1.3rem; cursor: pointer; padding: 4px 8px; border-radius: 8px; transition: var(--transition); flex-shrink: 0; }
         .drawer-close:hover { background: rgba(255, 255, 255, 0.05); color: var(--danger); }
 
-        .drawer-items { flex: 1; overflow-y: auto; padding: 12px 0; }
+        .drawer-items { flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; padding: 12px 0; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
         .drawer-empty { text-align: center; padding: 40px 0; color: var(--text-muted); }
         .drawer-empty .empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; opacity: 0.4; }
 
-        .drawer-item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
-        .drawer-item .item-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(255, 255, 255, 0.03); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
+        .drawer-item { display: flex; align-items: center; gap: clamp(10px, 3vw, 14px); padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.03); }
+        .drawer-item .item-icon { width: clamp(38px, 10vw, 44px); height: clamp(38px, 10vw, 44px); border-radius: 10px; background: rgba(255, 255, 255, 0.03); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; }
         .drawer-item .item-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
         .drawer-item .item-info { flex: 1; min-width: 0; }
-        .drawer-item .item-info .item-name { font-weight: 700; font-size: 0.85rem; }
-        .drawer-item .item-info .item-variant { font-size: 0.7rem; color: var(--text-muted); }
-        .drawer-item .item-info .item-price { font-weight: 800; color: var(--secondary); font-size: 0.85rem; }
-        .drawer-item .btn-remove { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 6px; border-radius: 8px; transition: var(--transition); }
+        .drawer-item .item-info .item-name { font-weight: 700; font-size: clamp(0.8rem, 2.4vw, 0.9rem); overflow-wrap: break-word; }
+        .drawer-item .item-info .item-variant { font-size: clamp(0.68rem, 2vw, 0.75rem); color: var(--text-muted); }
+        .drawer-item .item-info .item-price { font-weight: 800; color: var(--secondary); font-size: clamp(0.8rem, 2.4vw, 0.9rem); }
+        .drawer-item .btn-remove { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; padding: 8px; border-radius: 8px; transition: var(--transition); flex-shrink: 0; }
         .drawer-item .btn-remove:hover { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
 
-        .drawer-footer { border-top: 1px solid rgba(255, 255, 255, 0.04); padding-top: 16px; flex-shrink: 0; }
-        .drawer-footer .price-row { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-bottom: 2px; }
+        .drawer-footer { border-top: 1px solid rgba(255, 255, 255, 0.04); padding-top: 16px; padding-bottom: env(safe-area-inset-bottom, 0px); flex-shrink: 0; }
+        .drawer-footer .price-row { display: flex; justify-content: space-between; font-size: clamp(0.72rem, 2.2vw, 0.8rem); color: var(--text-muted); font-weight: 600; margin-bottom: 2px; gap: 8px; }
         .drawer-footer .price-row .original { text-decoration: line-through; opacity: 0.6; }
         .drawer-footer .price-row .save { color: var(--success); }
-        .drawer-footer .total-row { display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 800; margin: 8px 0 14px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.04); }
+        .drawer-footer .total-row { display: flex; justify-content: space-between; font-size: clamp(0.95rem, 3vw, 1.05rem); font-weight: 800; margin: 8px 0 14px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.04); gap: 8px; }
         .drawer-footer .total-row .total-price { color: var(--secondary); }
 
-        .btn-checkout-drawer { width: 100%; padding: 12px 0; border: none; border-radius: 50px; background: var(--gradient-1); color: white; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: var(--transition); font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-checkout-drawer { width: 100%; padding: 13px 0; border: none; border-radius: 50px; background: var(--gradient-1); color: white; font-weight: 800; font-size: clamp(0.85rem, 2.6vw, 0.95rem); cursor: pointer; transition: var(--transition); font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-checkout-drawer:hover { transform: scale(1.02); box-shadow: 0 8px 30px var(--primary-glow); }
 
         /* ========== CHECKOUT PAGE ========== */
@@ -694,6 +695,29 @@
         // ================================================================
         // CART & SCROLL LOCK
         // ================================================================
+        // ================================================================
+        // SCROLL LOCK (fix: overflow:hidden saja tidak reliable di HP/iOS)
+        // ================================================================
+        let scrollLockY = 0;
+        function lockScroll() {
+            scrollLockY = window.scrollY || window.pageYOffset || 0;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollLockY}px`;
+            document.body.style.left = '0';
+            document.body.style.right = '0';
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+        }
+        function unlockScroll() {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            window.scrollTo(0, scrollLockY);
+        }
+
         function getCartTotal() { return state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0); }
         function getCartOriginalTotal() { return state.cart.reduce((sum, item) => sum + ((item.originalPrice || item.price * 1.5) * item.qty), 0); }
         function getCartDiscount() { return getCartOriginalTotal() - getCartTotal(); }
@@ -707,7 +731,7 @@
             if (state.cart.find(item => item.variantId === variantId)) {
                 showToast('Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
                 state.isDrawerOpen = true; 
-                document.body.style.overflow = 'hidden'; // Kunci scroll
+                lockScroll();
                 renderAll(); return;
             }
 
@@ -719,7 +743,7 @@
             state.isModalOpen = false; 
             state.selectedProduct = null; 
             state.isDrawerOpen = true;
-            document.body.style.overflow = 'hidden'; // Kunci scroll
+            lockScroll();
             
             showToast('Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
             renderAll();
@@ -729,14 +753,14 @@
             state.cart.splice(index, 1);
             if (state.cart.length === 0) {
                 state.isDrawerOpen = false;
-                document.body.style.overflow = ''; // Lepas scroll jika keranjang habis dan tertutup
+                unlockScroll();
             }
             renderAll();
         }
 
         function toggleDrawer() { 
             state.isDrawerOpen = !state.isDrawerOpen; 
-            document.body.style.overflow = state.isDrawerOpen ? 'hidden' : ''; // Kunci/Lepas scroll
+            if (state.isDrawerOpen) lockScroll(); else unlockScroll();
             renderAll(); 
         }
 
@@ -747,7 +771,7 @@
             state.selectedProduct = produk.find(item => item.id === productId);
             if (state.selectedProduct) { 
                 state.isModalOpen = true; 
-                document.body.style.overflow = 'hidden'; // Kunci scroll
+                lockScroll();
                 renderAll(); 
             }
         }
@@ -755,7 +779,7 @@
         function tutupModal() { 
             state.isModalOpen = false; 
             state.selectedProduct = null; 
-            document.body.style.overflow = ''; // Lepas scroll
+            unlockScroll();
             renderAll(); 
         }
 
@@ -988,7 +1012,7 @@
         function proceedToCheckout() {
             if (state.cart.length === 0) { showToast('Kosong', 'Tambahkan produk dulu!', 'warning'); return; }
             state.isDrawerOpen = false; state.isCheckout = true; state.errors = {}; 
-            document.body.style.overflow = ''; // Lepas scroll saat ke checkout
+            unlockScroll();
             renderAll();
         }
 
@@ -1035,17 +1059,17 @@
             if ((state.isCheckout || state.isPayment) && !confirm('Kembali ke toko? Data pesanan akan hilang.')) return;
             state.isCheckout = state.isPayment = state.isDrawerOpen = state.isModalOpen = false;
             state.orderData = null; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; 
-            document.body.style.overflow = ''; // Lepas semua scroll lock
+            unlockScroll();
             renderAll();
         }
 
         // ================================================================
         // QRIS FIX
         // ================================================================
-        function bukaQris() { $('qrisModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function bukaQris() { $('qrisModal').style.display = 'flex'; lockScroll(); }
         function tutupQris() {
             const m = $('qrisModal'); m.classList.add('closing');
-            setTimeout(() => { m.style.display = 'none'; m.classList.remove('closing'); document.body.style.overflow = ''; }, 250);
+            setTimeout(() => { m.style.display = 'none'; m.classList.remove('closing'); unlockScroll(); }, 250);
         }
         
         function downloadQRIS() {

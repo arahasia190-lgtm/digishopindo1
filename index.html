@@ -219,7 +219,7 @@
         .drawer-overlay.open { display: block; }
         .drawer-overlay.closing { animation: fadeOut 0.2s ease-in forwards; }
 
-        .drawer { position: fixed; top: 0; right: -480px; width: 420px; max-width: 92vw; height: 100%; background: var(--dark-card); z-index: 2001; padding: 24px 20px; transition: right 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; border-left: 1px solid rgba(255, 255, 255, 0.04); box-shadow: 0 0 60px rgba(0, 0, 0, 0.5); }
+        .drawer { position: fixed; top: 0; right: -480px; width: 420px; max-width: 92vw; height: 100dvh; background: var(--dark-card); z-index: 2001; padding: 24px 20px; transition: right 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; border-left: 1px solid rgba(255, 255, 255, 0.04); box-shadow: 0 0 60px rgba(0, 0, 0, 0.5); }
         .drawer.open { right: 0; }
 
         .drawer-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); flex-shrink: 0; }
@@ -635,7 +635,7 @@
 
     <script>
         // ================================================================
-        // DATA PRODUK (Data yang sama dipertahankan)
+        // DATA PRODUK
         // ================================================================
         const produk = [{ id: 'am', nama: 'Alight Motion', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://play-lh.googleusercontent.com/LRjRXaVEtoeHyiFcnMLCHs1ZJV8Q4q70PggflRDAfgOkulzFTbJg65y0drg6Yapo22Xoos_XCbyh7EgycBhQ', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'am-sharing', nama: 'Sharing 1 Tahun', harga: '3000', desk: 'Maksimal 5 device. Garansi 3 bulan.' }, { id: 'am-private', nama: 'Private 1 Tahun', harga: '8000', desk: 'Bisa ganti email. Akun private.' }] }, { id: 'capcut', nama: 'CapCut Pro', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHM0OYfiFeMI2p9MWie0CvL99U4GA1gf6_kayTt_kBblFwHwo8BW8JXlqfnYxKPmmBaQDG.nPeYqpMXSUQbV6ZbDqKB2cfxC8XGBuMMG2wnfQDreT0rlqZucFHBfMnKmf9jEjSzK_3h4euGl2PWZ9ggU-&format=source', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'capcut-7d-private', nama: '7 Hari Private', harga: '30000', desk: 'Akun private. Garansi 7 hari.' }, { id: 'capcut-7d-sharing', nama: '7 Hari Sharing', harga: '23500', desk: 'Maksimal 1 device. Garansi 7 hari.' }, { id: 'capcut-1m-private', nama: '1 Bulan Private', harga: '75000', desk: 'Akun private. Garansi 25 hari.' }, { id: 'capcut-1m-sharing', nama: '1 Bulan Sharing', harga: '60000', desk: 'Maksimal 1 device. Garansi 25 hari.' }] }, { id: 'netflix', nama: 'Netflix 4K', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://yt3.googleusercontent.com/6Tx4cExHCNrdMIRxfNcPBh-90reH5ugoKyzi0cJZUd6jbFKvHJpPYWMPjwCWxuuOCmW05avdNUI=s900-c-k-c0x00ffffff-no-rj', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'netflix-7d', nama: '7 Hari (1P2U)', harga: '22000', desk: '1 profil 2 user. Garansi 7 hari.' }, { id: 'netflix-1m-1p2u', nama: '1 Bulan (1P2U)', harga: '35000', desk: '1 profil 2 user. Garansi 20 hari.' }, { id: 'netflix-1m-1p1u', nama: '1 Bulan (1P1U)', harga: '48000', desk: '1 profil private. Full garansi.' }, { id: 'netflix-1m-semi', nama: '1 Bulan SEMI PRIVATE', harga: '75000', desk: '1 profil private. Full garansi.' }, { id: 'netflix-crack', nama: 'Netflix Crack', harga: '15000', desk: 'Garansi 24 jam.' }] }, { id: 'spotify', nama: 'Spotify', kategori: 'MUSIK', subtitle: 'Audio Premium', icon: 'https://yt3.googleusercontent.com/UMGZZMPQkM3kGtyW4jNE1GtpSrydfNJdbG1UyWTp5zeqUYc6-rton70Imm7B11RulRRuK521NQ=s900-c-k-c0x00ffffff-no-rj', badge: '', badgeClass: '', varian: [{ id: 'spotify-indplan', nama: 'Indplan 1 Bulan', harga: '32000', desk: '1 perangkat. Garansi 20 hari.' }, { id: 'spotify-famplan', nama: 'Famplan 1 Bulan', harga: '25000', desk: 'Garansi 20 hari.' }] }, { id: 'bstation', nama: 'Bstation', kategori: 'MOVIE', subtitle: 'Anime Stream', icon: 'https://screenscore.digitalmama.id/wp-content/uploads/2025/03/unnamed-9.webp', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'bstation-sharing', nama: 'Sharing 1 Bulan', harga: '15000', desk: 'Maksimal 1 device. Garansi 25 hari.' }, { id: 'bstation-private-14d', nama: 'Private 14 Hari', harga: '17500', desk: 'Akun private. Garansi Full.' }, { id: 'bstation-private-1m', nama: 'Private 1 Bulan', harga: '31000', desk: 'Akun private. Garansi Full.' }] }, { id: 'canva', nama: 'Canva', kategori: 'DESAIN', subtitle: 'Template Premium', icon: 'https://pbs.twimg.com/profile_images/1542647040756568064/YbE5Hs-5_400x400.jpg', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'canva-invite-1m', nama: 'Invite 1 Bulan', harga: '2500', desk: 'Akun Private. via invite.' }, { id: 'canva-invite-1y', nama: 'Invite 1 Tahun', harga: '25000', desk: 'Akun Private. via invite.' }, { id: 'canva-head', nama: 'Head (Owner) 1 Bulan', harga: '13000', desk: 'Cocok untuk tim. Bisa invite 100 anggota.' }] }, { id: 'disney', nama: 'Disney+', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://images.seeklogo.com/logo-png/4/1/disney-logo-png_seeklogo-41972.png', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'disney-sharing-1m', nama: 'Sharing 1 Bulan', harga: '30000', desk: 'Maksimal 1 device. Garansi 25 hari.' }, { id: 'disney-sharing-7d', nama: 'Sharing 7 Hari', harga: '20000', desk: 'Maksimal 1 device. Garansi 7 hari.' }] }, { id: 'youtube', nama: 'YouTube', kategori: 'MOVIE', subtitle: 'Video Premium', icon: 'https://yt3.googleusercontent.com/1NFw5olkb4TAkk0ZrGc9_VVDjxjJemetRY3FZQ7DKmPosb0lWwx2mgPY2YhGKkgFzHZGn44zZQ=s900-c-k-c0x00ffffff-no-rj', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'youtube-1m', nama: '1 Bulan', harga: '8000', desk: 'Akun Private. Garansi 25 hari.' }, { id: 'youtube-famhead', nama: 'Famhead 1 Bulan', harga: '17000', desk: 'Akun dari pembeli. Bisa invite 5 member.' }] }, { id: 'gemini', nama: 'Gemini AI', kategori: 'SMART', subtitle: 'AI Tools', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqGrqBPffjc--HscZ5gQAsD7XaVdVbrxL5IvRJwgdqRUqRvW9YxcNtCc&s=10', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'gemini-sharing', nama: 'Sharing 1 Bulan', harga: '10000', desk: 'Maksimal 1 device. Garansi 1 bulan.' }, { id: 'gemini-private-1m', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-2m', nama: 'Private 2 Bulan', harga: '28000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-3m', nama: 'Private 3 Bulan', harga: '35000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-4m', nama: 'Private 4 Bulan', harga: '45000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }] }, { id: 'prime', nama: 'Prime Video', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://store-images.s-microsoft.com/image/apps.29354.14618985536919905.45e2438b-0358-430f-a226-e856ef5f56cd.6045f10d-194a-41bc-aa21-f7fce8cabd7c', badge: '', badgeClass: '', varian: [{ id: 'prime-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi 15 hari.' }, { id: 'prime-private', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun private. Garansi Full.' }] }, { id: 'viu', nama: 'Viu', kategori: 'MOVIE', subtitle: 'Drama & Film', icon: 'https://yt3.googleusercontent.com/ytc/AIdro_mGgWUT-KZejIMSOL4h8Mu5_y3g6rIw7qcg8b3NwsBpHA=s900-c-k-c0x00ffffff-no-rj', badge: '', badgeClass: '', varian: [{ id: 'viu-private-1y', nama: 'Private 1 Tahun', harga: '25000', desk: 'Akun Private. Garansi 3 bulan.' }] }, { id: 'vidio', nama: 'Vidio', kategori: 'MOVIE', subtitle: 'Sports & TV', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGq-kVjmk0MbiDqy8JXTY5ccE_gP3uSC3h0y1YX1OdIQ&s', badge: '', badgeClass: '', varian: [{ id: 'vidio-sharing-mobile', nama: 'Sharing 1B (Mobile)', harga: '30000', desk: 'Khusus HP/Mobile. Garansi 25 hari.' }, { id: 'vidio-private-mobile', nama: 'Private 1B (Mobile)', harga: '60000', desk: 'Khusus HP/Mobile. Private.' }, { id: 'vidio-sharing-tv', nama: 'Sharing 1B (TV)', harga: '18000', desk: 'Khusus Smart TV. Garansi 25 hari.' }, { id: 'vidio-private-tv', nama: 'Private 1B (TV)', harga: '30000', desk: 'Khusus Smart TV. Private.' }, { id: 'vidio-2m-tv', nama: '2 Bulan (TV)', harga: '45000', desk: 'Khusus Smart TV. Garansi 30 hari.' }] }, { id: 'zoom', nama: 'Zoom', kategori: 'APPS', subtitle: 'Layanan Digital', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnjOHJJXN6oRjISn0Z9KRZ0wLNwPLxWDb9OFKndmVW-g&s=10', badge: '', badgeClass: '', varian: [{ id: 'zoom-14d-no', nama: 'Private 14d (No Garansi)', harga: '8000', desk: 'Zoom Pro 14 hari. Tanpa garansi.' }, { id: 'zoom-14d-full', nama: 'Private 14d (Full Garansi)', harga: '19000', desk: 'Zoom Pro 14 hari. Garansi full.' }] }, { id: 'hbomax', nama: 'HBO Max', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQacegfITyK7jTZJo9HBZVAi4OjalLUkgI2XZfLHsPQJg&s=10', badge: '', badgeClass: '', varian: [{ id: 'hbomax-sharing', nama: 'Sharing 1 Bulan', harga: '23000', desk: 'Paket Ultimate. Garansi 20 hari.' }] }, { id: 'iqiyi', nama: 'iQIYI', kategori: 'MOVIE', subtitle: 'Asian Content', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2iLLIrxlsjgfvCASqFcj_rmy6JUoE6Fd-zRKYzYUK6A&s', badge: '', badgeClass: '', varian: [{ id: 'iqiyi-premium-18d', nama: 'Premium 18 Hari', harga: '10000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-premium-sharing', nama: 'Premium Sharing 1B', harga: '18000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-standard-sharing', nama: 'Standard Sharing 1B', harga: '12000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-premium-private', nama: 'Premium Private 1B', harga: '50000', desk: 'Akun private.' }, { id: 'iqiyi-standard-private', nama: 'Standard Private 1B', harga: '40000', desk: 'Akun private.' }] }, { id: 'wink', nama: 'Wink', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4xgbNcT3c_ZfiaA5lrgD4Zv26hr_UGn336retHj0YUw&s=10', badge: '', badgeClass: '', varian: [{ id: 'wink-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' }, { id: 'wink-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }] }, { id: 'loklok', nama: 'Loklok', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvkxSQ9t438PB0MyM_mPJyBWmK2_jytMyiycHLDghPYQ&s=10', badge: '', badgeClass: '', varian: [{ id: 'loklok-basic', nama: 'Sharing 1B Basic', harga: '25000', desk: 'Paket Basic. 1 device.' }, { id: 'loklok-standar', nama: 'Sharing 1B Standar', harga: '35000', desk: 'Paket Standard. 1 device.' }] }, { id: 'getcontact', nama: 'Getcontact', kategori: 'APPS', subtitle: 'Layanan Digital', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbXnESqAkv-UwBEhocQ313CzbOcC_UbU8ClJm6rLhyTg&s=10', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'getcontact-tag', nama: 'Cek Tag Nomor', harga: '1000', desk: 'Kirim nomor tujuan.' }, { id: 'getcontact-premium', nama: 'Premium 1 Bulan', harga: '15000', desk: 'Garansi 20 hari.' }] }, { id: 'meitu', nama: 'Meitu', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQztjC_a0TqP4NQoBgpJNVQyxtx5Guz6F7Vkr_tICJM6Q&s=10', badge: '', badgeClass: '', varian: [{ id: 'meitu-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' }, { id: 'meitu-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }] }, { id: 'wetv', nama: 'WeTV', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScZVZ9YVHV2fEoHsmuzeLuDeMIudX1trxDBOLGHPEGeA&s=10', badge: '', badgeClass: '', varian: [{ id: 'wetv-sharing-3u', nama: 'Sharing 3U', harga: '18000', desk: 'Sharing 3 User. Garansi backfree.' }, { id: 'wetv-sharing-6u', nama: 'Sharing 6U', harga: '9000', desk: 'Sharing 6 User. Garansi backfree.' }, { id: 'wetv-private', nama: 'Private 1B', harga: '49000', desk: 'Akun private. Garansi backfree.' }] }, { id: 'crunchyroll', nama: 'Crunchyroll', kategori: 'MOVIE', subtitle: 'Anime Stream', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDynR-uCBAQcT6ipMhQEIwdatVeCDiqSNmfuujoKHBXg&s=10', badge: '', badgeClass: '', varian: [{ id: 'crunchyroll-private', nama: 'Private 1 Bulan', harga: '20500', desk: 'Akun private. Garansi backfree.' }, { id: 'crunchyroll-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi backfree.' }] }, { id: 'vision', nama: 'Vision+', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjJtIBUwuyiA3k6oODFz6hxKaeMK67z3GMPV0ZQd8Ucw&s=10', badge: '', badgeClass: '', varian: [{ id: 'vision-private', nama: 'Private 1 Bulan', harga: '10000', desk: 'Akun private. Garansi backfree.' }] }];
 
@@ -674,7 +674,7 @@
         }
 
         // ================================================================
-        // TOAST
+        // TOAST (PERBAIKAN NOTIFIKASI NUMPUK)
         // ================================================================
         function showToast(title, message, type = 'success') {
             const container = $('toastContainer');
@@ -683,15 +683,16 @@
             toast.innerHTML = `<span class="toast-icon ${type}">${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span>
                                <div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div>`;
             container.appendChild(toast);
-            clearTimeout(state.toastTimer);
-            state.toastTimer = setTimeout(() => {
+            
+            // Timer dibuat independen/lokal untuk masing-masing toast
+            setTimeout(() => {
                 toast.classList.add('fade-out');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
         }
 
         // ================================================================
-        // CART
+        // CART & SCROLL LOCK
         // ================================================================
         function getCartTotal() { return state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0); }
         function getCartOriginalTotal() { return state.cart.reduce((sum, item) => sum + ((item.originalPrice || item.price * 1.5) * item.qty), 0); }
@@ -705,7 +706,9 @@
 
             if (state.cart.find(item => item.variantId === variantId)) {
                 showToast('⚠️ Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
-                state.isDrawerOpen = true; renderAll(); return;
+                state.isDrawerOpen = true; 
+                document.body.style.overflow = 'hidden'; // Kunci scroll
+                renderAll(); return;
             }
 
             state.cart.push({
@@ -713,26 +716,48 @@
                 price: parseHarga(variant.harga), originalPrice: parseHarga(variant.harga) * 1.5, icon: product.icon, qty: 1
             });
 
-            state.isModalOpen = false; state.selectedProduct = null; state.isDrawerOpen = true;
+            state.isModalOpen = false; 
+            state.selectedProduct = null; 
+            state.isDrawerOpen = true;
+            document.body.style.overflow = 'hidden'; // Kunci scroll
+            
             showToast('✅ Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
             renderAll();
         }
 
         function removeFromCart(index) {
             state.cart.splice(index, 1);
-            if (state.cart.length === 0) state.isDrawerOpen = false;
+            if (state.cart.length === 0) {
+                state.isDrawerOpen = false;
+                document.body.style.overflow = ''; // Lepas scroll jika keranjang habis dan tertutup
+            }
             renderAll();
         }
-        function toggleDrawer() { state.isDrawerOpen = !state.isDrawerOpen; renderAll(); }
+
+        function toggleDrawer() { 
+            state.isDrawerOpen = !state.isDrawerOpen; 
+            document.body.style.overflow = state.isDrawerOpen ? 'hidden' : ''; // Kunci/Lepas scroll
+            renderAll(); 
+        }
 
         // ================================================================
-        // MODAL
+        // MODAL SCROLL LOCK
         // ================================================================
         function bukaModal(productId) {
             state.selectedProduct = produk.find(item => item.id === productId);
-            if (state.selectedProduct) { state.isModalOpen = true; renderAll(); }
+            if (state.selectedProduct) { 
+                state.isModalOpen = true; 
+                document.body.style.overflow = 'hidden'; // Kunci scroll
+                renderAll(); 
+            }
         }
-        function tutupModal() { state.isModalOpen = false; state.selectedProduct = null; renderAll(); }
+        
+        function tutupModal() { 
+            state.isModalOpen = false; 
+            state.selectedProduct = null; 
+            document.body.style.overflow = ''; // Lepas scroll
+            renderAll(); 
+        }
 
         // ================================================================
         // FILTER, SEARCH, SORT
@@ -847,10 +872,9 @@
 
             if (!state.isCheckout) {
                 container.className = 'page-checkout'; container.innerHTML = '';
-                $('heroSection').style.display = 'block'; $('testimoniSection').style.display = 'block'; return;
+                return; // Tampilan hero dan lainnya dihandle di renderAll
             }
 
-            $('heroSection').style.display = 'none'; $('testimoniSection').style.display = 'none';
             container.className = 'page-checkout active';
             
             container.innerHTML = `
@@ -866,7 +890,6 @@
                         </div>
                         <div class="form-group ${state.errors.wa ? 'error' : ''}">
                             <label>Nomor WhatsApp</label>
-                            <!-- Diubah ke type="number" / "tel" agar keyboard angka muncul di HP -->
                             <input type="tel" id="inputWa" placeholder="081234567890" value="${state.formData.wa}" oninput="updateForm('wa', this.value)" />
                             <div class="error-text">Nomor WhatsApp wajib diisi</div>
                         </div>
@@ -901,7 +924,6 @@
             if (!container) return;
             if (!state.isPayment || !state.orderData) { container.className = 'page-payment'; container.innerHTML = ''; return; }
 
-            $('heroSection').style.display = 'none'; $('testimoniSection').style.display = 'none';
             container.className = 'page-payment active';
             const order = state.orderData;
 
@@ -933,66 +955,59 @@
             `;
         }
 
-       function renderAll() {
-    // 1. Render semua komponen
-    renderProducts(); 
-    renderModal(); 
-    renderDrawer(); 
-    renderCheckout(); 
-    renderPayment();
-    
-    // 2. LOGIKA BARU: Atur elemen mana yang tampil berdasarkan halaman saat ini
-    // Jika sedang tidak di Checkout dan tidak di Payment, berarti sedang di Home (Beranda)
-    const isHome = !state.isCheckout && !state.isPayment;
-    
-    const hero = document.getElementById('heroSection');
-    const testimoni = document.getElementById('testimoniSection');
-    const searchBox = document.querySelector('.search-box');
-    const filterRow = document.querySelector('.filter-row');
-    const faq = document.querySelector('.faq-section');
-    
-    // Sembunyikan elemen-elemen ini jika BUKAN di halaman Home
-    if (hero) hero.style.display = isHome ? 'block' : 'none';
-    if (testimoni) testimoni.style.display = isHome ? 'block' : 'none';
-    if (searchBox) searchBox.style.display = isHome ? 'block' : 'none';
-    if (filterRow) filterRow.style.display = isHome ? 'flex' : 'none'; // Pakai flex karena asalnya sejajar
-    if (faq) faq.style.display = isHome ? 'block' : 'none';
+        function renderAll() {
+            renderProducts(); 
+            renderModal(); 
+            renderDrawer(); 
+            renderCheckout(); 
+            renderPayment();
+            
+            // Atur elemen mana yang tampil berdasarkan halaman saat ini
+            const isHome = !state.isCheckout && !state.isPayment;
+            
+            const hero = document.getElementById('heroSection');
+            const testimoni = document.getElementById('testimoniSection');
+            const searchBox = document.querySelector('.search-box');
+            const filterRow = document.querySelector('.filter-row');
+            const faq = document.querySelector('.faq-section');
+            
+            if (hero) hero.style.display = isHome ? 'block' : 'none';
+            if (testimoni) testimoni.style.display = isHome ? 'block' : 'none';
+            if (searchBox) searchBox.style.display = isHome ? 'block' : 'none';
+            if (filterRow) filterRow.style.display = isHome ? 'flex' : 'none';
+            if (faq) faq.style.display = isHome ? 'block' : 'none';
 
-    // 3. Update angka di icon keranjang
-    if (document.getElementById('cartBadge')) {
-        document.getElementById('cartBadge').textContent = getCartCount();
-    }
-}
+            if (document.getElementById('cartBadge')) {
+                document.getElementById('cartBadge').textContent = getCartCount();
+            }
+        }
 
         // ================================================================
         // CHECKOUT & PAYMENT ACTIONS
         // ================================================================
         function proceedToCheckout() {
             if (state.cart.length === 0) { showToast('⚠️ Kosong', 'Tambahkan produk dulu!', 'warning'); return; }
-            state.isDrawerOpen = false; state.isCheckout = true; state.errors = {}; renderAll();
+            state.isDrawerOpen = false; state.isCheckout = true; state.errors = {}; 
+            document.body.style.overflow = ''; // Lepas scroll saat ke checkout
+            renderAll();
         }
+
         function goBackFromCheckout() {
             if (!confirm('Kembali ke toko? Data yang diisi akan hilang.')) return;
             state.isCheckout = false; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; renderAll();
         }
-function updateForm(field, value) {
-    // 1. Simpan data yang diketik ke state
-    state.formData[field] = value;
-    
-    // 2. Jika sebelumnya ada peringatan error merah, hilangkan peringatannya
-    if (state.errors[field]) {
-        state.errors[field] = false;
-        
-        // Manipulasi DOM langsung untuk menghapus class 'error' tanpa harus me-refresh seluruh halaman
-        const inputId = 'input' + field.charAt(0).toUpperCase() + field.slice(1);
-        const inputElement = document.getElementById(inputId);
-        if (inputElement && inputElement.closest('.form-group')) {
-            inputElement.closest('.form-group').classList.remove('error');
+
+        function updateForm(field, value) {
+            state.formData[field] = value;
+            if (state.errors[field]) {
+                state.errors[field] = false;
+                const inputId = 'input' + field.charAt(0).toUpperCase() + field.slice(1);
+                const inputElement = document.getElementById(inputId);
+                if (inputElement && inputElement.closest('.form-group')) {
+                    inputElement.closest('.form-group').classList.remove('error');
+                }
+            }
         }
-    }
-    
-    // KITA HAPUS renderAll() di sini agar form tidak hilang fokus saat mengetik!
-}
 
         function submitOrder() {
             const { name, wa, email } = state.formData, errors = {};
@@ -1019,11 +1034,13 @@ function updateForm(field, value) {
             if (e) e.preventDefault();
             if ((state.isCheckout || state.isPayment) && !confirm('Kembali ke toko? Data pesanan akan hilang.')) return;
             state.isCheckout = state.isPayment = state.isDrawerOpen = state.isModalOpen = false;
-            state.orderData = null; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; renderAll();
+            state.orderData = null; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; 
+            document.body.style.overflow = ''; // Lepas semua scroll lock
+            renderAll();
         }
 
         // ================================================================
-        // QRIS FIX (Fetch to Blob to avoid Tainted Canvas)
+        // QRIS FIX
         // ================================================================
         function bukaQris() { $('qrisModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
         function tutupQris() {
@@ -1034,7 +1051,6 @@ function updateForm(field, value) {
         function downloadQRIS() {
             const imgSrc = $('qrisImage') ? $('qrisImage').src : $('qrisToDownload').src;
             
-            // Gunakan metode fetch & blob agar lebih aman dari error CORS
             fetch(imgSrc)
                 .then(response => response.blob())
                 .then(blob => {
@@ -1047,7 +1063,6 @@ function updateForm(field, value) {
                     showToast('✅ QRIS Tersimpan!', 'Gambar berhasil disimpan.', 'success');
                 })
                 .catch(err => {
-                    // Fallback jika fetch gagal (misal file local belum dihost)
                     const link = document.createElement('a');
                     link.href = imgSrc;
                     link.download = 'QRIS-DigishopID.jpg';

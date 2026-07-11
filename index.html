@@ -125,6 +125,7 @@
         .btn-qris svg { width: 14px; height: 14px; }
         .cart-badge { background: var(--secondary); color: var(--dark); font-size: 0.6rem; font-weight: 800; padding: 1px 8px; border-radius: 30px; min-width: 20px; text-align: center; }
 
+        .cs-nav-group { display: flex; align-items: center; gap: 8px; }
         .whatsapp-nav {
             background: #25D366; color: white; border: none; padding: 8px 14px; border-radius: 50px; font-weight: 700;
             font-size: 0.75rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition);
@@ -132,6 +133,13 @@
         }
         .whatsapp-nav:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3); }
         .whatsapp-nav svg { width: 16px; height: 16px; }
+        .telegram-nav {
+            background: #229ED9; color: white; border: none; padding: 8px 14px; border-radius: 50px; font-weight: 700;
+            font-size: 0.75rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition);
+            text-decoration: none; font-family: inherit; white-space: nowrap;
+        }
+        .telegram-nav:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(34, 158, 217, 0.3); }
+        .telegram-nav svg { width: 16px; height: 16px; }
 
         /* ========== HERO ========== */
         .hero { padding: 40px 0 30px; text-align: center; }
@@ -390,6 +398,10 @@
         /* ========== FLOATING WA ========== */
         .float-wa { position: fixed; bottom: 20px; right: 20px; width: 52px; height: 52px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 25px rgba(37, 211, 102, 0.35); z-index: 998; text-decoration: none; transition: var(--transition); }
         .float-wa::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; background: #25D366; opacity: 0.25; animation: waPulse 2.5s ease-out infinite; z-index: -1; }
+        .float-tele { position: fixed; bottom: 82px; right: 20px; width: 52px; height: 52px; background: #229ED9; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 25px rgba(34, 158, 217, 0.35); z-index: 998; text-decoration: none; transition: var(--transition); }
+        .float-tele::before { content: ''; position: absolute; inset: -6px; border-radius: 50%; background: #229ED9; opacity: 0.25; animation: waPulse 2.5s ease-out infinite; z-index: -1; }
+        .float-tele:hover { transform: scale(1.1); }
+        .float-tele svg { width: 26px; height: 26px; fill: white; }
         @keyframes waPulse { 0% { transform: scale(1); opacity: 0.3; } 100% { transform: scale(1.9); opacity: 0; } }
         .float-wa:hover { transform: scale(1.1); }
         .float-wa svg { width: 28px; height: 28px; fill: white; }
@@ -420,8 +432,8 @@
             .logo { font-size: 1rem; }
             .logo-icon { width: 32px; height: 32px; }
             .logo-icon svg { width: 18px; height: 18px; }
-            .btn-qris span, .btn-cart span, .whatsapp-nav span { display: none; }
-            .btn-qris, .btn-cart, .whatsapp-nav { padding: 8px 10px; }
+            .btn-qris span, .btn-cart span, .whatsapp-nav span, .telegram-nav span { display: none; }
+            .btn-qris, .btn-cart, .whatsapp-nav, .telegram-nav { padding: 8px 10px; }
             .filter-container { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; justify-content: flex-start; width: 100%; }
             .filter-container::-webkit-scrollbar { display: none; }
             .filter-btn { font-size: 0.65rem; padding: 5px 12px; flex-shrink: 0; }
@@ -439,6 +451,8 @@
             .testimoni-grid { grid-template-columns: 1fr; gap: 10px; }
             .float-wa { width: 48px; height: 48px; bottom: 16px; right: 16px; }
             .float-wa svg { width: 24px; height: 24px; }
+            .float-tele { width: 48px; height: 48px; bottom: 72px; right: 16px; }
+            .float-tele svg { width: 24px; height: 24px; }
             .toast-container { bottom: 72px; width: 94%; }
             .checkout-grid, .payment-grid { grid-template-columns: 1fr; }
         }
@@ -450,7 +464,7 @@
             .product-card h3 { font-size: 0.8rem; }
             .navbar { padding: 12px 16px; margin: 0 -16px; }
             .container { padding: 0 16px; }
-            .btn-qris span, .btn-cart span, .whatsapp-nav span { display: none; }
+            .btn-qris span, .btn-cart span, .whatsapp-nav span, .telegram-nav span { display: none; }
             .filter-container { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; justify-content: flex-start; width: 100%; }
             .filter-container::-webkit-scrollbar { display: none; }
             .filter-btn { font-size: 0.7rem; padding: 5px 14px; flex-shrink: 0; }
@@ -517,10 +531,16 @@
             <button class="btn-cart" onclick="toggleDrawer()">
                 🛒 <span>Keranjang</span> <span class="cart-badge" id="cartBadge">0</span>
             </button>
-            <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" rel="noopener noreferrer" class="whatsapp-nav">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
-                <span>Order</span>
-            </a>
+            <div class="cs-nav-group">
+                <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" rel="noopener noreferrer" class="whatsapp-nav">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+                    <span>WA</span>
+                </a>
+                <a href="https://t.me/VallzStore04" target="_blank" rel="noopener noreferrer" class="telegram-nav">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.05 4.03 2.87 11.2c-1.24.5-1.24 1.2-.23 1.5l4.66 1.46 1.8 5.5c.22.6.4.85.85.85.4 0 .58-.18.8-.4l1.92-1.86 4 2.94c.73.4 1.26.2 1.44-.68l2.6-12.28c.28-1.08-.4-1.57-1.66-1.2Z"/></svg>
+                    <span>Tele</span>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -663,7 +683,10 @@
         </div>
     </div>
 
-    <!-- ========== FLOATING WA ========== -->
+    <!-- ========== FLOATING CS: TELEGRAM & WA ========== -->
+    <a href="https://t.me/VallzStore04" target="_blank" rel="noopener noreferrer" class="float-tele" aria-label="Telegram">
+        <svg viewBox="0 0 24 24" fill="white"><path d="M21.05 4.03 2.87 11.2c-1.24.5-1.24 1.2-.23 1.5l4.66 1.46 1.8 5.5c.22.6.4.85.85.85.4 0 .58-.18.8-.4l1.92-1.86 4 2.94c.73.4 1.26.2 1.44-.68l2.6-12.28c.28-1.08-.4-1.57-1.66-1.2Z"/></svg>
+    </a>
     <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" rel="noopener noreferrer" class="float-wa" aria-label="WhatsApp">
         <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2Z"/></svg>
     </a>

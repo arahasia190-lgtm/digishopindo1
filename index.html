@@ -933,10 +933,36 @@
             `;
         }
 
-        function renderAll() {
-            renderProducts(); renderModal(); renderDrawer(); renderCheckout(); renderPayment();
-            if($('cartBadge')) $('cartBadge').textContent = getCartCount();
-        }
+       function renderAll() {
+    // 1. Render semua komponen
+    renderProducts(); 
+    renderModal(); 
+    renderDrawer(); 
+    renderCheckout(); 
+    renderPayment();
+    
+    // 2. LOGIKA BARU: Atur elemen mana yang tampil berdasarkan halaman saat ini
+    // Jika sedang tidak di Checkout dan tidak di Payment, berarti sedang di Home (Beranda)
+    const isHome = !state.isCheckout && !state.isPayment;
+    
+    const hero = document.getElementById('heroSection');
+    const testimoni = document.getElementById('testimoniSection');
+    const searchBox = document.querySelector('.search-box');
+    const filterRow = document.querySelector('.filter-row');
+    const faq = document.querySelector('.faq-section');
+    
+    // Sembunyikan elemen-elemen ini jika BUKAN di halaman Home
+    if (hero) hero.style.display = isHome ? 'block' : 'none';
+    if (testimoni) testimoni.style.display = isHome ? 'block' : 'none';
+    if (searchBox) searchBox.style.display = isHome ? 'block' : 'none';
+    if (filterRow) filterRow.style.display = isHome ? 'flex' : 'none'; // Pakai flex karena asalnya sejajar
+    if (faq) faq.style.display = isHome ? 'block' : 'none';
+
+    // 3. Update angka di icon keranjang
+    if (document.getElementById('cartBadge')) {
+        document.getElementById('cartBadge').textContent = getCartCount();
+    }
+}
 
         // ================================================================
         // CHECKOUT & PAYMENT ACTIONS

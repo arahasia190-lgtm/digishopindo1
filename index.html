@@ -659,7 +659,8 @@
         let state = {
             cart: [], isModalOpen: false, isDrawerOpen: false, isCheckout: false, isPayment: false,
             selectedProduct: null, formData: { name: '', wa: '', email: '', note: '' },
-            orderData: null, errors: {}, toastTimer: null
+            orderData: null, errors: {}, toastTimer: null,
+            toastShown: false // FLAG untuk mencegah toast dobel
         };
 
         const $ = (id) => document.getElementById(id);
@@ -674,13 +675,17 @@
         }
 
         // ================================================================
-        // TOAST - PERBAIKAN: HANYA 1 TOAST TAMPIL
+        // TOAST - PASTIKAN HANYA 1 YANG TAMPIL
         // ================================================================
         function showToast(title, message, type = 'success') {
             const container = $('toastContainer');
+            if (!container) return;
             
-            // Hapus toast yang sudah ada agar tidak numpuk
+            // Hapus semua toast yang sudah ada
             container.innerHTML = '';
+            
+            // Reset flag
+            state.toastShown = false;
             
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -688,11 +693,16 @@
                                <div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div>`;
             container.appendChild(toast);
             
+            state.toastShown = true;
+            
             setTimeout(() => {
-                toast.classList.add('fade-out');
-                setTimeout(() => {
-                    if (toast.parentNode) toast.remove();
-                }, 300);
+                if (toast.parentNode) {
+                    toast.classList.add('fade-out');
+                    setTimeout(() => {
+                        if (toast.parentNode) toast.remove();
+                        state.toastShown = false;
+                    }, 300);
+                }
             }, 3000);
         }
 
@@ -712,7 +722,9 @@
             // Cek apakah sudah ada di keranjang
             const existingItem = state.cart.find(item => item.variantId === variantId);
             if (existingItem) {
-                showToast('⚠️ Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
+                if (!state.toastShown) {
+                    showToast('⚠️ Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
+                }
                 state.isDrawerOpen = true; 
                 document.body.style.overflow = 'hidden';
                 renderAll(); 
@@ -732,8 +744,10 @@
             state.isDrawerOpen = true;
             document.body.style.overflow = 'hidden';
             
-            // HANYA SATU TOAST
-            showToast('✅ Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
+            // HANYA SATU TOAST - dengan flag
+            if (!state.toastShown) {
+                showToast('✅ Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
+            }
             renderAll();
         }
 
@@ -997,7 +1011,12 @@
         // CHECKOUT & PAYMENT ACTIONS
         // ================================================================
         function proceedToCheckout() {
-            if (state.cart.length === 0) { showToast('⚠️ Kosong', 'Tambahkan produk dulu!', 'warning'); return; }
+            if (state.cart.length === 0) { 
+                if (!state.toastShown) {
+                    showToast('⚠️ Kosong', 'Tambahkan produk dulu!', 'warning');
+                }
+                return; 
+            }
             state.isDrawerOpen = false; state.isCheckout = true; state.errors = {}; 
             document.body.style.overflow = '';
             renderAll();
@@ -1029,8 +1048,9 @@
             if (Object.keys(errors).length > 0) {
                 state.errors = errors; 
                 renderAll(); 
-                // HANYA SATU TOAST
-                showToast('⚠️ Data belum lengkap', 'Isi form yang wajib', 'warning'); 
+                if (!state.toastShown) {
+                    showToast('⚠️ Data belum lengkap', 'Isi form yang wajib', 'warning');
+                }
                 return;
             }
 
@@ -1103,10 +1123,11 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                    showToast('✅ QRIS Tersimpan!', 'Gambar berhasil disimpan.', 'success');
+                    if (!state.toastShown) {
+                        showToast('✅ QRIS Tersimpan!', 'Gambar berhasil disimpan.', 'success');
+                    }
                 })
                 .catch(() => {
-                    // Fallback: buka gambar di tab baru
                     const link = document.createElement('a');
                     link.href = imgSrc;
                     link.download = 'QRIS-DigishopID.jpg';
@@ -1114,7 +1135,9 @@
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
-                    showToast('✅ QRIS Dibuka!', 'Silakan simpan gambar secara manual.', 'success');
+                    if (!state.toastShown) {
+                        showToast('✅ QRIS Dibuka!', 'Silakan simpan gambar secara manual.', 'success');
+                    }
                 });
         }
 

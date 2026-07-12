@@ -320,6 +320,18 @@
         .order-summary-card .summary-total { display: flex; justify-content: space-between; font-size: 1rem; font-weight: 800; padding: 10px 0; border-top: 1px solid rgba(255, 255, 255, 0.04); margin-top: 4px; }
         .order-summary-card .summary-total .total-amount { color: var(--secondary); }
 
+        .voucher-box { margin: 6px 0 14px; }
+        .voucher-input-row { display: flex; gap: 8px; }
+        .voucher-input-row input { flex: 1; padding: 9px 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.06); background: rgba(255, 255, 255, 0.03); color: var(--text); font-family: inherit; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.5px; }
+        .voucher-input-row input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
+        .voucher-input-row input::placeholder { color: var(--text-muted); opacity: 0.6; font-weight: 500; letter-spacing: normal; }
+        .btn-voucher { flex-shrink: 0; padding: 9px 16px; border: none; border-radius: var(--radius-sm); background: var(--gradient-1); color: white; font-weight: 800; font-size: 0.78rem; cursor: pointer; font-family: inherit; transition: var(--transition); }
+        .btn-voucher:hover { transform: scale(1.03); }
+        .voucher-error { color: var(--danger); font-size: 0.68rem; font-weight: 600; margin-top: 6px; }
+        .voucher-applied { display: flex; justify-content: space-between; align-items: center; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 700; color: var(--success); }
+        .voucher-applied button { background: none; border: none; color: var(--danger); font-weight: 700; font-size: 0.7rem; cursor: pointer; font-family: inherit; text-decoration: underline; }
+        .order-summary-card .summary-item.voucher-line { color: var(--success); }
+
         .btn-submit-order { width: 100%; padding: 12px 0; border: none; border-radius: 50px; background: var(--gradient-1); color: white; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: var(--transition); font-family: inherit; }
         .btn-submit-order:hover { transform: scale(1.02); box-shadow: 0 8px 30px var(--primary-glow); }
         .btn-back { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; color: var(--text-muted); font-weight: 700; font-size: 0.85rem; cursor: pointer; padding: 8px 0; transition: var(--transition); font-family: inherit; margin-bottom: 12px; }
@@ -720,8 +732,87 @@
         let state = {
             cart: [], isModalOpen: false, isDrawerOpen: false, isCheckout: false, isPayment: false,
             selectedProduct: null, formData: { name: '', wa: '', email: '', note: '' },
-            orderData: null, errors: {}, toast: null, toastTimer: null
+            orderData: null, errors: {}, toast: null, toastTimer: null,
+            voucherCode: '', voucherApplied: null, voucherError: ''
         };
+
+        // ================================================================
+        // DAFTAR KODE VOUCHER
+        // ================================================================
+        // Cara tambah/ubah voucher: tinggal edit object di bawah ini.
+        // type: 'percent'  -> value adalah persen diskon (misal 10 = 10%)
+        // type: 'fixed'    -> value adalah nominal potongan langsung dalam Rupiah
+        // minPurchase      -> minimal belanja (dalam Rupiah) dari produk/varian yang berlaku, agar voucher bisa dipakai (isi 0 jika tidak ada minimal)
+        // maxDiscount      -> (opsional, khusus type 'percent') batas maksimal potongan dalam Rupiah
+        // applicableProducts -> (OPSIONAL) daftar ID PRODUK yang boleh pakai kode ini, misal ['netflix', 'spotify']
+        //                       - berlaku untuk SEMUA varian dari produk itu (contoh: semua paket Netflix)
+        // applicableVariants -> (OPSIONAL, lebih spesifik) daftar ID VARIAN yang boleh pakai kode ini, misal ['netflix-1m-1p2u']
+        //                       - kalau field ini diisi, HANYA varian itu yang kena diskon, varian lain dari produk yang sama tetap harga normal
+        //                       - kalau applicableVariants DAN applicableProducts sama-sama kosong/dihapus, voucher berlaku untuk SEMUA produk
+        //                       - ID produk dilihat dari "id" tiap produk di data "produk" (misal 'netflix'), ID varian dilihat dari "id" di dalam array "varian" tiap produk (misal 'netflix-1m-1p2u')
+        // maxUses          -> (OPSIONAL) batas berapa kali kode ini boleh dipakai, misal 5
+        //                       - CATATAN PENTING: karena website ini tanpa server/database, hitungan pemakaian disimpan di
+        //                         browser masing-masing pengunjung (localStorage), BUKAN hitungan gabungan semua pembeli.
+        //                         Kalau pembeli ganti HP/browser atau clear data browser, kuota di sisi dia akan reset lagi.
+        //                         Ini cukup untuk mencegah orang yang sama pakai berulang-ulang di device yang sama,
+        //                         tapi bukan jaminan mutlak lintas semua pembeli. Kalau perlu jaminan mutlak, butuh server/database.
+        const voucherList = {
+            'DISKON10': { type: 'percent', value: 10, minPurchase: 0, maxDiscount: 20000, maxUses: 1 },
+            'HEMAT20K': { type: 'fixed', value: 20000, minPurchase: 50000 },
+            'WELCOME5': { type: 'percent', value: 5, minPurchase: 0 },
+            'NETFLIX15': { type: 'percent', value: 15, minPurchase: 0, maxDiscount: 15000, applicableProducts: ['netflix'] },
+            'NETFLIX1P2U': { type: 'percent', value: 20, minPurchase: 0, maxDiscount: 10000, applicableVariants: ['netflix-1m-1p2u'] }
+        };
+
+        // ================================================================
+        // PENYIMPANAN PEMAKAIAN VOUCHER (localStorage, per-browser)
+        // ================================================================
+        const VOUCHER_USAGE_KEY = 'digishopid_voucher_usage';
+        function getVoucherUsageMap() {
+            try { return JSON.parse(localStorage.getItem(VOUCHER_USAGE_KEY) || '{}'); }
+            catch (e) { return {}; }
+        }
+        function getVoucherUsageCount(code) { return getVoucherUsageMap()[code] || 0; }
+        function incrementVoucherUsage(code) {
+            try {
+                const data = getVoucherUsageMap();
+                data[code] = (data[code] || 0) + 1;
+                localStorage.setItem(VOUCHER_USAGE_KEY, JSON.stringify(data));
+            } catch (e) { /* localStorage tidak tersedia, abaikan */ }
+        }
+
+        // ================================================================
+        // KUOTA VOUCHER GLOBAL (lewat /api/voucher-usage, database Upstash)
+        // Kalau API/database belum di-setup di Vercel, otomatis fallback
+        // ke localStorage (per-browser) supaya website tetap tetap jalan.
+        // ================================================================
+        async function checkVoucherQuota(code, maxUses) {
+            try {
+                const r = await fetch('/api/voucher-usage', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'check', code, maxUses })
+                });
+                const data = await r.json();
+                if (!data.configured) return { available: getVoucherUsageCount(code) < maxUses, viaServer: false };
+                return { available: data.available, viaServer: true };
+            } catch (e) {
+                return { available: getVoucherUsageCount(code) < maxUses, viaServer: false };
+            }
+        }
+
+        async function redeemVoucherQuota(code, maxUses) {
+            try {
+                const r = await fetch('/api/voucher-usage', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'redeem', code, maxUses })
+                });
+                const data = await r.json();
+                if (!data.configured) { incrementVoucherUsage(code); return { success: true, viaServer: false }; }
+                return { success: data.success, viaServer: true };
+            } catch (e) {
+                incrementVoucherUsage(code); return { success: true, viaServer: false };
+            }
+        }
 
         const $ = (id) => document.getElementById(id);
 
@@ -782,6 +873,93 @@
         function getCartOriginalTotal() { return state.cart.reduce((sum, item) => sum + ((item.originalPrice || item.price * 1.5) * item.qty), 0); }
         function getCartDiscount() { return getCartOriginalTotal() - getCartTotal(); }
         function getCartCount() { return state.cart.reduce((sum, item) => sum + item.qty, 0); }
+
+        // ================================================================
+        // VOUCHER
+        // ================================================================
+        function computeVoucherBase(voucher) {
+            // Prioritas: kalau applicableVariants diisi, cuma hitung varian itu.
+            // Kalau tidak ada tapi applicableProducts diisi, hitung semua varian dari produk itu.
+            // Kalau dua-duanya kosong, diskon dihitung dari seluruh isi keranjang.
+            if (voucher.applicableVariants && voucher.applicableVariants.length > 0) {
+                return state.cart
+                    .filter(item => voucher.applicableVariants.includes(item.variantId))
+                    .reduce((sum, item) => sum + (item.price * item.qty), 0);
+            }
+            if (voucher.applicableProducts && voucher.applicableProducts.length > 0) {
+                return state.cart
+                    .filter(item => voucher.applicableProducts.includes(item.productId))
+                    .reduce((sum, item) => sum + (item.price * item.qty), 0);
+            }
+            return getCartTotal();
+        }
+
+        function getVoucherDiscount() {
+            if (!state.voucherApplied) return 0;
+            const v = state.voucherApplied;
+            const base = computeVoucherBase(v);
+            if (base <= 0) return 0;
+            let disc = v.type === 'percent' ? Math.round(base * v.value / 100) : v.value;
+            if (v.type === 'percent' && v.maxDiscount) disc = Math.min(disc, v.maxDiscount);
+            return Math.min(disc, base);
+        }
+
+        function getFinalTotal() { return Math.max(0, getCartTotal() - getVoucherDiscount()); }
+
+        async function applyVoucher() {
+            const inputEl = $('inputVoucher');
+            const code = (inputEl ? inputEl.value : state.voucherCode).trim().toUpperCase();
+            state.voucherCode = code;
+
+            if (!code) { state.voucherError = 'Masukkan kode voucher dulu'; state.voucherApplied = null; renderCheckout(); return; }
+
+            const voucher = voucherList[code];
+            if (!voucher) {
+                state.voucherApplied = null; state.voucherError = 'Kode voucher tidak valid';
+                renderCheckout(); showToast('Voucher tidak valid', 'Periksa kembali kode voucher kamu', 'warning'); return;
+            }
+
+            if (voucher.applicableVariants && voucher.applicableVariants.length > 0) {
+                const adaVarianCocok = state.cart.some(item => voucher.applicableVariants.includes(item.variantId));
+                if (!adaVarianCocok) {
+                    const namaVarian = voucher.applicableVariants.map(vid => {
+                        for (const p of produk) { const v = p.varian.find(vv => vv.id === vid); if (v) return `${p.nama} — ${v.nama}`; }
+                        return vid;
+                    }).join(', ');
+                    state.voucherApplied = null; state.voucherError = `Kode ini cuma berlaku untuk varian: ${namaVarian}`;
+                    renderCheckout(); showToast('Tidak berlaku', state.voucherError, 'warning'); return;
+                }
+            } else if (voucher.applicableProducts && voucher.applicableProducts.length > 0) {
+                const adaProdukCocok = state.cart.some(item => voucher.applicableProducts.includes(item.productId));
+                if (!adaProdukCocok) {
+                    const namaProduk = voucher.applicableProducts.map(pid => produk.find(p => p.id === pid)?.nama || pid).join(', ');
+                    state.voucherApplied = null; state.voucherError = `Kode ini cuma berlaku untuk produk: ${namaProduk}`;
+                    renderCheckout(); showToast('Tidak berlaku', state.voucherError, 'warning'); return;
+                }
+            }
+
+            const base = computeVoucherBase(voucher);
+            if (voucher.minPurchase && base < voucher.minPurchase) {
+                state.voucherApplied = null; state.voucherError = `Minimal belanja ${formatRupiah(voucher.minPurchase)} untuk pakai kode ini`;
+                renderCheckout(); showToast('Belum memenuhi syarat', state.voucherError, 'warning'); return;
+            }
+
+            if (voucher.maxUses) {
+                const quota = await checkVoucherQuota(code, voucher.maxUses);
+                if (!quota.available) {
+                    state.voucherApplied = null; state.voucherError = 'Kuota pemakaian voucher ini sudah habis';
+                    renderCheckout(); showToast('Kuota habis', state.voucherError, 'warning'); return;
+                }
+            }
+
+            state.voucherApplied = { code, ...voucher }; state.voucherError = '';
+            renderCheckout(); showToast('Voucher berhasil!', `Kode ${code} berhasil dipakai`, 'success');
+        }
+
+        function removeVoucher() {
+            state.voucherApplied = null; state.voucherCode = ''; state.voucherError = '';
+            renderCheckout(); showToast('Voucher dihapus', 'Kode voucher telah dibatalkan', 'info');
+        }
 
         function addToCart(productId, variantId) {
             const product = produk.find(p => p.id === productId);
@@ -991,13 +1169,28 @@
                             <div class="pm-info"><div class="pm-name">QRIS DigishopID</div><div class="pm-desc">Pembayaran manual — verifikasi via WhatsApp</div></div>
                             <span class="pm-check">✓</span>
                         </div>
-                        <button class="btn-submit-order" onclick="submitOrder()">Buat pesanan & lihat QRIS — ${formatRupiah(getCartTotal())}</button>
+                        <button class="btn-submit-order" onclick="submitOrder()">Buat pesanan & lihat QRIS — ${formatRupiah(getFinalTotal())}</button>
                     </div>
                     <div class="order-summary-card">
                         <h3>📋 Ringkasan Pesanan</h3>
                         ${state.cart.map(item => `<div class="summary-item"><span>${item.name} — ${item.variant}</span><span>${formatRupiah(item.price)}</span></div>`).join('')}
                         ${getCartDiscount() > 0 ? `<div class="summary-item" style="color:var(--success);"><span>Diskon</span><span>-${formatRupiah(getCartDiscount())}</span></div>` : ''}
-                        <div class="summary-total"><span>Total</span><span class="total-amount">${formatRupiah(getCartTotal())}</span></div>
+                        <div class="voucher-box">
+                            ${state.voucherApplied ? `
+                                <div class="voucher-applied">
+                                    <span>🎟️ Kode "${state.voucherApplied.code}" dipakai</span>
+                                    <button onclick="removeVoucher()">Hapus</button>
+                                </div>
+                            ` : `
+                                <div class="voucher-input-row">
+                                    <input type="text" id="inputVoucher" placeholder="Kode voucher (opsional)" value="${state.voucherCode}" oninput="state.voucherCode=this.value.toUpperCase()" onkeydown="if(event.key==='Enter'){event.preventDefault();applyVoucher();}" />
+                                    <button class="btn-voucher" onclick="applyVoucher()">Pakai</button>
+                                </div>
+                                ${state.voucherError ? `<div class="voucher-error">${state.voucherError}</div>` : ''}
+                            `}
+                        </div>
+                        ${getVoucherDiscount() > 0 ? `<div class="summary-item voucher-line"><span>Voucher (${state.voucherApplied.code})</span><span>-${formatRupiah(getVoucherDiscount())}</span></div>` : ''}
+                        <div class="summary-total"><span>Total</span><span class="total-amount">${formatRupiah(getFinalTotal())}</span></div>
                     </div>
                 </div>
             `;
@@ -1024,6 +1217,7 @@
                     </div>
                     <div class="order-detail-card">
                         <div class="detail-row"><span class="detail-label">KODE PESANAN</span><span class="detail-value code">${order.orderId}</span></div>
+                        ${order.voucherCode ? `<div class="detail-row"><span class="detail-label">VOUCHER</span><span class="detail-value" style="color:var(--success);">${order.voucherCode} (-${formatRupiah(order.voucherDiscount)})</span></div>` : ''}
                         <div class="detail-row"><span class="detail-label">TOTAL PEMBAYARAN</span><span class="detail-value price">${formatRupiah(order.total)}</span></div>
                         <div class="detail-row"><span class="detail-label">Nama</span><span class="detail-value">${order.name}</span></div>
                         <div class="detail-row"><span class="detail-label">WhatsApp</span><span class="detail-value">${order.wa}</span></div>
@@ -1094,7 +1288,8 @@
         function goBackFromCheckout() {
             showConfirm('Kembali ke toko?', 'Data yang sudah kamu isi akan hilang.').then((ok) => {
                 if (!ok) return;
-                state.isCheckout = false; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; renderAll();
+                state.isCheckout = false; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {};
+                state.voucherCode = ''; state.voucherApplied = null; state.voucherError = ''; renderAll();
             });
         }
 
@@ -1110,7 +1305,7 @@
             }
         }
 
-        function submitOrder() {
+        async function submitOrder() {
             const { name, wa, email } = state.formData, errors = {};
 
             const waDigits = wa.trim().replace(/[\s\-\(\)]/g, '');
@@ -1130,15 +1325,32 @@
                 state.errors = errors; renderAll(); showToast('Data belum lengkap', 'Periksa lagi form yang ditandai merah', 'warning'); return;
             }
 
-            state.orderData = { orderId: generateOrderId(), name: name.trim(), wa: wa.trim(), email: email.trim(), note: state.formData.note.trim(), items: [...state.cart], total: getCartTotal() };
+            if (state.voucherApplied && state.voucherApplied.maxUses) {
+                const redeem = await redeemVoucherQuota(state.voucherApplied.code, state.voucherApplied.maxUses);
+                if (!redeem.success) {
+                    state.voucherApplied = null; state.voucherCode = '';
+                    state.isCheckout = true; renderAll();
+                    showToast('Kuota baru saja habis', 'Voucher ini baru saja habis dipakai orang lain. Silakan lanjut tanpa voucher atau coba kode lain.', 'warning');
+                    return;
+                }
+            }
+
+            state.orderData = {
+                orderId: generateOrderId(), name: name.trim(), wa: wa.trim(), email: email.trim(), note: state.formData.note.trim(),
+                items: [...state.cart], subtotal: getCartTotal(),
+                voucherCode: state.voucherApplied ? state.voucherApplied.code : null,
+                voucherDiscount: getVoucherDiscount(),
+                total: getFinalTotal()
+            };
             state.isCheckout = false; state.isPayment = true; renderAll();
         }
 
         function confirmPayment() {
             const order = state.orderData; if (!order) return;
             const itemsText = order.items.map(i => `- ${i.name} (${i.variant}) = ${formatRupiah(i.price)}`).join('\n');
+            const voucherLine = order.voucherCode ? `🎟️ VOUCHER: ${order.voucherCode} (-${formatRupiah(order.voucherDiscount)})\n` : '';
             const message = encodeURIComponent(
-                `HALO ADMIN DIGISHOPID! 🙏\n\nSAYA SUDAH BAYAR! 💰\n━━━━━━━━━━━━━━━━━━━━\n🆔 KODE PESANAN: ${order.orderId}\n👤 NAMA: ${order.name}\n📱 WHATSAPP: ${order.wa}\n📧 EMAIL: ${order.email}\n━━━━━━━━━━━━━━━━━━━━\n📦 DETAIL PESANAN:\n${itemsText}\n━━━━━━━━━━━━━━━━━━━━\n💵 TOTAL: ${formatRupiah(order.total)}\n━━━━━━━━━━━━━━━━━━━━\n📸 BUKTI TRANSFER MENYUSUL!`
+                `HALO ADMIN DIGISHOPID! 🙏\n\nSAYA SUDAH BAYAR! 💰\n━━━━━━━━━━━━━━━━━━━━\n🆔 KODE PESANAN: ${order.orderId}\n👤 NAMA: ${order.name}\n📱 WHATSAPP: ${order.wa}\n📧 EMAIL: ${order.email}\n━━━━━━━━━━━━━━━━━━━━\n📦 DETAIL PESANAN:\n${itemsText}\n━━━━━━━━━━━━━━━━━━━━\n${voucherLine}💵 TOTAL: ${formatRupiah(order.total)}\n━━━━━━━━━━━━━━━━━━━━\n📸 BUKTI TRANSFER MENYUSUL!`
             );
             window.open(`https://wa.me/6283160593305?text=${message}`, '_blank', 'noopener,noreferrer');
         }
@@ -1157,7 +1369,8 @@
 
         function resetToHome() {
             state.isCheckout = state.isPayment = state.isDrawerOpen = state.isModalOpen = false;
-            state.orderData = null; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {}; 
+            state.orderData = null; state.formData = { name: '', wa: '', email: '', note: '' }; state.errors = {};
+            state.voucherCode = ''; state.voucherApplied = null; state.voucherError = ''; 
             unlockScroll();
             renderAll();
         }

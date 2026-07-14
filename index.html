@@ -121,7 +121,8 @@
             transition: var(--transition); display: flex; align-items: center; gap: 6px; font-family: inherit; white-space: nowrap;
         }
         .btn-cart { position: relative; padding: 8px 12px; }
-        .btn-qris:hover, .btn-cart:hover { background: rgba(124, 58, 237, 0.15); border-color: var(--primary); transform: scale(1.04); }
+        .btn-qris { background: rgba(124, 58, 237, 0.16); border-color: rgba(124, 58, 237, 0.4); }
+        .btn-qris:hover, .btn-cart:hover { background: rgba(124, 58, 237, 0.25); border-color: var(--primary); transform: scale(1.04); }
         .btn-qris svg { width: 14px; height: 14px; }
         .cart-badge { background: var(--secondary); color: var(--dark); font-size: 0.6rem; font-weight: 800; padding: 1px 8px; border-radius: 30px; min-width: 20px; text-align: center; }
 
@@ -525,8 +526,7 @@
         </a>
         <div class="nav-actions">
             <button class="btn-qris" onclick="bukaQris()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 8h8v8H8z"/><path d="M6 2v20"/><path d="M18 2v20"/></svg>
-                <span>QRIS</span>
+                💳 <span>QRIS</span>
             </button>
             <button class="btn-cart" onclick="toggleDrawer()">
                 🛒 <span>Keranjang</span> <span class="cart-badge" id="cartBadge">0</span>

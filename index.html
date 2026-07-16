@@ -13,6 +13,10 @@
     <meta property="og:description" content="Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, Alight Motion, dan lainnya — harga bersahabat, proses cepat." />
     <meta property="og:image" content="https://digishopid.com/og-image.jpg" />
     <meta property="og:locale" content="id_ID" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DigishopID - Premium Digital Store" />
+    <meta name="twitter:description" content="Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, Alight Motion, dan lainnya." />
+    <meta name="twitter:image" content="https://digishopid.com/og-image.jpg" />
     <meta name="theme-color" content="#15130F" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -27,7 +31,7 @@
             --primary-glow: rgba(210, 87, 30, 0.28);
             --secondary: #C9A227;
             --success: #4E9A63;
-            --danger: #E35032; /* Sedikit lebih cerah untuk error */
+            --danger: #C4482E;
             --dark: #15130F;
             --dark-card: #1D1A14;
             --text: #F3EFE6;
@@ -40,31 +44,46 @@
             --transition: all 0.2s ease;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        html { font-size: 16px; scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Manrope', sans-serif;
             background: var(--dark);
             color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
-            overflow-x: clip; 
+            overflow-x: clip; /* clip tidak merusak position:sticky seperti hidden, beda dgn overflow-x: hidden */
             padding-bottom: 30px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-image:
+                radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
             background-size: 26px 26px;
         }
 
         h1, h2, h3, .logo, .hero-badge, .modal-product-info h2, .drawer-header h2,
         .checkout-form h2, .payment-header h1, .footer-brand, .order-summary-card h3 {
-            font-family: 'Fraunces', serif; letter-spacing: -0.01em;
+            font-family: 'Fraunces', serif;
+            letter-spacing: -0.01em;
         }
 
+        /* ========== BACKGROUND ========== */
         .bg-orbs { display: none; }
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--dark); }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
         .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
 
         /* ========== NAVBAR ========== */
@@ -74,12 +93,14 @@
             transition: var(--transition); padding: 14px clamp(14px, 4vw, 30px);
         }
         .navbar.scrolled { box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35); }
+
         .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 1.3rem; font-weight: 700; color: var(--text); transition: var(--transition); flex-shrink: 0; }
         .logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: var(--transition); flex-shrink: 0; }
         .logo-icon svg { width: 20px; height: 20px; stroke: var(--dark); stroke-width: 2.5; fill: none; }
         .logo span { color: var(--primary-light); }
-        
+
         .nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
         .btn-qris, .btn-cart {
             background: transparent; border: 1px solid rgba(255, 255, 255, 0.14); color: var(--text);
             padding: 8px 14px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.75rem; cursor: pointer;
@@ -90,6 +111,22 @@
         .btn-qris:hover, .btn-cart:hover { border-color: var(--primary); color: var(--primary-light); }
         .cart-badge { background: var(--primary); color: var(--text); font-size: 0.62rem; font-weight: 700; padding: 1px 7px; border-radius: 20px; min-width: 18px; text-align: center; }
 
+        .cs-nav-group { display: flex; align-items: center; gap: 8px; }
+        .whatsapp-nav {
+            background: #25D366; color: white; border: none; padding: 8px 14px; border-radius: 50px; font-weight: 700;
+            font-size: 0.75rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition);
+            text-decoration: none; font-family: inherit; white-space: nowrap;
+        }
+        .whatsapp-nav:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3); }
+        .whatsapp-nav svg { width: 16px; height: 16px; }
+        .telegram-nav {
+            background: #229ED9; color: white; border: none; padding: 8px 14px; border-radius: 50px; font-weight: 700;
+            font-size: 0.75rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: var(--transition);
+            text-decoration: none; font-family: inherit; white-space: nowrap;
+        }
+        .telegram-nav:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(34, 158, 217, 0.3); }
+        .telegram-nav svg { width: 16px; height: 16px; }
+
         /* ========== HERO ========== */
         .hero { padding: 44px 0 32px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 28px; }
         .hero-badge { display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.14); padding: 4px 12px; border-radius: 20px; font-size: 0.68rem; font-weight: 600; color: var(--text-muted); margin-bottom: 14px; letter-spacing: 0.2px; }
@@ -97,42 +134,52 @@
         .hero h1 { font-size: clamp(1.7rem, 5vw, 3rem); font-weight: 600; line-height: 1.12; margin-bottom: 14px; letter-spacing: -0.01em; max-width: 700px; }
         .hero h1 .highlight { color: var(--primary-light); font-style: italic; }
         .hero p { font-size: clamp(0.9rem, 1.5vw, 1.05rem); color: var(--text-muted); max-width: 520px; margin: 0 0 26px; line-height: 1.7; }
+
         .hero-stats { display: flex; justify-content: flex-start; gap: clamp(24px, 4vw, 50px); flex-wrap: wrap; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.06); }
         .hero-stats .stat h3 { font-family: 'Fraunces', serif; font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 600; color: var(--text); }
         .hero-stats .stat p { font-size: clamp(0.65rem, 1vw, 0.78rem); color: var(--text-muted); font-weight: 500; margin-top: 2px; }
 
-        /* ========== SEARCH & FILTER ========== */
+        /* ========== SEARCH ========== */
         .search-box { position: relative; max-width: 520px; margin: 0 auto 20px; }
         .search-box input { width: 100%; padding: 12px 16px 12px 44px; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.12); background: var(--dark-card); font-family: inherit; font-size: clamp(0.85rem, 1.2vw, 0.95rem); font-weight: 500; color: var(--text); transition: var(--transition); }
         .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); background: rgba(255, 255, 255, 0.06); outline: none; }
         .search-box input::placeholder { color: var(--text-muted); font-weight: 500; }
         .search-box .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; opacity: 0.6; width: 18px; height: 18px; }
 
+        /* ========== FILTER ========== */
         .filter-row { display: flex; gap: 12px; align-items: center; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
         .filter-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
         .filter-btn { background: transparent; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 16px; border-radius: var(--radius-sm); font-size: clamp(0.7rem, 1vw, 0.8rem); font-weight: 600; color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: var(--transition); font-family: inherit; }
         .filter-btn:hover { border-color: var(--primary); color: var(--text); }
         .filter-btn.active { background: var(--primary); color: var(--dark); border-color: var(--primary); font-weight: 700; }
+
         .sort-box select { background: transparent; border: 1px solid rgba(255, 255, 255, 0.12); padding: 6px 14px; border-radius: var(--radius-sm); font-size: clamp(0.7rem, 1vw, 0.8rem); font-weight: 600; color: var(--text-muted); cursor: pointer; font-family: inherit; transition: var(--transition); }
         .sort-box select:hover { border-color: var(--primary); color: var(--text); }
         .sort-box select option { background: var(--dark-card); color: var(--text); }
 
         /* ========== PRODUCT GRID ========== */
         .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+
+        /* ========== PRODUCT CARD ========== */
         .product-card { background: var(--dark-card); border-radius: var(--radius); padding: 16px 14px 14px; border: 1px solid rgba(255, 255, 255, 0.07); transition: var(--transition); cursor: pointer; position: relative; text-align: left; }
         .product-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+
         .product-card .product-icon { width: clamp(44px, 8vw, 52px); height: clamp(44px, 8vw, 52px); border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.04); margin-bottom: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.06); }
         .product-card .product-icon img { width: 100%; height: 100%; object-fit: cover; }
+
         .product-card .badge { position: absolute; top: 12px; right: 12px; font-size: 0.55rem; font-weight: 700; padding: 3px 9px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.4px; z-index: 2; }
         .badge.hot { background: var(--primary); color: var(--dark); }
         .badge.new { background: var(--success); color: var(--dark); }
+
         .product-card .category { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 3px; }
         .product-card h3 { font-size: clamp(0.85rem, 1.2vw, 0.98rem); font-weight: 700; margin-bottom: 2px; line-height: 1.25; }
         .product-card .subtitle { font-size: clamp(0.62rem, 0.8vw, 0.72rem); color: var(--text-muted); margin-bottom: 10px; }
+
         .product-card .price-row { display: flex; align-items: center; justify-content: space-between; margin: 0 0 10px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.06); }
         .product-card .price-start { font-size: 0.9rem; font-weight: 700; color: var(--text); }
         .product-card .price-start small { font-size: 0.62rem; font-weight: 500; color: var(--text-muted); }
         .product-card .variant-count { font-size: 0.6rem; font-weight: 600; color: var(--text-muted); }
+
         .btn-select-paket { width: 100%; padding: 9px 0; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: var(--radius-sm); background: transparent; color: var(--text); font-weight: 600; font-size: 0.78rem; cursor: pointer; transition: var(--transition); font-family: inherit; }
         .product-card:hover .btn-select-paket { background: var(--primary); border-color: var(--primary); color: var(--dark); font-weight: 700; }
 
@@ -150,6 +197,7 @@
         .modal-close { position: absolute; top: 10px; right: 12px; background: rgba(255, 255, 255, 0.06); border: none; color: var(--text-muted); width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
         .modal-close:hover { background: rgba(196, 72, 46, 0.15); color: var(--danger); }
 
+        /* ========== CONFIRM MODAL ========== */
         .confirm-modal { z-index: 3500; }
         .confirm-modal-content { max-width: 340px; padding: clamp(20px, 5vw, 26px) clamp(18px, 5vw, 22px); text-align: center; }
         .confirm-modal-title { font-size: clamp(1rem, 3vw, 1.15rem); font-weight: 800; margin-bottom: 8px; }
@@ -159,7 +207,7 @@
         .btn-confirm-cancel { background: transparent; border-color: rgba(255, 255, 255, 0.14); color: var(--text); }
         .btn-confirm-cancel:hover { border-color: rgba(255,255,255,0.3); }
         .btn-confirm-ok { background: var(--danger); color: var(--text); }
-        .btn-confirm-ok:hover { background: #b9422a; }
+        .btn-confirm-ok:hover { background: #A83A24; }
 
         .modal-product-info { text-align: center; margin-bottom: 14px; }
         .modal-product-info .modal-icon { width: 52px; height: 52px; border-radius: 14px; background: rgba(255, 255, 255, 0.03); margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.04); }
@@ -167,6 +215,7 @@
         .modal-product-info h2 { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 800; }
         .modal-product-info .modal-sub { color: var(--text-muted); font-size: clamp(0.7rem, 1vw, 0.8rem); }
 
+        /* ===== VARIAN LIST ===== */
         .varian-list { display: flex; flex-direction: column; gap: 8px; }
         .varian-item { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; transition: var(--transition); }
         .varian-item:hover { border-color: var(--primary); }
@@ -213,6 +262,7 @@
         .drawer-footer .price-row .save { color: var(--success); }
         .drawer-footer .total-row { display: flex; justify-content: space-between; font-size: clamp(0.95rem, 3vw, 1.05rem); font-weight: 800; margin: 8px 0 14px; padding-top: 8px; border-top: 1px solid rgba(255, 255, 255, 0.04); gap: 8px; }
         .drawer-footer .total-row .total-price { color: var(--primary-light); }
+
         .btn-checkout-drawer { width: 100%; padding: 13px 0; border: none; border-radius: var(--radius-sm); background: var(--primary); color: var(--dark); font-weight: 700; font-size: clamp(0.85rem, 2.6vw, 0.95rem); cursor: pointer; transition: var(--transition); font-family: inherit; }
         .btn-checkout-drawer:hover { background: var(--primary-light); }
 
@@ -226,21 +276,15 @@
         .checkout-form h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 4px; }
         .checkout-form .form-sub { color: var(--text-muted); font-size: 0.8rem; margin-bottom: 18px; }
 
-        .form-group { margin-bottom: 14px; position: relative; }
+        .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; }
         .form-group input, .form-group textarea { width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.06); font-family: inherit; font-size: 0.85rem; font-weight: 500; color: var(--text); transition: var(--transition); background: rgba(255, 255, 255, 0.03); }
         .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); outline: none; background: rgba(255, 255, 255, 0.05); }
         .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-muted); opacity: 0.5; font-weight: 400; }
         .form-group textarea { resize: vertical; min-height: 60px; }
-        .form-group .error-text { color: var(--danger); font-size: 0.7rem; font-weight: 600; margin-top: 6px; display: none; align-items: center; gap: 4px; }
-        
-        @keyframes shakeError {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-4px); }
-            40%, 80% { transform: translateX(4px); }
-        }
-        .form-group.error input, .form-group.error textarea { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(227, 80, 50, 0.15); animation: shakeError 0.4s ease-in-out; }
-        .form-group.error .error-text { display: flex; }
+        .form-group .error-text { color: var(--danger); font-size: 0.65rem; font-weight: 600; margin-top: 4px; display: none; }
+        .form-group.error input, .form-group.error textarea { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(196, 72, 46, 0.15); }
+        .form-group.error .error-text { display: block; }
 
         .payment-method { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm); padding: 12px 14px; display: flex; align-items: center; gap: 14px; transition: var(--transition); margin-bottom: 16px; background: rgba(255, 255, 255, 0.02); cursor: default; }
         .payment-method.active { border-color: var(--primary); }
@@ -264,6 +308,7 @@
         /* ========== PAYMENT SUCCESS PAGE ========== */
         .page-payment { display: none; padding: 20px 0; }
         .page-payment.active { display: block; }
+
         .payment-header { text-align: center; margin-bottom: 28px; }
         .payment-header .success-icon { width: 56px; height: 56px; border-radius: 50%; background: rgba(78, 154, 99, 0.15); color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin: 0 auto 10px; border: 1px solid rgba(78, 154, 99, 0.3); }
         .payment-header .success-label { color: var(--text-muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.6px; }
@@ -272,10 +317,12 @@
 
         .payment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; }
         @media (max-width: 768px) { .payment-grid { grid-template-columns: 1fr; } }
+
         .qris-card { background: var(--dark-card); border-radius: var(--radius); padding: 20px; border: 1px solid rgba(255, 255, 255, 0.08); text-align: center; }
         .qris-card .qris-image { width: 100%; max-width: 200px; margin: 0 auto 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08); padding: 10px; background: white; }
         .qris-card .qris-image img { width: 100%; height: auto; display: block; border-radius: 4px; }
         .qris-card .qris-label { font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; }
+
         .order-detail-card { background: var(--dark-card); border-radius: var(--radius); padding: 20px; border: 1px solid rgba(255, 255, 255, 0.08); }
         .order-detail-card .detail-row { display: flex; justify-content: space-between; padding: 6px 0; font-size: 0.82rem; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
         .order-detail-card .detail-row:last-child { border-bottom: none; }
@@ -287,68 +334,24 @@
         .payment-instructions { margin: 18px 0; padding: 14px 18px; background: rgba(255,255,255,0.03); border-radius: var(--radius-sm); border: 1px solid rgba(255, 255, 255, 0.08); }
         .payment-instructions .inst-title { font-weight: 700; font-size: 0.82rem; color: var(--text); margin-bottom: 4px; }
         .payment-instructions .inst-list { font-size: 0.78rem; color: var(--text-muted); line-height: 1.7; padding-left: 18px; }
+
         .alert-box { padding: 12px 16px; border-radius: var(--radius-sm); background: rgba(196, 72, 46, 0.08); border: 1px solid rgba(196, 72, 46, 0.25); margin: 14px 0; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; font-weight: 500; color: var(--text-muted); }
+
         .btn-wa-confirm { width: 100%; padding: 12px 0; border: none; border-radius: var(--radius-sm); background: #25D366; color: #06210F; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-wa-confirm:hover { background: #35e07a; }
 
         /* ========== TOAST ========== */
-        .toast-container { 
-            position: fixed; 
-            top: calc(var(--nav-h, 70px) + 16px); /* Memunculkan toast di bawah navbar */
-            left: 50%; 
-            transform: translateX(-50%); 
-            z-index: 9999; /* Selalu di depan keranjang dll */
-            display: flex; 
-            flex-direction: column; 
-            gap: 12px; 
-            align-items: center; 
-            width: 90%; 
-            max-width: 360px; 
-            pointer-events: none; 
-        }
-        
-        .toast { 
-            background: rgba(26, 23, 18, 0.95); 
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08); 
-            padding: 12px 16px; 
-            border-radius: 50px; 
-            display: flex; 
-            align-items: center; 
-            gap: 12px; 
-            width: 100%; 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.03) inset; 
-            animation: toastSlideDownIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
-            pointer-events: all; 
-        }
-        
-        .toast.warning { background: rgba(35, 28, 10, 0.95); border-color: rgba(201, 162, 39, 0.25); }
-        .toast.error { background: rgba(40, 15, 15, 0.95); border-color: rgba(227, 80, 50, 0.25); }
-        .toast.fade-out { animation: toastSlideUpOut 0.3s ease-in forwards; }
-        
-        @keyframes toastSlideDownIn { 
-            from { opacity: 0; transform: translateY(-30px) scale(0.9); } 
-            to { opacity: 1; transform: translateY(0) scale(1); } 
-        }
-        @keyframes toastSlideUpOut { 
-            from { opacity: 1; transform: translateY(0) scale(1); } 
-            to { opacity: 0; transform: translateY(-20px) scale(0.9); } 
-        }
-
-        .toast-icon-wrap { 
-            display: flex; align-items: center; justify-content: center; 
-            width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; 
-        }
-        .toast.success .toast-icon-wrap { background: rgba(78, 154, 99, 0.15); color: var(--success); }
-        .toast.warning .toast-icon-wrap { background: rgba(201, 162, 39, 0.15); color: var(--secondary); }
-        .toast.error .toast-icon-wrap { background: rgba(227, 80, 50, 0.15); color: var(--danger); }
-        .toast-icon-wrap svg { width: 18px; height: 18px; stroke-width: 2.5; }
-
-        .toast-content { flex: 1; padding-right: 8px; }
-        .toast-content .toast-title { font-weight: 700; font-size: 0.82rem; color: var(--text); margin-bottom: 2px; }
-        .toast-content .toast-msg { font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; }
-        .toast .toast-count { font-size: 0.65rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.08); padding: 2px 8px; border-radius: 20px; flex-shrink: 0; }
+        .toast-container { position: fixed; top: calc(env(safe-area-inset-top, 0px) + var(--nav-h, 64px) + 12px); left: 50%; transform: translateX(-50%); z-index: 900; display: flex; flex-direction: column; gap: 8px; align-items: center; width: 90%; max-width: 380px; pointer-events: none; transition: top 0.2s ease; }
+        .toast { background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--success); padding: 10px 16px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 10px; width: 100%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); animation: toastIn 0.25s ease-out forwards; pointer-events: all; }
+        .toast.warning { border-left-color: var(--secondary); }
+        .toast.fade-out { animation: toastOut 0.2s ease-in forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
+        .toast .toast-icon { display: none; }
+        .toast .toast-content { flex: 1; }
+        .toast .toast-content .toast-title { font-weight: 700; font-size: 0.8rem; }
+        .toast .toast-content .toast-msg { font-size: 0.7rem; color: var(--text-muted); }
+        .toast .toast-count { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.08); padding: 1px 7px; border-radius: 20px; flex-shrink: 0; }
 
         /* ========== TESTIMONI & FAQ ========== */
         .testimoni-section { margin-top: 40px; }
@@ -357,9 +360,10 @@
         .testimoni-card .stars { color: var(--secondary); font-size: clamp(0.7rem, 1vw, 0.8rem); margin-bottom: 4px; letter-spacing: 1px; }
         .testimoni-card .quote { font-size: clamp(0.75rem, 1vw, 0.82rem); color: var(--text-light); line-height: 1.5; margin-bottom: 6px; }
         .testimoni-card .name { font-size: clamp(0.6rem, 0.8vw, 0.7rem); color: var(--text-muted); font-weight: 600; }
+
         .btn-telegram { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid rgba(255,255,255,0.14); color: var(--text); text-decoration: none; font-weight: 600; padding: 9px 22px; border-radius: var(--radius-sm); transition: var(--transition); font-size: clamp(0.75rem, 1vw, 0.85rem); }
         .btn-telegram:hover { border-color: #229ED9; color: #4fb8e8; }
-        
+
         .faq-section { margin-top: 36px; }
         .faq-list { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
         .faq-item { background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-sm); overflow: hidden; }
@@ -406,8 +410,8 @@
             .logo { font-size: 1rem; }
             .logo-icon { width: 32px; height: 32px; }
             .logo-icon svg { width: 18px; height: 18px; }
-            .btn-qris span, .btn-cart span { display: none; }
-            .btn-qris, .btn-cart { padding: 8px 10px; }
+            .btn-qris span, .btn-cart span, .whatsapp-nav span, .telegram-nav span { display: none; }
+            .btn-qris, .btn-cart, .whatsapp-nav, .telegram-nav { padding: 8px 10px; }
             .filter-container { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; justify-content: flex-start; width: 100%; }
             .filter-container::-webkit-scrollbar { display: none; }
             .filter-btn { font-size: 0.65rem; padding: 5px 12px; flex-shrink: 0; }
@@ -427,6 +431,7 @@
             .float-wa svg { width: 24px; height: 24px; }
             .float-tele { width: 48px; height: 48px; bottom: 72px; right: 16px; }
             .float-tele svg { width: 24px; height: 24px; }
+            .toast-container { width: 94%; }
             .checkout-grid, .payment-grid { grid-template-columns: 1fr; }
         }
 
@@ -436,7 +441,7 @@
             .product-card .product-icon { width: 50px; height: 50px; }
             .product-card h3 { font-size: 0.8rem; }
             .container { padding: 0 16px; }
-            .btn-qris span, .btn-cart span { display: none; }
+            .btn-qris span, .btn-cart span, .whatsapp-nav span, .telegram-nav span { display: none; }
             .filter-container { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; justify-content: flex-start; width: 100%; }
             .filter-container::-webkit-scrollbar { display: none; }
             .filter-btn { font-size: 0.7rem; padding: 5px 14px; flex-shrink: 0; }
@@ -502,6 +507,16 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.4a2 2 0 0 0 2-1.6L21 7H6"/></svg>
                 <span>Keranjang</span> <span class="cart-badge" id="cartBadge">0</span>
             </button>
+            <div class="cs-nav-group">
+                <a href="https://wa.me/6283160593305?text=Halo%20Admin%20DigishopID" target="_blank" rel="noopener noreferrer" class="whatsapp-nav">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 5.46 4.45 9.91 9.91 9.91 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Z"/></svg>
+                    <span>WA</span>
+                </a>
+                <a href="https://t.me/VallzStore04" target="_blank" rel="noopener noreferrer" class="telegram-nav">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.05 4.03 2.87 11.2c-1.24.5-1.24 1.2-.23 1.5l4.66 1.46 1.8 5.5c.22.6.4.85.85.85.4 0 .58-.18.8-.4l1.92-1.86 4 2.94c.73.4 1.26.2 1.44-.68l2.6-12.28c.28-1.08-.4-1.57-1.66-1.2Z"/></svg>
+                    <span>Tele</span>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -610,7 +625,7 @@
         </div>
     </div>
 
-    <!-- ========== MODAL KONFIRMASI ========== -->
+    <!-- ========== MODAL KONFIRMASI (pengganti confirm() bawaan browser) ========== -->
     <div class="modal confirm-modal" id="confirmModal" onclick="closeConfirmModal(false)" role="dialog" aria-modal="true" aria-labelledby="confirmModalTitle">
         <div class="modal-content confirm-modal-content" onclick="event.stopPropagation()">
             <h2 id="confirmModalTitle" class="confirm-modal-title">Yakin?</h2>
@@ -656,32 +671,9 @@
 
     <script>
         // ================================================================
-        // DATA PRODUK (LENGKAP 22 ITEM)
+        // DATA PRODUK
         // ================================================================
-        const produk = [
-            { id: 'am', nama: 'Alight Motion', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://play-lh.googleusercontent.com/LRjRXaVEtoeHyiFcnMLCHs1ZJV8Q4q70PggflRDAfgOkulzFTbJg65y0drg6Yapo22Xoos_XCbyh7EgycBhQ', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'am-sharing', nama: 'Sharing 1 Tahun', harga: '3000', desk: 'Maksimal 5 device. Garansi 3 bulan.' }, { id: 'am-private', nama: 'Private 1 Tahun', harga: '8000', desk: 'Bisa ganti email. Akun private.' }] },
-            { id: 'capcut', nama: 'CapCut Pro', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHM0OYfiFeMI2p9MWie0CvL99U4GA1gf6_kayTt_kBblFwHwo8BW8JXlqfnYxKPmmBaQDG.nPeYqpMXSUQbV6ZbDqKB2cfxC8XGBuMMG2wnfQDreT0rlqZucFHBfMnKmf9jEjSzK_3h4euGl2PWZ9ggU-&format=source', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'capcut-7d-private', nama: '7 Hari Private', harga: '30000', desk: 'Akun private. Garansi 7 hari.' }, { id: 'capcut-7d-sharing', nama: '7 Hari Sharing', harga: '23500', desk: 'Maksimal 1 device. Garansi 7 hari.' }, { id: 'capcut-1m-private', nama: '1 Bulan Private', harga: '75000', desk: 'Akun private. Garansi 25 hari.' }, { id: 'capcut-1m-sharing', nama: '1 Bulan Sharing', harga: '60000', desk: 'Maksimal 1 device. Garansi 25 hari.' }] },
-            { id: 'netflix', nama: 'Netflix 4K', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://yt3.googleusercontent.com/6Tx4cExHCNrdMIRxfNcPBh-90reH5ugoKyzi0cJZUd6jbFKvHJpPYWMPjwCWxuuOCmW05avdNUI=s900-c-k-c0x00ffffff-no-rj', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'netflix-7d', nama: '7 Hari (1P2U)', harga: '22000', desk: '1 profil 2 user. Garansi 7 hari.' }, { id: 'netflix-1m-1p2u', nama: '1 Bulan (1P2U)', harga: '35000', desk: '1 profil 2 user. Garansi 20 hari.' }, { id: 'netflix-1m-1p1u', nama: '1 Bulan (1P1U)', harga: '48000', desk: '1 profil private. Full garansi.' }, { id: 'netflix-1m-semi', nama: '1 Bulan SEMI PRIVATE', harga: '75000', desk: '1 profil private. Full garansi.' }, { id: 'netflix-crack', nama: 'Netflix Crack', harga: '15000', desk: 'Garansi 24 jam.' }] },
-            { id: 'spotify', nama: 'Spotify', kategori: 'MUSIK', subtitle: 'Audio Premium', icon: 'https://yt3.googleusercontent.com/UMGZZMPQkM3kGtyW4jNE1GtpSrydfNJdbG1UyWTp5zeqUYc6-rton70Imm7B11RulRRuK521NQ=s900-c-k-c0x00ffffff-no-rj', badge: '', badgeClass: '', varian: [{ id: 'spotify-indplan', nama: 'Indplan 1 Bulan', harga: '32000', desk: '1 perangkat. Garansi 20 hari.' }, { id: 'spotify-famplan', nama: 'Famplan 1 Bulan', harga: '25000', desk: 'Garansi 20 hari.' }] },
-            { id: 'bstation', nama: 'Bstation', kategori: 'MOVIE', subtitle: 'Anime Stream', icon: 'https://screenscore.digitalmama.id/wp-content/uploads/2025/03/unnamed-9.webp', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'bstation-sharing', nama: 'Sharing 1 Bulan', harga: '15000', desk: 'Maksimal 1 device. Garansi 25 hari.' }, { id: 'bstation-private-14d', nama: 'Private 14 Hari', harga: '17500', desk: 'Akun private. Garansi Full.' }, { id: 'bstation-private-1m', nama: 'Private 1 Bulan', harga: '31000', desk: 'Akun private. Garansi Full.' }] },
-            { id: 'canva', nama: 'Canva', kategori: 'DESAIN', subtitle: 'Template Premium', icon: 'https://pbs.twimg.com/profile_images/1542647040756568064/YbE5Hs-5_400x400.jpg', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'canva-invite-1m', nama: 'Invite 1 Bulan', harga: '2500', desk: 'Akun Private. via invite.' }, { id: 'canva-invite-1y', nama: 'Invite 1 Tahun', harga: '25000', desk: 'Akun Private. via invite.' }, { id: 'canva-head', nama: 'Head (Owner) 1 Bulan', harga: '13000', desk: 'Cocok untuk tim. Bisa invite 100 anggota.' }] },
-            { id: 'disney', nama: 'Disney+', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://images.seeklogo.com/logo-png/4/1/disney-logo-png_seeklogo-41972.png', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'disney-sharing-1m', nama: 'Sharing 1 Bulan', harga: '30000', desk: 'Maksimal 1 device. Garansi 25 hari.' }, { id: 'disney-sharing-7d', nama: 'Sharing 7 Hari', harga: '20000', desk: 'Maksimal 1 device. Garansi 7 hari.' }] },
-            { id: 'youtube', nama: 'YouTube', kategori: 'MOVIE', subtitle: 'Video Premium', icon: 'https://yt3.googleusercontent.com/1NFw5olkb4TAkk0ZrGc9_VVDjxjJemetRY3FZQ7DKmPosb0lWwx2mgPY2YhGKkgFzHZGn44zZQ=s900-c-k-c0x00ffffff-no-rj', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'youtube-1m', nama: '1 Bulan', harga: '8000', desk: 'Akun Private. Garansi 25 hari.' }, { id: 'youtube-famhead', nama: 'Famhead 1 Bulan', harga: '17000', desk: 'Akun dari pembeli. Bisa invite 5 member.' }] },
-            { id: 'gemini', nama: 'Gemini AI', kategori: 'SMART', subtitle: 'AI Tools', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqGrqBPffjc--HscZ5gQAsD7XaVdVbrxL5IvRJwgdqRUqRvW9YxcNtCc&s=10', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'gemini-sharing', nama: 'Sharing 1 Bulan', harga: '10000', desk: 'Maksimal 1 device. Garansi 1 bulan.' }, { id: 'gemini-private-1m', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-2m', nama: 'Private 2 Bulan', harga: '28000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-3m', nama: 'Private 3 Bulan', harga: '35000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-4m', nama: 'Private 4 Bulan', harga: '45000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }] },
-            { id: 'prime', nama: 'Prime Video', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://store-images.s-microsoft.com/image/apps.29354.14618985536919905.45e2438b-0358-430f-a226-e856ef5f56cd.6045f10d-194a-41bc-aa21-f7fce8cabd7c', badge: '', badgeClass: '', varian: [{ id: 'prime-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi 15 hari.' }, { id: 'prime-private', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun private. Garansi Full.' }] },
-            { id: 'viu', nama: 'Viu', kategori: 'MOVIE', subtitle: 'Drama & Film', icon: 'https://yt3.googleusercontent.com/ytc/AIdro_mGgWUT-KZejIMSOL4h8Mu5_y3g6rIw7qcg8b3NwsBpHA=s900-c-k-c0x00ffffff-no-rj', badge: '', badgeClass: '', varian: [{ id: 'viu-private-1y', nama: 'Private 1 Tahun', harga: '25000', desk: 'Akun Private. Garansi 3 bulan.' }] },
-            { id: 'vidio', nama: 'Vidio', kategori: 'MOVIE', subtitle: 'Sports & TV', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGq-kVjmk0MbiDqy8JXTY5ccE_gP3uSC3h0y1YX1OdIQ&s', badge: '', badgeClass: '', varian: [{ id: 'vidio-sharing-mobile', nama: 'Sharing 1B (Mobile)', harga: '30000', desk: 'Khusus HP/Mobile. Garansi 25 hari.' }, { id: 'vidio-private-mobile', nama: 'Private 1B (Mobile)', harga: '60000', desk: 'Khusus HP/Mobile. Private.' }, { id: 'vidio-sharing-tv', nama: 'Sharing 1B (TV)', harga: '18000', desk: 'Khusus Smart TV. Garansi 25 hari.' }, { id: 'vidio-private-tv', nama: 'Private 1B (TV)', harga: '30000', desk: 'Khusus Smart TV. Private.' }, { id: 'vidio-2m-tv', nama: '2 Bulan (TV)', harga: '45000', desk: 'Khusus Smart TV. Garansi 30 hari.' }] },
-            { id: 'zoom', nama: 'Zoom', kategori: 'APPS', subtitle: 'Layanan Digital', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnjOHJJXN6oRjISn0Z9KRZ0wLNwPLxWDb9OFKndmVW-g&s=10', badge: '', badgeClass: '', varian: [{ id: 'zoom-14d-no', nama: 'Private 14d (No Garansi)', harga: '8000', desk: 'Zoom Pro 14 hari. Tanpa garansi.' }, { id: 'zoom-14d-full', nama: 'Private 14d (Full Garansi)', harga: '19000', desk: 'Zoom Pro 14 hari. Garansi full.' }] },
-            { id: 'hbomax', nama: 'HBO Max', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQacegfITyK7jTZJo9HBZVAi4OjalLUkgI2XZfLHsPQJg&s=10', badge: '', badgeClass: '', varian: [{ id: 'hbomax-sharing', nama: 'Sharing 1 Bulan', harga: '23000', desk: 'Paket Ultimate. Garansi 20 hari.' }] },
-            { id: 'iqiyi', nama: 'iQIYI', kategori: 'MOVIE', subtitle: 'Asian Content', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2iLLIrxlsjgfvCASqFcj_rmy6JUoE6Fd-zRKYzYUK6A&s', badge: '', badgeClass: '', varian: [{ id: 'iqiyi-premium-18d', nama: 'Premium 18 Hari', harga: '10000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-premium-sharing', nama: 'Premium Sharing 1B', harga: '18000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-standard-sharing', nama: 'Standard Sharing 1B', harga: '12000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-premium-private', nama: 'Premium Private 1B', harga: '50000', desk: 'Akun private.' }, { id: 'iqiyi-standard-private', nama: 'Standard Private 1B', harga: '40000', desk: 'Akun private.' }] },
-            { id: 'wink', nama: 'Wink', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4xgbNcT3c_ZfiaA5lrgD4Zv26hr_UGn336retHj0YUw&s=10', badge: '', badgeClass: '', varian: [{ id: 'wink-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' }, { id: 'wink-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }] },
-            { id: 'loklok', nama: 'Loklok', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvkxSQ9t438PB0MyM_mPJyBWmK2_jytMyiycHLDghPYQ&s=10', badge: '', badgeClass: '', varian: [{ id: 'loklok-basic', nama: 'Sharing 1B Basic', harga: '25000', desk: 'Paket Basic. 1 device.' }, { id: 'loklok-standar', nama: 'Sharing 1B Standar', harga: '35000', desk: 'Paket Standard. 1 device.' }] },
-            { id: 'getcontact', nama: 'Getcontact', kategori: 'APPS', subtitle: 'Layanan Digital', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbXnESqAkv-UwBEhocQ313CzbOcC_UbU8ClJm6rLhyTg&s=10', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'getcontact-tag', nama: 'Cek Tag Nomor', harga: '1000', desk: 'Kirim nomor tujuan.' }, { id: 'getcontact-premium', nama: 'Premium 1 Bulan', harga: '15000', desk: 'Garansi 20 hari.' }] },
-            { id: 'meitu', nama: 'Meitu', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQztjC_a0TqP4NQoBgpJNVQyxtx5Guz6F7Vkr_tICJM6Q&s=10', badge: '', badgeClass: '', varian: [{ id: 'meitu-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' }, { id: 'meitu-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }] },
-            { id: 'wetv', nama: 'WeTV', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScZVZ9YVHV2fEoHsmuzeLuDeMIudX1trxDBOLGHPEGeA&s=10', badge: '', badgeClass: '', varian: [{ id: 'wetv-sharing-3u', nama: 'Sharing 3U', harga: '18000', desk: 'Sharing 3 User. Garansi backfree.' }, { id: 'wetv-sharing-6u', nama: 'Sharing 6U', harga: '9000', desk: 'Sharing 6 User. Garansi backfree.' }, { id: 'wetv-private', nama: 'Private 1B', harga: '49000', desk: 'Akun private. Garansi backfree.' }] },
-            { id: 'crunchyroll', nama: 'Crunchyroll', kategori: 'MOVIE', subtitle: 'Anime Stream', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDynR-uCBAQcT6ipMhQEIwdatVeCDiqSNmfuujoKHBXg&s=10', badge: '', badgeClass: '', varian: [{ id: 'crunchyroll-private', nama: 'Private 1 Bulan', harga: '20500', desk: 'Akun private. Garansi backfree.' }, { id: 'crunchyroll-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi backfree.' }] },
-            { id: 'vision', nama: 'Vision+', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjJtIBUwuyiA3k6oODFz6hxKaeMK67z3GMPV0ZQd8Ucw&s=10', badge: '', badgeClass: '', varian: [{ id: 'vision-private', nama: 'Private 1 Bulan', harga: '10000', desk: 'Akun private. Garansi backfree.' }] }
-        ];
+        const produk = [{ id: 'am', nama: 'Alight Motion', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://play-lh.googleusercontent.com/LRjRXaVEtoeHyiFcnMLCHs1ZJV8Q4q70PggflRDAfgOkulzFTbJg65y0drg6Yapo22Xoos_XCbyh7EgycBhQ', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'am-sharing', nama: 'Sharing 1 Tahun', harga: '3000', desk: 'Maksimal 5 device. Garansi 3 bulan.' }, { id: 'am-private', nama: 'Private 1 Tahun', harga: '8000', desk: 'Bisa ganti email. Akun private.' }] }, { id: 'capcut', nama: 'CapCut Pro', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHM0OYfiFeMI2p9MWie0CvL99U4GA1gf6_kayTt_kBblFwHwo8BW8JXlqfnYxKPmmBaQDG.nPeYqpMXSUQbV6ZbDqKB2cfxC8XGBuMMG2wnfQDreT0rlqZucFHBfMnKmf9jEjSzK_3h4euGl2PWZ9ggU-&format=source', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'capcut-7d-private', nama: '7 Hari Private', harga: '30000', desk: 'Akun private. Garansi 7 hari.' }, { id: 'capcut-7d-sharing', nama: '7 Hari Sharing', harga: '23500', desk: 'Maksimal 1 device. Garansi 7 hari.' }, { id: 'capcut-1m-private', nama: '1 Bulan Private', harga: '75000', desk: 'Akun private. Garansi 25 hari.' }, { id: 'capcut-1m-sharing', nama: '1 Bulan Sharing', harga: '60000', desk: 'Maksimal 1 device. Garansi 25 hari.' }] }, { id: 'netflix', nama: 'Netflix 4K', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://yt3.googleusercontent.com/6Tx4cExHCNrdMIRxfNcPBh-90reH5ugoKyzi0cJZUd6jbFKvHJpPYWMPjwCWxuuOCmW05avdNUI=s900-c-k-c0x00ffffff-no-rj', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'netflix-7d', nama: '7 Hari (1P2U)', harga: '22000', desk: '1 profil 2 user. Garansi 7 hari.' }, { id: 'netflix-1m-1p2u', nama: '1 Bulan (1P2U)', harga: '35000', desk: '1 profil 2 user. Garansi 20 hari.' }, { id: 'netflix-1m-1p1u', nama: '1 Bulan (1P1U)', harga: '48000', desk: '1 profil private. Full garansi.' }, { id: 'netflix-1m-semi', nama: '1 Bulan SEMI PRIVATE', harga: '75000', desk: '1 profil private. Full garansi.' }, { id: 'netflix-crack', nama: 'Netflix Crack', harga: '15000', desk: 'Garansi 24 jam.' }] }, { id: 'spotify', nama: 'Spotify', kategori: 'MUSIK', subtitle: 'Audio Premium', icon: 'https://yt3.googleusercontent.com/UMGZZMPQkM3kGtyW4jNE1GtpSrydfNJdbG1UyWTp5zeqUYc6-rton70Imm7B11RulRRuK521NQ=s900-c-k-c0x00ffffff-no-rj', badge: '', badgeClass: '', varian: [{ id: 'spotify-indplan', nama: 'Indplan 1 Bulan', harga: '32000', desk: '1 perangkat. Garansi 20 hari.' }, { id: 'spotify-famplan', nama: 'Famplan 1 Bulan', harga: '25000', desk: 'Garansi 20 hari.' }] }, { id: 'bstation', nama: 'Bstation', kategori: 'MOVIE', subtitle: 'Anime Stream', icon: 'https://screenscore.digitalmama.id/wp-content/uploads/2025/03/unnamed-9.webp', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'bstation-sharing', nama: 'Sharing 1 Bulan', harga: '15000', desk: 'Maksimal 1 device. Garansi 25 hari.' }, { id: 'bstation-private-14d', nama: 'Private 14 Hari', harga: '17500', desk: 'Akun private. Garansi Full.' }, { id: 'bstation-private-1m', nama: 'Private 1 Bulan', harga: '31000', desk: 'Akun private. Garansi Full.' }] }, { id: 'canva', nama: 'Canva', kategori: 'DESAIN', subtitle: 'Template Premium', icon: 'https://pbs.twimg.com/profile_images/1542647040756568064/YbE5Hs-5_400x400.jpg', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'canva-invite-1m', nama: 'Invite 1 Bulan', harga: '2500', desk: 'Akun Private. via invite.' }, { id: 'canva-invite-1y', nama: 'Invite 1 Tahun', harga: '25000', desk: 'Akun Private. via invite.' }, { id: 'canva-head', nama: 'Head (Owner) 1 Bulan', harga: '13000', desk: 'Cocok untuk tim. Bisa invite 100 anggota.' }] }, { id: 'disney', nama: 'Disney+', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://images.seeklogo.com/logo-png/4/1/disney-logo-png_seeklogo-41972.png', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'disney-sharing-1m', nama: 'Sharing 1 Bulan', harga: '30000', desk: 'Maksimal 1 device. Garansi 25 hari.' }, { id: 'disney-sharing-7d', nama: 'Sharing 7 Hari', harga: '20000', desk: 'Maksimal 1 device. Garansi 7 hari.' }] }, { id: 'youtube', nama: 'YouTube', kategori: 'MOVIE', subtitle: 'Video Premium', icon: 'https://yt3.googleusercontent.com/1NFw5olkb4TAkk0ZrGc9_VVDjxjJemetRY3FZQ7DKmPosb0lWwx2mgPY2YhGKkgFzHZGn44zZQ=s900-c-k-c0x00ffffff-no-rj', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'youtube-1m', nama: '1 Bulan', harga: '8000', desk: 'Akun Private. Garansi 25 hari.' }, { id: 'youtube-famhead', nama: 'Famhead 1 Bulan', harga: '17000', desk: 'Akun dari pembeli. Bisa invite 5 member.' }] }, { id: 'gemini', nama: 'Gemini AI', kategori: 'SMART', subtitle: 'AI Tools', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqGrqBPffjc--HscZ5gQAsD7XaVdVbrxL5IvRJwgdqRUqRvW9YxcNtCc&s=10', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'gemini-sharing', nama: 'Sharing 1 Bulan', harga: '10000', desk: 'Maksimal 1 device. Garansi 1 bulan.' }, { id: 'gemini-private-1m', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-2m', nama: 'Private 2 Bulan', harga: '28000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-3m', nama: 'Private 3 Bulan', harga: '35000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }, { id: 'gemini-private-4m', nama: 'Private 4 Bulan', harga: '45000', desk: 'Akun dari pembeli. Bonus Google Drive 2TB.' }] }, { id: 'prime', nama: 'Prime Video', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://store-images.s-microsoft.com/image/apps.29354.14618985536919905.45e2438b-0358-430f-a226-e856ef5f56cd.6045f10d-194a-41bc-aa21-f7fce8cabd7c', badge: '', badgeClass: '', varian: [{ id: 'prime-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi 15 hari.' }, { id: 'prime-private', nama: 'Private 1 Bulan', harga: '18000', desk: 'Akun private. Garansi Full.' }] }, { id: 'viu', nama: 'Viu', kategori: 'MOVIE', subtitle: 'Drama & Film', icon: 'https://yt3.googleusercontent.com/ytc/AIdro_mGgWUT-KZejIMSOL4h8Mu5_y3g6rIw7qcg8b3NwsBpHA=s900-c-k-c0x00ffffff-no-rj', badge: '', badgeClass: '', varian: [{ id: 'viu-private-1y', nama: 'Private 1 Tahun', harga: '25000', desk: 'Akun Private. Garansi 3 bulan.' }] }, { id: 'vidio', nama: 'Vidio', kategori: 'MOVIE', subtitle: 'Sports & TV', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGq-kVjmk0MbiDqy8JXTY5ccE_gP3uSC3h0y1YX1OdIQ&s', badge: '', badgeClass: '', varian: [{ id: 'vidio-sharing-mobile', nama: 'Sharing 1B (Mobile)', harga: '30000', desk: 'Khusus HP/Mobile. Garansi 25 hari.' }, { id: 'vidio-private-mobile', nama: 'Private 1B (Mobile)', harga: '60000', desk: 'Khusus HP/Mobile. Private.' }, { id: 'vidio-sharing-tv', nama: 'Sharing 1B (TV)', harga: '18000', desk: 'Khusus Smart TV. Garansi 25 hari.' }, { id: 'vidio-private-tv', nama: 'Private 1B (TV)', harga: '30000', desk: 'Khusus Smart TV. Private.' }, { id: 'vidio-2m-tv', nama: '2 Bulan (TV)', harga: '45000', desk: 'Khusus Smart TV. Garansi 30 hari.' }] }, { id: 'zoom', nama: 'Zoom', kategori: 'APPS', subtitle: 'Layanan Digital', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnjOHJJXN6oRjISn0Z9KRZ0wLNwPLxWDb9OFKndmVW-g&s=10', badge: '', badgeClass: '', varian: [{ id: 'zoom-14d-no', nama: 'Private 14d (No Garansi)', harga: '8000', desk: 'Zoom Pro 14 hari. Tanpa garansi.' }, { id: 'zoom-14d-full', nama: 'Private 14d (Full Garansi)', harga: '19000', desk: 'Zoom Pro 14 hari. Garansi full.' }] }, { id: 'hbomax', nama: 'HBO Max', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQacegfITyK7jTZJo9HBZVAi4OjalLUkgI2XZfLHsPQJg&s=10', badge: '', badgeClass: '', varian: [{ id: 'hbomax-sharing', nama: 'Sharing 1 Bulan', harga: '23000', desk: 'Paket Ultimate. Garansi 20 hari.' }] }, { id: 'iqiyi', nama: 'iQIYI', kategori: 'MOVIE', subtitle: 'Asian Content', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2iLLIrxlsjgfvCASqFcj_rmy6JUoE6Fd-zRKYzYUK6A&s', badge: '', badgeClass: '', varian: [{ id: 'iqiyi-premium-18d', nama: 'Premium 18 Hari', harga: '10000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-premium-sharing', nama: 'Premium Sharing 1B', harga: '18000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-standard-sharing', nama: 'Standard Sharing 1B', harga: '12000', desk: 'Sharing, 1 device.' }, { id: 'iqiyi-premium-private', nama: 'Premium Private 1B', harga: '50000', desk: 'Akun private.' }, { id: 'iqiyi-standard-private', nama: 'Standard Private 1B', harga: '40000', desk: 'Akun private.' }] }, { id: 'wink', nama: 'Wink', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4xgbNcT3c_ZfiaA5lrgD4Zv26hr_UGn336retHj0YUw&s=10', badge: '', badgeClass: '', varian: [{ id: 'wink-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' }, { id: 'wink-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }] }, { id: 'loklok', nama: 'Loklok', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvkxSQ9t438PB0MyM_mPJyBWmK2_jytMyiycHLDghPYQ&s=10', badge: '', badgeClass: '', varian: [{ id: 'loklok-basic', nama: 'Sharing 1B Basic', harga: '25000', desk: 'Paket Basic. 1 device.' }, { id: 'loklok-standar', nama: 'Sharing 1B Standar', harga: '35000', desk: 'Paket Standard. 1 device.' }] }, { id: 'getcontact', nama: 'Getcontact', kategori: 'APPS', subtitle: 'Layanan Digital', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbXnESqAkv-UwBEhocQ313CzbOcC_UbU8ClJm6rLhyTg&s=10', badge: 'HOT', badgeClass: 'hot', varian: [{ id: 'getcontact-tag', nama: 'Cek Tag Nomor', harga: '1000', desk: 'Kirim nomor tujuan.' }, { id: 'getcontact-premium', nama: 'Premium 1 Bulan', harga: '15000', desk: 'Garansi 20 hari.' }] }, { id: 'meitu', nama: 'Meitu', kategori: 'DESAIN', subtitle: 'Editing App', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQztjC_a0TqP4NQoBgpJNVQyxtx5Guz6F7Vkr_tICJM6Q&s=10', badge: '', badgeClass: '', varian: [{ id: 'meitu-android', nama: '7D Android Private', harga: '13000', desk: 'Khusus Android. Garansi backfree.' }, { id: 'meitu-ios', nama: '7D iOS Private', harga: '15000', desk: 'Khusus iOS/iPhone. Garansi backfree.' }] }, { id: 'wetv', nama: 'WeTV', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScZVZ9YVHV2fEoHsmuzeLuDeMIudX1trxDBOLGHPEGeA&s=10', badge: '', badgeClass: '', varian: [{ id: 'wetv-sharing-3u', nama: 'Sharing 3U', harga: '18000', desk: 'Sharing 3 User. Garansi backfree.' }, { id: 'wetv-sharing-6u', nama: 'Sharing 6U', harga: '9000', desk: 'Sharing 6 User. Garansi backfree.' }, { id: 'wetv-private', nama: 'Private 1B', harga: '49000', desk: 'Akun private. Garansi backfree.' }] }, { id: 'crunchyroll', nama: 'Crunchyroll', kategori: 'MOVIE', subtitle: 'Anime Stream', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDynR-uCBAQcT6ipMhQEIwdatVeCDiqSNmfuujoKHBXg&s=10', badge: '', badgeClass: '', varian: [{ id: 'crunchyroll-private', nama: 'Private 1 Bulan', harga: '20500', desk: 'Akun private. Garansi backfree.' }, { id: 'crunchyroll-sharing', nama: 'Sharing 1 Bulan', harga: '8000', desk: 'Maksimal 1 device. Garansi backfree.' }] }, { id: 'vision', nama: 'Vision+', kategori: 'MOVIE', subtitle: 'Streaming', icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjJtIBUwuyiA3k6oODFz6hxKaeMK67z3GMPV0ZQd8Ucw&s=10', badge: '', badgeClass: '', varian: [{ id: 'vision-private', nama: 'Private 1 Bulan', harga: '10000', desk: 'Akun private. Garansi backfree.' }] }];
 
         const testimoniData = [
             { bintang: 5, isi: 'Prosesnya cepat banget, CapCut Pro langsung aktif. Recommended!', nama: 'Andi - Jakarta' },
@@ -718,24 +710,14 @@
         }
 
         // ================================================================
-        // TOAST (PERBAIKAN NOTIFIKASI NUMPUK & POSISI ATAS)
+        // TOAST (PERBAIKAN NOTIFIKASI NUMPUK)
         // ================================================================
         function showToast(title, message, type = 'success') {
             const container = $('toastContainer');
 
-            // Menyiapkan ikon SVG berdasarkan tipe notifikasi
-            let iconSvg = '';
-            if (type === 'success') {
-                iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-            } else if (type === 'warning') {
-                iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`;
-            } else if (type === 'error') {
-                iconSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>`;
-            }
-
-            const existingKey = title + '|' + message;
-            const existing = container.querySelector(`.toast[data-key="${CSS.escape(existingKey)}"]`);
-            
+            // Kalau toast dengan judul+pesan yang sama masih tampil (misal user spam klik),
+            // jangan tambah baru — cukup tandai jumlahnya dan reset timer auto-hide-nya.
+            const existing = container.querySelector(`.toast[data-key="${CSS.escape(title + '|' + message)}"]`);
             if (existing) {
                 const count = (parseInt(existing.dataset.count, 10) || 1) + 1;
                 existing.dataset.count = count;
@@ -747,12 +729,6 @@
                 }
                 counter.textContent = `×${count}`;
                 existing.classList.remove('fade-out');
-                
-                // Memicu ulang animasi turun dari atas
-                existing.style.animation = 'none';
-                existing.offsetHeight; 
-                existing.style.animation = 'toastSlideDownIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
-
                 clearTimeout(existing._hideTimer);
                 existing._hideTimer = setTimeout(() => {
                     existing.classList.add('fade-out');
@@ -761,20 +737,15 @@
                 return;
             }
 
+            // Batasi maksimal 3 toast sekaligus biar tidak menumpuk panjang ke bawah.
             const active = container.querySelectorAll('.toast');
             if (active.length >= 3) active[0].remove();
 
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.dataset.key = existingKey;
+            toast.dataset.key = title + '|' + message;
             toast.dataset.count = 1;
-            toast.innerHTML = `
-                <div class="toast-icon-wrap">${iconSvg}</div>
-                <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-msg">${message}</div>
-                </div>
-            `;
+            toast.innerHTML = `<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div>`;
             container.appendChild(toast);
 
             toast._hideTimer = setTimeout(() => {
@@ -785,6 +756,9 @@
 
         // ================================================================
         // CART & SCROLL LOCK
+        // ================================================================
+        // ================================================================
+        // SCROLL LOCK (fix: overflow:hidden saja tidak reliable di HP/iOS)
         // ================================================================
         let scrollLockY = 0;
         function lockScroll() {
@@ -817,7 +791,7 @@
             if (!product || !variant) return;
 
             if (state.cart.find(item => item.variantId === variantId)) {
-                showToast('Sudah ditambahkan', `"${variant.nama}" sudah ada di keranjang`, 'warning');
+                showToast('Sudah ada!', `"${variant.nama}" sudah ada di keranjang`, 'warning');
                 state.isDrawerOpen = true; 
                 lockScroll();
                 renderAll(); return;
@@ -984,7 +958,7 @@
 
             if (!state.isCheckout) {
                 container.className = 'page-checkout'; container.innerHTML = '';
-                return;
+                return; // Tampilan hero dan lainnya dihandle di renderAll
             }
 
             container.className = 'page-checkout active';
@@ -995,29 +969,20 @@
                     <div class="checkout-form">
                         <h2>Satu langkah lagi</h2>
                         <div class="form-sub">Isi data ini dulu, nanti dibayar lewat QRIS DigishopID</div>
-                        <div class="form-group ${state.errors.name ? 'error' : ''}" id="groupName">
+                        <div class="form-group ${state.errors.name ? 'error' : ''}">
                             <label>Nama lengkap</label>
                             <input type="text" id="inputName" placeholder="Contoh: Budi Santoso" value="${state.formData.name}" oninput="updateForm('name', this.value)" />
-                            <div class="error-text">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                ${state.errors.name === 'format' ? 'Nama minimal 3 karakter' : 'Nama lengkap wajib diisi'}
-                            </div>
+                            <div class="error-text">${state.errors.name === 'format' ? 'Nama minimal 3 karakter' : 'Nama lengkap wajib diisi'}</div>
                         </div>
-                        <div class="form-group ${state.errors.wa ? 'error' : ''}" id="groupWa">
+                        <div class="form-group ${state.errors.wa ? 'error' : ''}">
                             <label>Nomor WhatsApp</label>
                             <input type="tel" id="inputWa" placeholder="081234567890" value="${state.formData.wa}" oninput="updateForm('wa', this.value)" />
-                            <div class="error-text">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                ${state.errors.wa === 'format' ? 'Format tidak valid (contoh: 081234567890)' : 'Nomor WhatsApp wajib diisi'}
-                            </div>
+                            <div class="error-text">${state.errors.wa === 'format' ? 'Format nomor WhatsApp tidak valid (contoh: 081234567890)' : 'Nomor WhatsApp wajib diisi'}</div>
                         </div>
-                        <div class="form-group ${state.errors.email ? 'error' : ''}" id="groupEmail">
+                        <div class="form-group ${state.errors.email ? 'error' : ''}">
                             <label>Email</label>
                             <input type="email" id="inputEmail" placeholder="nama@email.com" value="${state.formData.email}" oninput="updateForm('email', this.value)" />
-                            <div class="error-text">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                ${state.errors.email === 'format' ? 'Format email tidak valid' : 'Email wajib diisi'}
-                            </div>
+                            <div class="error-text">${state.errors.email === 'format' ? 'Format email tidak valid' : 'Email wajib diisi'}</div>
                         </div>
                         <div class="form-group">
                             <label>Catatan (opsional)</label>
@@ -1083,6 +1048,7 @@
             renderCheckout(); 
             renderPayment();
             
+            // Atur elemen mana yang tampil berdasarkan halaman saat ini
             const isHome = !state.isCheckout && !state.isPayment;
             
             const hero = document.getElementById('heroSection');
@@ -1103,15 +1069,18 @@
         }
 
         // ================================================================
-        // CHECKOUT VALIDATION & ACTIONS
+        // CHECKOUT & PAYMENT ACTIONS
         // ================================================================
         function proceedToCheckout() {
-            if (state.cart.length === 0) { showToast('Gagal Checkout', 'Keranjang masih kosong! Tambahkan produk dulu.', 'warning'); return; }
+            if (state.cart.length === 0) { showToast('Kosong', 'Tambahkan produk dulu!', 'warning'); return; }
             state.isDrawerOpen = false; state.isCheckout = true; state.errors = {}; 
             unlockScroll();
             renderAll();
         }
 
+        // ================================================================
+        // CUSTOM CONFIRM MODAL (pengganti confirm() bawaan browser)
+        // ================================================================
         let confirmResolve = null;
         function showConfirm(title, text) {
             $('confirmModalTitle').textContent = title;
@@ -1138,56 +1107,33 @@
                 const inputId = 'input' + field.charAt(0).toUpperCase() + field.slice(1);
                 const inputElement = document.getElementById(inputId);
                 if (inputElement && inputElement.closest('.form-group')) {
-                    // Paksa re-flow untuk menghapus animasi getar jika diketik lagi
                     inputElement.closest('.form-group').classList.remove('error');
-                    void inputElement.offsetWidth; 
                 }
             }
         }
 
         function submitOrder() {
             const { name, wa, email } = state.formData, errors = {};
-            let firstErrorId = null;
 
             const waDigits = wa.trim().replace(/[\s\-\(\)]/g, '');
             const waValid = /^(\+62|62|0)8[0-9]{8,12}$/.test(waDigits);
             const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
-            if (!name.trim()) { errors.name = true; firstErrorId = firstErrorId || 'inputName'; }
-            else if (name.trim().length < 3) { errors.name = 'format'; firstErrorId = firstErrorId || 'inputName'; }
+            if (!name.trim()) errors.name = true;
+            else if (name.trim().length < 3) errors.name = 'format';
 
-            if (!wa.trim()) { errors.wa = true; firstErrorId = firstErrorId || 'inputWa'; }
-            else if (!waValid) { errors.wa = 'format'; firstErrorId = firstErrorId || 'inputWa'; }
+            if (!wa.trim()) errors.wa = true;
+            else if (!waValid) errors.wa = 'format';
 
-            if (!email.trim()) { errors.email = true; firstErrorId = firstErrorId || 'inputEmail'; }
-            else if (!emailValid) { errors.email = 'format'; firstErrorId = firstErrorId || 'inputEmail'; }
+            if (!email.trim()) errors.email = true;
+            else if (!emailValid) errors.email = 'format';
             
             if (Object.keys(errors).length > 0) {
-                // Hapus state error lama sebentar untuk memicu animasi ulang di CSS
-                state.errors = {}; renderAll(); 
-                
-                setTimeout(() => {
-                    state.errors = errors; 
-                    renderAll(); 
-                    showToast('Data Tidak Lengkap', 'Silakan periksa kembali form yang bergaris merah.', 'error');
-                    
-                    // Auto-scroll ke form yang salah
-                    if (firstErrorId) {
-                        const el = document.getElementById(firstErrorId);
-                        if(el) {
-                            const y = el.getBoundingClientRect().top + window.scrollY - 120; // Kasih jarak dari header
-                            window.scrollTo({top: y, behavior: 'smooth'});
-                            el.focus({preventScroll: true}); 
-                        }
-                    }
-                }, 10); 
-                return;
+                state.errors = errors; renderAll(); showToast('Data belum lengkap', 'Periksa lagi form yang ditandai merah', 'warning'); return;
             }
 
             state.orderData = { orderId: generateOrderId(), name: name.trim(), wa: wa.trim(), email: email.trim(), note: state.formData.note.trim(), items: [...state.cart], total: getCartTotal() };
-            state.isCheckout = false; state.isPayment = true; 
-            window.scrollTo(0,0);
-            renderAll();
+            state.isCheckout = false; state.isPayment = true; renderAll();
         }
 
         function confirmPayment() {
@@ -1203,7 +1149,8 @@
             if (e) e.preventDefault();
             if (state.isCheckout || state.isPayment) {
                 showConfirm('Kembali ke toko?', 'Data pesanan yang sudah kamu isi akan hilang.').then((ok) => {
-                    if (!ok) return; resetToHome();
+                    if (!ok) return;
+                    resetToHome();
                 });
                 return;
             }
@@ -1217,6 +1164,9 @@
             renderAll();
         }
 
+        // ================================================================
+        // QRIS FIX
+        // ================================================================
         function bukaQris() { $('qrisModal').style.display = 'flex'; lockScroll(); }
         function tutupQris() {
             const m = $('qrisModal'); m.classList.add('closing');
@@ -1225,22 +1175,33 @@
         
         function downloadQRIS() {
             const imgSrc = $('qrisImage') ? $('qrisImage').src : $('qrisToDownload').src;
+            
             fetch(imgSrc)
                 .then(response => response.blob())
                 .then(blob => {
                     const link = document.createElement('a');
                     link.href = URL.createObjectURL(blob);
                     link.download = 'QRIS-DigishopID.jpg';
-                    document.body.appendChild(link); link.click(); document.body.removeChild(link);
-                    showToast('Berhasil Diunduh', 'Gambar QRIS berhasil disimpan ke galeri.', 'success');
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    showToast('QRIS Tersimpan!', 'Gambar berhasil disimpan.', 'success');
                 })
                 .catch(err => {
-                    const link = document.createElement('a'); link.href = imgSrc; link.download = 'QRIS-DigishopID.jpg'; link.target = "_blank";
-                    document.body.appendChild(link); link.click(); document.body.removeChild(link);
-                    showToast('QRIS Dibuka', 'Silakan simpan gambar secara manual.', 'success');
+                    const link = document.createElement('a');
+                    link.href = imgSrc;
+                    link.download = 'QRIS-DigishopID.jpg';
+                    link.target = "_blank";
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    showToast('QRIS Dibuka!', 'Silakan simpan gambar secara manual.', 'success');
                 });
         }
 
+        // ================================================================
+        // TESTIMONI & FAQ
+        // ================================================================
         function renderTestimoni() {
             const container = $('testimoniContainer'); if (!container) return;
             container.innerHTML = `<div class="testimoni-grid">${testimoniData.map(t => `<div class="testimoni-card"><div class="stars">${'★'.repeat(t.bintang)}${'☆'.repeat(5-t.bintang)}</div><div class="quote">"${t.isi}"</div><div class="name">${t.nama}</div></div>`).join('')}</div>`;
@@ -1255,9 +1216,16 @@
             item.querySelector('.faq-question').setAttribute('aria-expanded', open);
         }
 
+        // ================================================================
+        // GLOBAL EVENTS
+        // ================================================================
         window.addEventListener('scroll', () => { const nav = $('navbar'); if (nav) nav.classList.toggle('scrolled', window.scrollY > 50); });
-        function syncNavHeight() { const nav = $('navbar'); if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px'); }
-        window.addEventListener('resize', syncNavHeight); syncNavHeight();
+        function syncNavHeight() {
+            const nav = $('navbar');
+            if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+        }
+        window.addEventListener('resize', syncNavHeight);
+        syncNavHeight();
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') { if ($('confirmModal').style.display === 'flex') { closeConfirmModal(false); return; } if (state.isModalOpen) tutupModal(); if (state.isDrawerOpen) toggleDrawer(); if ($('qrisModal').style.display === 'flex') tutupQris(); }
         });

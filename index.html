@@ -341,16 +341,17 @@
         .btn-wa-confirm:hover { background: #35e07a; }
 
         /* ========== TOAST ========== */
-        .toast-container { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 3000; display: flex; flex-direction: column; gap: 6px; align-items: center; width: 90%; max-width: 380px; pointer-events: none; }
+        .toast-container { position: fixed; top: calc(env(safe-area-inset-top, 0px) + var(--nav-h, 64px) + 12px); left: 50%; transform: translateX(-50%); z-index: 900; display: flex; flex-direction: column; gap: 8px; align-items: center; width: 90%; max-width: 380px; pointer-events: none; transition: top 0.2s ease; }
         .toast { background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--success); padding: 10px 16px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 10px; width: 100%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); animation: toastIn 0.25s ease-out forwards; pointer-events: all; }
         .toast.warning { border-left-color: var(--secondary); }
         .toast.fade-out { animation: toastOut 0.2s ease-in forwards; }
-        @keyframes toastIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes toastOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
         .toast .toast-icon { display: none; }
         .toast .toast-content { flex: 1; }
         .toast .toast-content .toast-title { font-weight: 700; font-size: 0.8rem; }
         .toast .toast-content .toast-msg { font-size: 0.7rem; color: var(--text-muted); }
+        .toast .toast-count { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.08); padding: 1px 7px; border-radius: 20px; flex-shrink: 0; }
 
         /* ========== TESTIMONI & FAQ ========== */
         .testimoni-section { margin-top: 40px; }
@@ -430,7 +431,7 @@
             .float-wa svg { width: 24px; height: 24px; }
             .float-tele { width: 48px; height: 48px; bottom: 72px; right: 16px; }
             .float-tele svg { width: 24px; height: 24px; }
-            .toast-container { bottom: 72px; width: 94%; }
+            .toast-container { width: 94%; }
             .checkout-grid, .payment-grid { grid-template-columns: 1fr; }
         }
 
@@ -713,16 +714,44 @@
         // ================================================================
         function showToast(title, message, type = 'success') {
             const container = $('toastContainer');
+
+            // Kalau toast dengan judul+pesan yang sama masih tampil (misal user spam klik),
+            // jangan tambah baru — cukup tandai jumlahnya dan reset timer auto-hide-nya.
+            const existing = container.querySelector(`.toast[data-key="${CSS.escape(title + '|' + message)}"]`);
+            if (existing) {
+                const count = (parseInt(existing.dataset.count, 10) || 1) + 1;
+                existing.dataset.count = count;
+                let counter = existing.querySelector('.toast-count');
+                if (!counter) {
+                    counter = document.createElement('span');
+                    counter.className = 'toast-count';
+                    existing.appendChild(counter);
+                }
+                counter.textContent = `×${count}`;
+                existing.classList.remove('fade-out');
+                clearTimeout(existing._hideTimer);
+                existing._hideTimer = setTimeout(() => {
+                    existing.classList.add('fade-out');
+                    setTimeout(() => existing.remove(), 300);
+                }, 2500);
+                return;
+            }
+
+            // Batasi maksimal 3 toast sekaligus biar tidak menumpuk panjang ke bawah.
+            const active = container.querySelectorAll('.toast');
+            if (active.length >= 3) active[0].remove();
+
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
+            toast.dataset.key = title + '|' + message;
+            toast.dataset.count = 1;
             toast.innerHTML = `<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div>`;
             container.appendChild(toast);
-            
-            // Timer dibuat independen/lokal untuk masing-masing toast
-            setTimeout(() => {
+
+            toast._hideTimer = setTimeout(() => {
                 toast.classList.add('fade-out');
                 setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            }, 2500);
         }
 
         // ================================================================
@@ -1191,6 +1220,12 @@
         // GLOBAL EVENTS
         // ================================================================
         window.addEventListener('scroll', () => { const nav = $('navbar'); if (nav) nav.classList.toggle('scrolled', window.scrollY > 50); });
+        function syncNavHeight() {
+            const nav = $('navbar');
+            if (nav) document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px');
+        }
+        window.addEventListener('resize', syncNavHeight);
+        syncNavHeight();
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') { if ($('confirmModal').style.display === 'flex') { closeConfirmModal(false); return; } if (state.isModalOpen) tutupModal(); if (state.isDrawerOpen) toggleDrawer(); if ($('qrisModal').style.display === 'flex') tutupQris(); }
         });

@@ -340,65 +340,18 @@
         .btn-wa-confirm { width: 100%; padding: 12px 0; border: none; border-radius: var(--radius-sm); background: #25D366; color: #06210F; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-wa-confirm:hover { background: #35e07a; }
 
-        /* ========== TOAST / NOTIFIKASI ========== */
-        .toast-container {
-            position: fixed;
-            bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 10px;
-            align-items: center;
-            width: calc(100% - 32px);
-            max-width: 400px;
-            pointer-events: none;
-        }
-        .toast {
-            background: #23201a;
-            border: 1px solid rgba(255,255,255,0.14);
-            border-radius: 20px;
-            width: 100%;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.65), 0 4px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
-            animation: toastSlideUp 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards;
-            pointer-events: all;
-            overflow: hidden;
-            position: relative;
-            will-change: transform, opacity;
-            touch-action: pan-y;
-        }
-        .toast.fade-out { animation: toastSlideDown 0.28s cubic-bezier(0.4,0,1,1) forwards !important; }
-        @keyframes toastSlideUp {
-            from { opacity: 0; transform: translateY(80px) scale(0.9); }
-            to   { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes toastSlideDown {
-            from { opacity: 1; transform: translateY(0) scale(1); }
-            to   { opacity: 0; transform: translateY(50px) scale(0.94); }
-        }
-        .toast-pill { width: 36px; height: 4px; background: rgba(255,255,255,0.18); border-radius: 2px; margin: 10px auto 0; display: block; }
-        .toast-inner { display: flex; align-items: center; gap: 14px; padding: 12px 14px 14px; }
-        .toast-icon-wrap { width: 44px; height: 44px; border-radius: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-        .toast.success .toast-icon-wrap { background: rgba(78,154,99,0.2); }
-        .toast.warning .toast-icon-wrap { background: rgba(201,162,39,0.2); }
-        .toast.error   .toast-icon-wrap { background: rgba(196,72,46,0.2); }
-        .toast-icon-wrap svg { width: 24px; height: 24px; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-        .toast.success .toast-icon-wrap svg { stroke: #6ecf87; }
-        .toast.warning .toast-icon-wrap svg { stroke: #d4b84a; }
-        .toast.error   .toast-icon-wrap svg { stroke: #e06348; }
-        .toast-body { flex: 1; min-width: 0; }
-        .toast-app-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-muted); opacity: 0.6; margin-bottom: 2px; }
-        .toast-title { font-weight: 800; font-size: 0.9rem; color: var(--text); line-height: 1.2; margin-bottom: 3px; }
-        .toast-msg   { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
-        .toast-close { width: 30px; height: 30px; border-radius: 50%; background: rgba(255,255,255,0.07); border: none; color: var(--text-muted); font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s, color 0.15s; font-family: inherit; align-self: flex-start; margin-top: 2px; }
-        .toast-close:hover { background: rgba(255,255,255,0.13); color: var(--text); }
-        .toast-progress { height: 3px; background: rgba(255,255,255,0.05); }
-        .toast-progress-bar { height: 100%; transform-origin: left; border-radius: 0 2px 0 0; will-change: transform; }
-        .toast.success .toast-progress-bar { background: linear-gradient(90deg, #4e9a63, #6ecf87); }
-        .toast.warning .toast-progress-bar { background: linear-gradient(90deg, #c9a227, #d4b84a); }
-        .toast.error   .toast-progress-bar { background: linear-gradient(90deg, #c4482e, #e06348); }
-        .toast-count-badge { position: absolute; top: 12px; right: 44px; background: var(--primary); color: var(--dark); font-size: 0.62rem; font-weight: 800; padding: 1px 8px; border-radius: 20px; }
+        /* ========== TOAST ========== */
+        .toast-container { position: fixed; top: calc(env(safe-area-inset-top, 0px) + var(--nav-h, 64px) + 12px); left: 50%; transform: translateX(-50%); z-index: 900; display: flex; flex-direction: column; gap: 8px; align-items: center; width: 90%; max-width: 380px; pointer-events: none; transition: top 0.2s ease; }
+        .toast { background: var(--dark-card); border: 1px solid rgba(255, 255, 255, 0.1); border-left: 3px solid var(--success); padding: 10px 16px; border-radius: var(--radius-sm); display: flex; align-items: center; gap: 10px; width: 100%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); animation: toastIn 0.25s ease-out forwards; pointer-events: all; }
+        .toast.warning { border-left-color: var(--secondary); }
+        .toast.fade-out { animation: toastOut 0.2s ease-in forwards; }
+        @keyframes toastIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes toastOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
+        .toast .toast-icon { display: none; }
+        .toast .toast-content { flex: 1; }
+        .toast .toast-content .toast-title { font-weight: 700; font-size: 0.8rem; }
+        .toast .toast-content .toast-msg { font-size: 0.7rem; color: var(--text-muted); }
+        .toast .toast-count { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); background: rgba(255,255,255,0.08); padding: 1px 7px; border-radius: 20px; flex-shrink: 0; }
 
         /* ========== TESTIMONI & FAQ ========== */
         .testimoni-section { margin-top: 40px; }
@@ -478,7 +431,7 @@
             .float-wa svg { width: 24px; height: 24px; }
             .float-tele { width: 48px; height: 48px; bottom: 72px; right: 16px; }
             .float-tele svg { width: 24px; height: 24px; }
-            .toast-container { width: calc(100% - 24px); max-width: 100%; }
+            .toast-container { width: 94%; }
             .checkout-grid, .payment-grid { grid-template-columns: 1fr; }
         }
 
@@ -756,116 +709,49 @@
             return `DSI-${date}-${Math.random().toString(16).substring(2, 8).toUpperCase()}`;
         }
 
-// ================================================================
-        // TOAST – Notifikasi bottom-sheet bergaya native HP
         // ================================================================
-        const TOAST_ICONS = {
-            success: '<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
-            warning: '<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
-            error:   '<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
-        };
-        const TOAST_DURATION = 3500;
-
-        function dismissToast(toast) {
-            if (toast._dismissed) return;
-            toast._dismissed = true;
-            clearTimeout(toast._hideTimer);
-            toast.classList.add('fade-out');
-            setTimeout(() => toast.remove(), 320);
-        }
-
+        // TOAST (PERBAIKAN NOTIFIKASI NUMPUK)
+        // ================================================================
         function showToast(title, message, type = 'success') {
             const container = $('toastContainer');
-            const key = type + '|' + title + '|' + message;
 
-            // Deduplicate — bump counter kalau pesan sama masih tampil
-            const existing = container.querySelector('.toast[data-key="' + CSS.escape(key) + '"]');
+            // Kalau toast dengan judul+pesan yang sama masih tampil (misal user spam klik),
+            // jangan tambah baru — cukup tandai jumlahnya dan reset timer auto-hide-nya.
+            const existing = container.querySelector(`.toast[data-key="${CSS.escape(title + '|' + message)}"]`);
             if (existing) {
                 const count = (parseInt(existing.dataset.count, 10) || 1) + 1;
                 existing.dataset.count = count;
-                let badge = existing.querySelector('.toast-count-badge');
-                if (!badge) { badge = document.createElement('span'); badge.className = 'toast-count-badge'; existing.appendChild(badge); }
-                badge.textContent = '×' + count;
-                existing.classList.remove('fade-out');
-                existing._dismissed = false;
-                clearTimeout(existing._hideTimer);
-                const bar = existing.querySelector('.toast-progress-bar');
-                if (bar) {
-                    bar.style.transition = 'none'; bar.style.transform = 'scaleX(1)';
-                    requestAnimationFrame(() => requestAnimationFrame(() => {
-                        bar.style.transition = 'transform ' + TOAST_DURATION + 'ms linear';
-                        bar.style.transform = 'scaleX(0)';
-                    }));
+                let counter = existing.querySelector('.toast-count');
+                if (!counter) {
+                    counter = document.createElement('span');
+                    counter.className = 'toast-count';
+                    existing.appendChild(counter);
                 }
-                existing._hideTimer = setTimeout(() => dismissToast(existing), TOAST_DURATION);
+                counter.textContent = `×${count}`;
+                existing.classList.remove('fade-out');
+                clearTimeout(existing._hideTimer);
+                existing._hideTimer = setTimeout(() => {
+                    existing.classList.add('fade-out');
+                    setTimeout(() => existing.remove(), 300);
+                }, 2500);
                 return;
             }
 
-            // Batasi 3 toast
+            // Batasi maksimal 3 toast sekaligus biar tidak menumpuk panjang ke bawah.
             const active = container.querySelectorAll('.toast');
-            if (active.length >= 3) dismissToast(active[active.length - 1]);
+            if (active.length >= 3) active[0].remove();
 
-            const icon = TOAST_ICONS[type] || TOAST_ICONS.success;
             const toast = document.createElement('div');
-            toast.className = 'toast ' + type;
-            toast.dataset.key = key;
+            toast.className = `toast ${type}`;
+            toast.dataset.key = title + '|' + message;
             toast.dataset.count = 1;
-            toast.innerHTML =
-                '<span class="toast-pill"></span>' +
-                '<div class="toast-inner">' +
-                    '<div class="toast-icon-wrap">' + icon + '</div>' +
-                    '<div class="toast-body">' +
-                        '<div class="toast-app-label">DigishopID</div>' +
-                        '<div class="toast-title">' + title + '</div>' +
-                        '<div class="toast-msg">' + message + '</div>' +
-                    '</div>' +
-                    '<button class="toast-close" aria-label="Tutup">✕</button>' +
-                '</div>' +
-                '<div class="toast-progress"><div class="toast-progress-bar"></div></div>';
-
+            toast.innerHTML = `<div class="toast-content"><div class="toast-title">${title}</div><div class="toast-msg">${message}</div></div>`;
             container.appendChild(toast);
 
-            // Tombol close
-            toast.querySelector('.toast-close').addEventListener('click', (e) => {
-                e.stopPropagation(); dismissToast(toast);
-            });
-
-            // Swipe down to dismiss (mobile)
-            let startY = 0, currentY = 0, dragging = false;
-            toast.addEventListener('touchstart', (e) => {
-                startY = e.touches[0].clientY; dragging = true;
-                clearTimeout(toast._hideTimer);
-            }, { passive: true });
-            toast.addEventListener('touchmove', (e) => {
-                if (!dragging) return;
-                currentY = e.touches[0].clientY - startY;
-                if (currentY > 0) {
-                    toast.style.transform = 'translateY(' + currentY + 'px)';
-                    toast.style.opacity = String(Math.max(0, 1 - currentY / 140));
-                }
-            }, { passive: true });
-            toast.addEventListener('touchend', () => {
-                dragging = false;
-                if (currentY > 55) {
-                    dismissToast(toast);
-                } else {
-                    toast.style.transform = ''; toast.style.opacity = '';
-                    toast._hideTimer = setTimeout(() => dismissToast(toast), Math.max(1000, TOAST_DURATION - 800));
-                }
-                currentY = 0;
-            });
-
-            // Progress bar drain
-            const bar = toast.querySelector('.toast-progress-bar');
-            requestAnimationFrame(() => {
-                bar.style.transition = 'none'; bar.style.transform = 'scaleX(1)';
-                requestAnimationFrame(() => {
-                    bar.style.transition = 'transform ' + TOAST_DURATION + 'ms linear';
-                    bar.style.transform = 'scaleX(0)';
-                });
-            });
-
-            toast._hideTimer = setTimeout(() => dismissToast(toast), TOAST_DURATION);
+            toast._hideTimer = setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
         }
 
         // ================================================================

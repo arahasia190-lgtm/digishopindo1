@@ -6,6 +6,8 @@
     <title>DigishopID - Premium Digital Store</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5z'/%3E%3Cpath d='M2 17l10 5 10-5'/%3E%3Cpath d='M2 12l10 5 10-5'/%3E%3C/svg%3E" />
     <meta name="description" content="DigishopID - Toko layanan digital premium: Netflix, Spotify, CapCut Pro, Canva, dan lainnya." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://digishopindo.my.id/" />
 
     <!-- Open Graph / Social Share -->
     <meta property="og:type" content="website" />
@@ -61,8 +63,7 @@
             background: var(--dark);
             color: var(--text);
             min-height: 100vh;
-            overflow-x: hidden;
-            overflow-x: clip; /* clip tidak merusak position:sticky seperti hidden, beda dgn overflow-x: hidden */
+            overflow-x: clip; /* clip tidak merusak position:sticky, beda dgn overflow-x: hidden */
             padding-bottom: 30px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -655,9 +656,8 @@
             </div>
         </div>
         <div class="drawer-footer" id="drawerFooter" style="display:none;">
-            <div class="price-row"><span>Harga normal</span><span class="original" id="drawerOriginal">Rp 0</span></div>
-            <div class="price-row"><span>Kamu hemat</span><span class="save" id="drawerSave">Rp 0</span></div>
             <div class="total-row"><span>Total pembayaran</span><span class="total-price" id="drawerTotal">Rp 0</span></div>
+            <button class="btn-clear-cart" onclick="clearCart()" style="width:100%;padding:8px 0;margin-bottom:8px;border:1px solid rgba(196,72,46,0.3);border-radius:var(--radius-sm);background:transparent;color:var(--danger);font-weight:600;font-size:0.75rem;cursor:pointer;transition:var(--transition);font-family:inherit;" onmouseover="this.style.background='rgba(196,72,46,0.12)'" onmouseout="this.style.background='transparent'">Kosongkan keranjang</button>
             <button class="btn-checkout-drawer" onclick="proceedToCheckout()">Lanjut ke pembayaran</button>
         </div>
     </div>
@@ -806,6 +806,27 @@
         }
 
         // ================================================================
+        // LOCALSTORAGE — persist cart
+        // ================================================================
+        const CART_KEY = 'digishopid_cart';
+        function saveCart() {
+            try { localStorage.setItem(CART_KEY, JSON.stringify(state.cart)); } catch(e) {}
+        }
+        function loadCart() {
+            try {
+                const raw = localStorage.getItem(CART_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (!Array.isArray(parsed)) return;
+                // Validasi: pastikan setiap item masih ada di data produk
+                state.cart = parsed.filter(item => {
+                    const p = produk.find(p => p.id === item.productId);
+                    return p && p.varian.find(v => v.id === item.variantId);
+                });
+            } catch(e) { state.cart = []; }
+        }
+
+        // ================================================================
         // CART & SCROLL LOCK
         // ================================================================
         // ================================================================
@@ -832,8 +853,6 @@
         }
 
         function getCartTotal() { return state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0); }
-        function getCartOriginalTotal() { return state.cart.reduce((sum, item) => sum + ((item.originalPrice || item.price * 1.5) * item.qty), 0); }
-        function getCartDiscount() { return getCartOriginalTotal() - getCartTotal(); }
         function getCartCount() { return state.cart.reduce((sum, item) => sum + item.qty, 0); }
 
         function addToCart(productId, variantId) {
@@ -850,14 +869,14 @@
 
             state.cart.push({
                 productId: product.id, variantId: variant.id, name: product.nama, variant: variant.nama,
-                price: parseHarga(variant.harga), originalPrice: parseHarga(variant.harga) * 1.5, icon: product.icon, qty: 1
+                price: parseHarga(variant.harga), icon: product.icon, qty: 1
             });
 
             state.isModalOpen = false; 
             state.selectedProduct = null; 
             state.isDrawerOpen = true;
             lockScroll();
-            
+            saveCart();
             showToast('Masuk keranjang!', `${variant.nama} berhasil ditambahkan`, 'success');
             renderAll();
         }
@@ -868,7 +887,20 @@
                 state.isDrawerOpen = false;
                 unlockScroll();
             }
+            saveCart();
             renderAll();
+        }
+
+        function clearCart() {
+            showConfirm('Kosongkan keranjang?', 'Semua item yang dipilih akan dihapus.').then((ok) => {
+                if (!ok) return;
+                state.cart = [];
+                state.isDrawerOpen = false;
+                unlockScroll();
+                saveCart();
+                renderAll();
+                showToast('Keranjang dikosongkan', 'Silakan pilih produk kembali.', 'warning');
+            });
         }
 
         function toggleDrawer() { 
@@ -889,11 +921,17 @@
             }
         }
         
-        function tutupModal() { 
-            state.isModalOpen = false; 
-            state.selectedProduct = null; 
-            unlockScroll();
-            renderAll(); 
+        function tutupModal() {
+            const m = $('productModal');
+            m.classList.add('closing');
+            setTimeout(() => {
+                state.isModalOpen = false;
+                state.selectedProduct = null;
+                m.style.display = 'none';
+                m.classList.remove('closing');
+                unlockScroll();
+                renderAll();
+            }, 180);
         }
 
         // ================================================================
@@ -908,6 +946,17 @@
         }
         function cariProduk(value) { kataKunci = value; renderProducts(); }
         function urutkanProduk(value) { urutanAktif = value; renderProducts(); }
+        function resetFilter() {
+            kategoriAktif = 'all';
+            kataKunci = '';
+            urutanAktif = 'default';
+            const searchInput = $('searchInput');
+            if (searchInput) searchInput.value = '';
+            const sortSelect = $('sortSelect');
+            if (sortSelect) sortSelect.value = 'default';
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === 'all'));
+            renderProducts();
+        }
 
         function renderProducts() {
             const grid = $('productGrid');
@@ -925,7 +974,11 @@
             else if (urutanAktif === 'termahal') data = [...data].sort((a, b) => hargaTermurah(b) - hargaTermurah(a));
 
             if (data.length === 0) {
-                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px 0;color:var(--text-muted);"><p style="font-size:clamp(1rem,1.5vw,1.1rem);font-weight:700;">Produk tidak ditemukan</p><p style="font-size:clamp(0.8rem,1vw,0.85rem);">Coba kata kunci lain atau reset filter</p></div>`;
+                grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px 0;color:var(--text-muted);">
+                    <p style="font-size:clamp(1rem,1.5vw,1.1rem);font-weight:700;">Produk tidak ditemukan</p>
+                    <p style="font-size:clamp(0.8rem,1vw,0.85rem);margin-bottom:14px;">Coba kata kunci lain atau reset filter</p>
+                    <button onclick="resetFilter()" style="background:transparent;border:1px solid rgba(255,255,255,0.18);color:var(--text);padding:8px 20px;border-radius:var(--radius-sm);font-weight:600;font-size:0.8rem;cursor:pointer;font-family:inherit;transition:var(--transition);" onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary-light)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.18)';this.style.color='var(--text)'">Reset filter &amp; pencarian</button>
+                </div>`;
                 return;
             }
 
@@ -948,6 +1001,8 @@
         function renderModal() {
             const modal = $('productModal');
             if (!modal) return;
+            // Kalau sedang animasi closing, biarkan — setTimeout di tutupModal yang handle
+            if (modal.classList.contains('closing')) return;
             if (!state.isModalOpen || !state.selectedProduct) { modal.style.display = 'none'; return; }
 
             const p = state.selectedProduct;
@@ -998,8 +1053,6 @@
                 </div>
             `).join('');
 
-            $('drawerOriginal').textContent = formatRupiah(getCartOriginalTotal());
-            $('drawerSave').textContent = getCartDiscount() > 0 ? `-${formatRupiah(getCartDiscount())}` : 'Rp 0';
             $('drawerTotal').textContent = formatRupiah(getCartTotal());
         }
 
@@ -1049,7 +1102,6 @@
                     <div class="order-summary-card">
                         <h3>Ringkasan pesanan</h3>
                         ${state.cart.map(item => `<div class="summary-item"><span>${item.name} — ${item.variant}</span><span>${formatRupiah(item.price)}</span></div>`).join('')}
-                        ${getCartDiscount() > 0 ? `<div class="summary-item" style="color:var(--success);"><span>Diskon</span><span>-${formatRupiah(getCartDiscount())}</span></div>` : ''}
                         <div class="summary-total"><span>Total</span><span class="total-amount">${formatRupiah(getCartTotal())}</span></div>
                     </div>
                 </div>
@@ -1184,7 +1236,9 @@
             }
 
             state.orderData = { orderId: generateOrderId(), name: name.trim(), wa: wa.trim(), email: email.trim(), note: state.formData.note.trim(), items: [...state.cart], total: getCartTotal() };
-            state.isCheckout = false; state.isPayment = true; renderAll();
+            state.isCheckout = false; state.isPayment = true;
+            state.cart = []; saveCart(); // Cart dikosongkan setelah order terbuat
+            renderAll();
         }
 
         function confirmPayment() {
@@ -1225,29 +1279,13 @@
         }
         
         function downloadQRIS() {
-            const imgSrc = $('qrisImage') ? $('qrisImage').src : $('qrisToDownload').src;
-            
-            fetch(imgSrc)
-                .then(response => response.blob())
-                .then(blob => {
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = 'QRIS-DigishopID.jpg';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    showToast('QRIS Tersimpan!', 'Gambar berhasil disimpan.', 'success');
-                })
-                .catch(err => {
-                    const link = document.createElement('a');
-                    link.href = imgSrc;
-                    link.download = 'QRIS-DigishopID.jpg';
-                    link.target = "_blank";
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    showToast('QRIS Dibuka!', 'Silakan simpan gambar secara manual.', 'success');
-                });
+            const link = document.createElement('a');
+            link.href = 'qris.jpg';
+            link.download = 'QRIS-DigishopID.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('QRIS Tersimpan!', 'File berhasil diunduh ke perangkat kamu.', 'success');
         }
 
         // ================================================================
@@ -1278,10 +1316,16 @@
         window.addEventListener('resize', syncNavHeight);
         syncNavHeight();
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') { if ($('confirmModal').style.display === 'flex') { closeConfirmModal(false); return; } if (state.isModalOpen) tutupModal(); if (state.isDrawerOpen) toggleDrawer(); if ($('qrisModal').style.display === 'flex') tutupQris(); }
+            if (e.key !== 'Escape') return;
+            // Hanya tutup SATU layer per Escape — urutan prioritas: confirm > modal produk > qris > drawer
+            if ($('confirmModal').style.display === 'flex') { closeConfirmModal(false); }
+            else if (state.isModalOpen) { tutupModal(); }
+            else if ($('qrisModal').style.display === 'flex') { tutupQris(); }
+            else if (state.isDrawerOpen) { toggleDrawer(); }
         });
 
         // INIT
+        loadCart(); // restore cart dari localStorage jika ada
         renderAll(); renderTestimoni(); renderFaq();
         
     </script>

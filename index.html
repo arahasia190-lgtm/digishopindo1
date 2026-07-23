@@ -1134,6 +1134,7 @@
                         <div class="detail-row"><span class="detail-label">Nama</span><span class="detail-value">${order.name}</span></div>
                         <div class="detail-row"><span class="detail-label">WhatsApp</span><span class="detail-value">${order.wa}</span></div>
                         <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">${order.email}</span></div>
+                        ${order.note ? `<div class="detail-row"><span class="detail-label">Catatan</span><span class="detail-value" style="color:var(--secondary);font-style:italic;">${order.note}</span></div>` : ''}
                     </div>
                 </div>
                 <div class="payment-instructions">
@@ -1245,8 +1246,9 @@
         function confirmPayment() {
             const order = state.orderData; if (!order) return;
             const itemsText = order.items.map(i => `- ${i.name} (${i.variant}) — ${formatRupiah(i.price)}`).join('\n');
+            const noteText = order.note ? `\n\nCatatan: ${order.note}` : '';
             const message = encodeURIComponent(
-                `Halo admin DigishopID, saya sudah bayar.\n\nKode pesanan: ${order.orderId}\nNama: ${order.name}\nWhatsApp: ${order.wa}\nEmail: ${order.email}\n\nPesanan:\n${itemsText}\n\nTotal: ${formatRupiah(order.total)}\n\nBukti transfer menyusul ya.`
+                `Halo admin DigishopID, saya sudah bayar.\n\nKode pesanan: ${order.orderId}\nNama: ${order.name}\nWhatsApp: ${order.wa}\nEmail: ${order.email}\n\nPesanan:\n${itemsText}\n\nTotal: ${formatRupiah(order.total)}${noteText}\n\nBukti transfer menyusul ya.`
             );
             window.open(`https://wa.me/6283160593305?text=${message}`, '_blank', 'noopener,noreferrer');
         }

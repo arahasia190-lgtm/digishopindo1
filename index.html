@@ -99,6 +99,7 @@
         .logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: var(--transition); flex-shrink: 0; }
         .logo-icon svg { width: 20px; height: 20px; stroke: var(--dark); stroke-width: 2.5; fill: none; }
         .logo span { color: var(--primary-light); }
+        .logo > span { color: var(--text); } /* wrapper span ikut warna teks normal */
 
         .nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
@@ -511,7 +512,7 @@
                     <path d="M2 12l10 5 10-5" />
                 </svg>
             </div>
-            Digi<span>Shop</span>ID
+            <span>Digi<span style="color:var(--primary-light);">Shop</span>ID</span>
         </a>
         <div class="nav-actions">
             <button class="btn-qris" onclick="bukaQris()">
